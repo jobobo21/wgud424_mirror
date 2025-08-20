@@ -3,7 +3,7 @@ import { Sequelize } from 'sequelize';
 const app = express();
 
 const port = process.env.PORT || 5000;
-const sequelize = new Sequelize('mysql://'+process.env.DATABASE_URL) // Example for MYSQL
+const sequelize = new Sequelize(process.env.DATABASE_URL) // Example for MYSQL
 var status = "Not Connected"
 try {
   await sequelize.authenticate();
