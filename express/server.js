@@ -11,6 +11,7 @@ try {
   status = "Connected To Database"
 } catch (error) {
   console.error('Unable to connect to the database:', error);
+  console.log("Database String", process.env.DATABASE_URL);
 }
 app.get("/", (req, res) => {
   return res.status(200).send({
