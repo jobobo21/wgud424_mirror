@@ -1,4 +1,5 @@
-const express = require("express");
+import express  from "express";
+import { Sequelize } from 'sequelize';
 const app = express();
 
 const port = process.env.PORT || 5000;
