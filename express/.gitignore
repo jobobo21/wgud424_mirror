@@ -15,7 +15,7 @@ pids
 lib-cov
 
 # Coverage directory used by tools like istanbul
-express/coverage
+coverage
 
 # nyc test coverage
 .nyc_output
@@ -33,11 +33,11 @@ bower_components
 build/Release
 
 # Dependency directories
-express/node_modules/
-express/jspm_packages/
+node_modules/
+jspm_packages/
 
 # TypeScript v1 declaration files
-express/typings/
+typings/
 
 # Optional npm cache directory
 .npm
