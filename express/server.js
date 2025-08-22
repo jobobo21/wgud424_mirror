@@ -1,9 +1,21 @@
-import express  from "express";
+import express from "express";
 import { Sequelize } from 'sequelize';
+import login from './middleware/login.js';
+import dotenv from 'dotenv';
+
+dotenv.config();
 const app = express();
 
 const port = process.env.PORT || 5000;
-const sequelize = new Sequelize(process.env.DATABASE_URL) // Example for MYSQL
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
+}) // Example for MYSQL
 var status = "Not Connected"
 try {
   await sequelize.authenticate();
@@ -20,6 +32,7 @@ app.get("/", (req, res) => {
     status
   });
 });
+app.use("/login", login);
 
 app.listen(port, () => {
   console.log("Listening on " + port);
