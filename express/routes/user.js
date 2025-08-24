@@ -12,17 +12,20 @@ router.get('/', async (req, res) => {
     res.json(courses);
 });
 router.get('/student_status', authenticate, async (req, res) => {
-    var userId = req.user.userId;
-    var user = await db.User.findByPk(userId);
+    var user = await db.User.findByPk(req.userId);
 
-    var queryStr = `SELECT SUM(competency_units) into @complete_cu FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status = 'c' and userId = ${userId});
-SELECT SUM(competency_units) into @active_cu FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status ='a' and userId = ${userId});
-SELECT SUM(competency_units) into @total_cu FROM courses WHERE id in (SELECT course_id FROM program_courses WHERE program_id = ${user.program_id});
-
-Select @complete_cu as complete_cu, @active_cu as active_cu, @total_cu as total_cu, Round(((@complete_cu/@total_cu) * 100), 2) as pct_complete, Round(@total_cu - @complete_cu) as remaining;`;
+    var queryStr = `Select (SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status = 'c' and userId = ${req.userId})) as complete_cu, `+
+`(SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status ='a' and userId = ${req.userId})) as active_cu, `+
+`(SELECT SUM(competency_units) FROM courses WHERE id in (SELECT course_id FROM program_courses WHERE program_id = ${user.program_id})) as total_cu;`
 
     const [results, metadata] = await db.sequelize.query(queryStr);
-    res.json(results[0]);
+    var result = results[0];
+    Object.keys(result).forEach(key => result[key] = parseFloat(result[key]))
+    result.pct_complete = ((result.complete_cu / result.total_cu) * 100).toFixed(0);
+    result.pct_complete = parseFloat(result.pct_complete);
+    result.remaining_cu = result.total_cu - result.complete_cu
+    res.json(result);
+
 
 })
 
