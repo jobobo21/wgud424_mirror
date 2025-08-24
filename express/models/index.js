@@ -34,7 +34,7 @@ function DB() {
             model.associate(models);
         }
     });
-
+    models.sequelize = sequelize;
     return models;
 };
 function test() {

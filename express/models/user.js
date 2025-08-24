@@ -28,12 +28,20 @@ export default function (sequelize) {
                 notEmpty: true
             }
         },
-        type: {
+        user_type: {
             type: DataTypes.STRING(10),
             allowNull: false,
             validate: {
                 notEmpty: true
             }
+        },
+        program_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+        },
+        mentor_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true
         },
         password: {
             type: DataTypes.STRING(100),
