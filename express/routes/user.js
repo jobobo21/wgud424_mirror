@@ -22,7 +22,7 @@ SELECT SUM(competency_units) into @total_cu FROM courses WHERE id in (SELECT cou
 Select @complete_cu as complete_cu, @active_cu as active_cu, @total_cu as total_cu, Round(((@complete_cu/@total_cu) * 100), 2) as pct_complete, Round(@total_cu - @complete_cu) as remaining;`;
 
     const [results, metadata] = await db.sequelize.query(queryStr);
-    res.json(results);
+    res.json(results[0]);
 
 })
 
