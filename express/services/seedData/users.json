@@ -1,0 +1,980 @@
+[
+  {
+    "email": "sarah.johnson@wgu.edu",
+    "first_name": "Sarah",
+    "last_name": "Johnson",
+    "password": "WguStudent2025!",
+    "type": "S",
+    "grad_date": "2026-05-01"
+  },
+  {
+    "email": "michael.chen@wgu.edu",
+    "first_name": "Michael",
+    "last_name": "Chen",
+    "password": "Mentor2025!",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "amanda.rodriguez@wgu.edu",
+    "first_name": "Amanda",
+    "last_name": "Rodriguez",
+    "password": "Student123!",
+    "type": "S",
+    "grad_date": "2025-11-01"
+  },
+  {
+    "email": "david.williams@wgu.edu",
+    "first_name": "David",
+    "last_name": "Williams",
+    "password": "Instructor2025!",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "jennifer.brown@wgu.edu",
+    "first_name": "Jennifer",
+    "last_name": "Brown",
+    "password": "Learning2026!",
+    "type": "S",
+    "grad_date": "2026-08-01"
+  },
+  {
+    "email": "robert.davis@wgu.edu",
+    "first_name": "Robert",
+    "last_name": "Davis",
+    "type": "S",
+    "grad_date": "2025-12-01"
+  },
+  {
+    "email": "lisa.martinez@wgu.edu",
+    "first_name": "Lisa",
+    "last_name": "Martinez",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "james.thompson@wgu.edu",
+    "first_name": "James",
+    "last_name": "Thompson",
+    "type": "S",
+    "grad_date": "2026-02-01"
+  },
+  {
+    "email": "patricia.garcia@wgu.edu",
+    "first_name": "Patricia",
+    "last_name": "Garcia",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "christopher.anderson@wgu.edu",
+    "first_name": "Christopher",
+    "last_name": "Anderson",
+    "type": "S",
+    "grad_date": "2026-11-01"
+  },
+  {
+    "email": "mary.taylor@wgu.edu",
+    "first_name": "Mary",
+    "last_name": "Taylor",
+    "type": "S",
+    "grad_date": "2025-09-01"
+  },
+  {
+    "email": "matthew.thomas@wgu.edu",
+    "first_name": "Matthew",
+    "last_name": "Thomas",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "elizabeth.hernandez@wgu.edu",
+    "first_name": "Elizabeth",
+    "last_name": "Hernandez",
+    "type": "S",
+    "grad_date": "2026-04-01"
+  },
+  {
+    "email": "daniel.moore@wgu.edu",
+    "first_name": "Daniel",
+    "last_name": "Moore",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "nancy.jackson@wgu.edu",
+    "first_name": "Nancy",
+    "last_name": "Jackson",
+    "type": "S",
+    "grad_date": "2026-07-01"
+  },
+  {
+    "email": "anthony.martin@wgu.edu",
+    "first_name": "Anthony",
+    "last_name": "Martin",
+    "type": "S",
+    "grad_date": "2025-10-01"
+  },
+  {
+    "email": "karen.lee@wgu.edu",
+    "first_name": "Karen",
+    "last_name": "Lee",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "mark.perez@wgu.edu",
+    "first_name": "Mark",
+    "last_name": "Perez",
+    "type": "S",
+    "grad_date": "2026-01-01"
+  },
+  {
+    "email": "susan.white@wgu.edu",
+    "first_name": "Susan",
+    "last_name": "White",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "kevin.harris@wgu.edu",
+    "first_name": "Kevin",
+    "last_name": "Harris",
+    "type": "S",
+    "grad_date": "2026-06-01"
+  },
+  {
+    "email": "michelle.clark@wgu.edu",
+    "first_name": "Michelle",
+    "last_name": "Clark",
+    "type": "S",
+    "grad_date": "2025-08-01"
+  },
+  {
+    "email": "steven.lewis@wgu.edu",
+    "first_name": "Steven",
+    "last_name": "Lewis",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "donna.robinson@wgu.edu",
+    "first_name": "Donna",
+    "last_name": "Robinson",
+    "type": "S",
+    "grad_date": "2026-03-01"
+  },
+  {
+    "email": "joshua.walker@wgu.edu",
+    "first_name": "Joshua",
+    "last_name": "Walker",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "carol.young@wgu.edu",
+    "first_name": "Carol",
+    "last_name": "Young",
+    "type": "S",
+    "grad_date": "2026-10-01"
+  },
+  {
+    "email": "kenneth.hall@wgu.edu",
+    "first_name": "Kenneth",
+    "last_name": "Hall",
+    "type": "S",
+    "grad_date": "2025-07-01"
+  },
+  {
+    "email": "helen.allen@wgu.edu",
+    "first_name": "Helen",
+    "last_name": "Allen",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "jason.wright@wgu.edu",
+    "first_name": "Jason",
+    "last_name": "Wright",
+    "type": "S",
+    "grad_date": "2026-12-01"
+  },
+  {
+    "email": "betty.lopez@wgu.edu",
+    "first_name": "Betty",
+    "last_name": "Lopez",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "gary.hill@wgu.edu",
+    "first_name": "Gary",
+    "last_name": "Hill",
+    "type": "S",
+    "grad_date": "2026-09-01"
+  },
+  {
+    "email": "deborah.green@wgu.edu",
+    "first_name": "Deborah",
+    "last_name": "Green",
+    "type": "S",
+    "grad_date": "2025-06-01"
+  },
+  {
+    "email": "ronald.adams@wgu.edu",
+    "first_name": "Ronald",
+    "last_name": "Adams",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "cynthia.baker@wgu.edu",
+    "first_name": "Cynthia",
+    "last_name": "Baker",
+    "type": "S",
+    "grad_date": "2026-05-01"
+  },
+  {
+    "email": "ryan.gonzalez@wgu.edu",
+    "first_name": "Ryan",
+    "last_name": "Gonzalez",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "shirley.nelson@wgu.edu",
+    "first_name": "Shirley",
+    "last_name": "Nelson",
+    "type": "S",
+    "grad_date": "2026-08-01"
+  },
+  {
+    "email": "jacob.carter@wgu.edu",
+    "first_name": "Jacob",
+    "last_name": "Carter",
+    "type": "S",
+    "grad_date": "2025-11-01"
+  },
+  {
+    "email": "amy.mitchell@wgu.edu",
+    "first_name": "Amy",
+    "last_name": "Mitchell",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "benjamin.roberts@wgu.edu",
+    "first_name": "Benjamin",
+    "last_name": "Roberts",
+    "type": "S",
+    "grad_date": "2026-02-01"
+  },
+  {
+    "email": "kimberly.turner@wgu.edu",
+    "first_name": "Kimberly",
+    "last_name": "Turner",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "nicholas.phillips@wgu.edu",
+    "first_name": "Nicholas",
+    "last_name": "Phillips",
+    "type": "S",
+    "grad_date": "2026-07-01"
+  },
+  {
+    "email": "brenda.campbell@wgu.edu",
+    "first_name": "Brenda",
+    "last_name": "Campbell",
+    "type": "S",
+    "grad_date": "2025-10-01"
+  },
+  {
+    "email": "alexander.parker@wgu.edu",
+    "first_name": "Alexander",
+    "last_name": "Parker",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "catherine.evans@wgu.edu",
+    "first_name": "Catherine",
+    "last_name": "Evans",
+    "type": "S",
+    "grad_date": "2026-04-01"
+  },
+  {
+    "email": "jonathan.edwards@wgu.edu",
+    "first_name": "Jonathan",
+    "last_name": "Edwards",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "frances.collins@wgu.edu",
+    "first_name": "Frances",
+    "last_name": "Collins",
+    "type": "S",
+    "grad_date": "2026-11-01"
+  },
+  {
+    "email": "samuel.stewart@wgu.edu",
+    "first_name": "Samuel",
+    "last_name": "Stewart",
+    "type": "S",
+    "grad_date": "2025-09-01"
+  },
+  {
+    "email": "christine.sanchez@wgu.edu",
+    "first_name": "Christine",
+    "last_name": "Sanchez",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "gregory.morris@wgu.edu",
+    "first_name": "Gregory",
+    "last_name": "Morris",
+    "type": "S",
+    "grad_date": "2026-01-01"
+  },
+  {
+    "email": "janet.rogers@wgu.edu",
+    "first_name": "Janet",
+    "last_name": "Rogers",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "patrick.reed@wgu.edu",
+    "first_name": "Patrick",
+    "last_name": "Reed",
+    "type": "S",
+    "grad_date": "2026-06-01"
+  },
+  {
+    "email": "maria.cook@wgu.edu",
+    "first_name": "Maria",
+    "last_name": "Cook",
+    "type": "S",
+    "grad_date": "2025-08-01"
+  },
+  {
+    "email": "timothy.morgan@wgu.edu",
+    "first_name": "Timothy",
+    "last_name": "Morgan",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "debra.bell@wgu.edu",
+    "first_name": "Debra",
+    "last_name": "Bell",
+    "type": "S",
+    "grad_date": "2026-03-01"
+  },
+  {
+    "email": "harold.murphy@wgu.edu",
+    "first_name": "Harold",
+    "last_name": "Murphy",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "rachel.bailey@wgu.edu",
+    "first_name": "Rachel",
+    "last_name": "Bailey",
+    "type": "S",
+    "grad_date": "2026-10-01"
+  },
+  {
+    "email": "jordan.rivera@wgu.edu",
+    "first_name": "Jordan",
+    "last_name": "Rivera",
+    "type": "S",
+    "grad_date": "2025-07-01"
+  },
+  {
+    "email": "carolyn.cooper@wgu.edu",
+    "first_name": "Carolyn",
+    "last_name": "Cooper",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "douglas.richardson@wgu.edu",
+    "first_name": "Douglas",
+    "last_name": "Richardson",
+    "type": "S",
+    "grad_date": "2026-12-01"
+  },
+  {
+    "email": "virginia.cox@wgu.edu",
+    "first_name": "Virginia",
+    "last_name": "Cox",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "peter.howard@wgu.edu",
+    "first_name": "Peter",
+    "last_name": "Howard",
+    "type": "S",
+    "grad_date": "2026-09-01"
+  },
+  {
+    "email": "maria.ward@wgu.edu",
+    "first_name": "Maria",
+    "last_name": "Ward",
+    "type": "S",
+    "grad_date": "2025-06-01"
+  },
+  {
+    "email": "henry.torres@wgu.edu",
+    "first_name": "Henry",
+    "last_name": "Torres",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "julie.peterson@wgu.edu",
+    "first_name": "Julie",
+    "last_name": "Peterson",
+    "type": "S",
+    "grad_date": "2026-05-01"
+  },
+  {
+    "email": "jose.gray@wgu.edu",
+    "first_name": "Jose",
+    "last_name": "Gray",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "ann.ramirez@wgu.edu",
+    "first_name": "Ann",
+    "last_name": "Ramirez",
+    "type": "S",
+    "grad_date": "2026-08-01"
+  },
+  {
+    "email": "arthur.james@wgu.edu",
+    "first_name": "Arthur",
+    "last_name": "James",
+    "type": "S",
+    "grad_date": "2025-11-01"
+  },
+  {
+    "email": "joyce.watson@wgu.edu",
+    "first_name": "Joyce",
+    "last_name": "Watson",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "carl.brooks@wgu.edu",
+    "first_name": "Carl",
+    "last_name": "Brooks",
+    "type": "S",
+    "grad_date": "2026-02-01"
+  },
+  {
+    "email": "diane.kelly@wgu.edu",
+    "first_name": "Diane",
+    "last_name": "Kelly",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "noah.sanders@wgu.edu",
+    "first_name": "Noah",
+    "last_name": "Sanders",
+    "type": "S",
+    "grad_date": "2026-07-01"
+  },
+  {
+    "email": "gloria.price@wgu.edu",
+    "first_name": "Gloria",
+    "last_name": "Price",
+    "type": "S",
+    "grad_date": "2025-10-01"
+  },
+  {
+    "email": "willie.bennett@wgu.edu",
+    "first_name": "Willie",
+    "last_name": "Bennett",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "ruth.wood@wgu.edu",
+    "first_name": "Ruth",
+    "last_name": "Wood",
+    "type": "S",
+    "grad_date": "2026-04-01"
+  },
+  {
+    "email": "wayne.barnes@wgu.edu",
+    "first_name": "Wayne",
+    "last_name": "Barnes",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "kathryn.ross@wgu.edu",
+    "first_name": "Kathryn",
+    "last_name": "Ross",
+    "type": "S",
+    "grad_date": "2026-11-01"
+  },
+  {
+    "email": "ralph.henderson@wgu.edu",
+    "first_name": "Ralph",
+    "last_name": "Henderson",
+    "type": "S",
+    "grad_date": "2025-09-01"
+  },
+  {
+    "email": "laura.coleman@wgu.edu",
+    "first_name": "Laura",
+    "last_name": "Coleman",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "eugene.jenkins@wgu.edu",
+    "first_name": "Eugene",
+    "last_name": "Jenkins",
+    "type": "S",
+    "grad_date": "2026-01-01"
+  },
+  {
+    "email": "theresa.perry@wgu.edu",
+    "first_name": "Theresa",
+    "last_name": "Perry",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "louis.powell@wgu.edu",
+    "first_name": "Louis",
+    "last_name": "Powell",
+    "type": "S",
+    "grad_date": "2026-06-01"
+  },
+  {
+    "email": "sara.long@wgu.edu",
+    "first_name": "Sara",
+    "last_name": "Long",
+    "type": "S",
+    "grad_date": "2025-08-01"
+  },
+  {
+    "email": "philip.patterson@wgu.edu",
+    "first_name": "Philip",
+    "last_name": "Patterson",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "janice.hughes@wgu.edu",
+    "first_name": "Janice",
+    "last_name": "Hughes",
+    "type": "S",
+    "grad_date": "2026-03-01"
+  },
+  {
+    "email": "johnny.flores@wgu.edu",
+    "first_name": "Johnny",
+    "last_name": "Flores",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "marie.washington@wgu.edu",
+    "first_name": "Marie",
+    "last_name": "Washington",
+    "type": "S",
+    "grad_date": "2026-10-01"
+  },
+  {
+    "email": "adam.butler@wgu.edu",
+    "first_name": "Adam",
+    "last_name": "Butler",
+    "type": "S",
+    "grad_date": "2025-07-01"
+  },
+  {
+    "email": "kelly.simmons@wgu.edu",
+    "first_name": "Kelly",
+    "last_name": "Simmons",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "todd.foster@wgu.edu",
+    "first_name": "Todd",
+    "last_name": "Foster",
+    "type": "S",
+    "grad_date": "2026-12-01"
+  },
+  {
+    "email": "beverly.gonzales@wgu.edu",
+    "first_name": "Beverly",
+    "last_name": "Gonzales",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "alan.bryant@wgu.edu",
+    "first_name": "Alan",
+    "last_name": "Bryant",
+    "type": "S",
+    "grad_date": "2026-09-01"
+  },
+  {
+    "email": "cheryl.alexander@wgu.edu",
+    "first_name": "Cheryl",
+    "last_name": "Alexander",
+    "type": "S",
+    "grad_date": "2025-06-01"
+  },
+  {
+    "email": "keith.russell@wgu.edu",
+    "first_name": "Keith",
+    "last_name": "Russell",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "megan.griffin@wgu.edu",
+    "first_name": "Megan",
+    "last_name": "Griffin",
+    "type": "S",
+    "grad_date": "2026-05-01"
+  },
+  {
+    "email": "sean.diaz@wgu.edu",
+    "first_name": "Sean",
+    "last_name": "Diaz",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "denise.hayes@wgu.edu",
+    "first_name": "Denise",
+    "last_name": "Hayes",
+    "type": "S",
+    "grad_date": "2026-08-01"
+  },
+  {
+    "email": "eric.myers@wgu.edu",
+    "first_name": "Eric",
+    "last_name": "Myers",
+    "type": "S",
+    "grad_date": "2025-11-01"
+  },
+  {
+    "email": "marilyn.ford@wgu.edu",
+    "first_name": "Marilyn",
+    "last_name": "Ford",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "terry.hamilton@wgu.edu",
+    "first_name": "Terry",
+    "last_name": "Hamilton",
+    "type": "S",
+    "grad_date": "2026-02-01"
+  },
+  {
+    "email": "lois.graham@wgu.edu",
+    "first_name": "Lois",
+    "last_name": "Graham",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "bobby.sullivan@wgu.edu",
+    "first_name": "Bobby",
+    "last_name": "Sullivan",
+    "type": "S",
+    "grad_date": "2026-07-01"
+  },
+  {
+    "email": "norma.wallace@wgu.edu",
+    "first_name": "Norma",
+    "last_name": "Wallace",
+    "type": "S",
+    "grad_date": "2025-10-01"
+  },
+  {
+    "email": "clarence.woods@wgu.edu",
+    "first_name": "Clarence",
+    "last_name": "Woods",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "paula.cole@wgu.edu",
+    "first_name": "Paula",
+    "last_name": "Cole",
+    "type": "S",
+    "grad_date": "2026-04-01"
+  },
+  {
+    "email": "frank.west@wgu.edu",
+    "first_name": "Frank",
+    "last_name": "West",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "diana.jordan@wgu.edu",
+    "first_name": "Diana",
+    "last_name": "Jordan",
+    "type": "S",
+    "grad_date": "2026-11-01"
+  },
+  {
+    "email": "joe.owens@wgu.edu",
+    "first_name": "Joe",
+    "last_name": "Owens",
+    "type": "S",
+    "grad_date": "2025-09-01"
+  },
+  {
+    "email": "evelyn.reynolds@wgu.edu",
+    "first_name": "Evelyn",
+    "last_name": "Reynolds",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "jeremy.fisher@wgu.edu",
+    "first_name": "Jeremy",
+    "last_name": "Fisher",
+    "type": "S",
+    "grad_date": "2026-01-01"
+  },
+  {
+    "email": "ruby.ellis@wgu.edu",
+    "first_name": "Ruby",
+    "last_name": "Ellis",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "scott.harrison@wgu.edu",
+    "first_name": "Scott",
+    "last_name": "Harrison",
+    "type": "S",
+    "grad_date": "2026-06-01"
+  },
+  {
+    "email": "alice.gibson@wgu.edu",
+    "first_name": "Alice",
+    "last_name": "Gibson",
+    "type": "S",
+    "grad_date": "2025-08-01"
+  },
+  {
+    "email": "howard.mcdonald@wgu.edu",
+    "first_name": "Howard",
+    "last_name": "McDonald",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "tammy.cruz@wgu.edu",
+    "first_name": "Tammy",
+    "last_name": "Cruz",
+    "type": "S",
+    "grad_date": "2026-03-01"
+  },
+  {
+    "email": "billy.marshall@wgu.edu",
+    "first_name": "Billy",
+    "last_name": "Marshall",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "christina.ortiz@wgu.edu",
+    "first_name": "Christina",
+    "last_name": "Ortiz",
+    "type": "S",
+    "grad_date": "2026-10-01"
+  },
+  {
+    "email": "bruce.gomez@wgu.edu",
+    "first_name": "Bruce",
+    "last_name": "Gomez",
+    "type": "S",
+    "grad_date": "2025-07-01"
+  },
+  {
+    "email": "janice.murray@wgu.edu",
+    "first_name": "Janice",
+    "last_name": "Murray",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "roger.freeman@wgu.edu",
+    "first_name": "Roger",
+    "last_name": "Freeman",
+    "type": "S",
+    "grad_date": "2026-12-01"
+  },
+  {
+    "email": "jean.wells@wgu.edu",
+    "first_name": "Jean",
+    "last_name": "Wells",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "brandon.webb@wgu.edu",
+    "first_name": "Brandon",
+    "last_name": "Webb",
+    "type": "S",
+    "grad_date": "2026-09-01"
+  },
+  {
+    "email": "rachel.simpson@wgu.edu",
+    "first_name": "Rachel",
+    "last_name": "Simpson",
+    "type": "S",
+    "grad_date": "2025-06-01"
+  },
+  {
+    "email": "carlos.stevens@wgu.edu",
+    "first_name": "Carlos",
+    "last_name": "Stevens",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "stephanie.tucker@wgu.edu",
+    "first_name": "Stephanie",
+    "last_name": "Tucker",
+    "type": "S",
+    "grad_date": "2026-05-01"
+  },
+  {
+    "email": "fred.porter@wgu.edu",
+    "first_name": "Fred",
+    "last_name": "Porter",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "andrea.hunter@wgu.edu",
+    "first_name": "Andrea",
+    "last_name": "Hunter",
+    "type": "S",
+    "grad_date": "2026-08-01"
+  },
+  {
+    "email": "walter.hicks@wgu.edu",
+    "first_name": "Walter",
+    "last_name": "Hicks",
+    "type": "S",
+    "grad_date": "2025-11-01"
+  },
+  {
+    "email": "jacqueline.crawford@wgu.edu",
+    "first_name": "Jacqueline",
+    "last_name": "Crawford",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "mason.boyd@wgu.edu",
+    "first_name": "Mason",
+    "last_name": "Boyd",
+    "type": "S",
+    "grad_date": "2026-02-01"
+  },
+  {
+    "email": "hannah.mason@wgu.edu",
+    "first_name": "Hannah",
+    "last_name": "Mason",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "gerald.morales@wgu.edu",
+    "first_name": "Gerald",
+    "last_name": "Morales",
+    "type": "S",
+    "grad_date": "2026-07-01"
+  },
+  {
+    "email": "heather.murphy@wgu.edu",
+    "first_name": "Heather",
+    "last_name": "Murphy",
+    "type": "S",
+    "grad_date": "2025-10-01"
+  },
+  {
+    "email": "victor.kennedy@wgu.edu",
+    "first_name": "Victor",
+    "last_name": "Kennedy",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "julie.warren@wgu.edu",
+    "first_name": "Julie",
+    "last_name": "Warren",
+    "type": "S",
+    "grad_date": "2026-04-01"
+  },
+  {
+    "email": "roy.dixon@wgu.edu",
+    "first_name": "Roy",
+    "last_name": "Dixon",
+    "type": "I",
+    "grad_date": null
+  },
+  {
+    "email": "kathryn.andrews@wgu.edu",
+    "first_name": "Kathryn",
+    "last_name": "Andrews",
+    "type": "S",
+    "grad_date": "2026-11-01"
+  },
+  {
+    "email": "nathan.austin@wgu.edu",
+    "first_name": "Nathan",
+    "last_name": "Austin",
+    "type": "S",
+    "grad_date": "2025-09-01"
+  },
+  {
+    "email": "doris.pierce@wgu.edu",
+    "first_name": "Doris",
+    "last_name": "Pierce",
+    "type": "M",
+    "grad_date": null
+  },
+  {
+    "email": "zachary.knight@wgu.edu",
+    "first_name": "Zachary",
+    "last_name": "Knight",
+    "type": "S",
+    "grad_date": "2026-01-01"
+  },
+  {
+    "email": "barbara.armstrong@wgu.edu",
+    "first_name": "Barbara",
+    "last_name": "Armstrong",
+    "type": "I",
+    "grad_date": null
+  }
+]
