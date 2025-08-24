@@ -3,6 +3,7 @@ import { Sequelize } from 'sequelize';
 import login from './middleware/login.js';
 import dotenv from 'dotenv';
 import course from "./routes/course.js";
+import user from "./routes/user.js";
 dotenv.config();
 const app = express();
 
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 });
 app.use("/login", login);
 app.use("/course", course);
+app.use("/user", user);
 app.listen(port, () => {
   console.log("Listening on " + port);
 });
