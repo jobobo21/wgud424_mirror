@@ -24,7 +24,7 @@ router.get('/student_status', authenticate, async (req, res) => {
     result.pct_complete = ((result.complete_cu / result.total_cu) * 100).toFixed(0);
     result.pct_complete = parseFloat(result.pct_complete);
     result.remaining_cu = result.total_cu - result.complete_cu
-    res.json(result);
+    res.status(200).json(result);
 
 
 })
