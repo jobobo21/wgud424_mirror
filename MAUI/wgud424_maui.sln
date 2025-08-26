@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35919.96 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wgud424_maui", "wgud424_maui.csproj", "{470E1E7A-60AB-41A1-B017-9D327E82CCB7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{470E1E7A-60AB-41A1-B017-9D327E82CCB7}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51DB1C32-D94E-4FEB-B32E-949A18193AE0}
+	EndGlobalSection
+EndGlobal
