@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Json; // Required for PostAsJsonAsync
 using System.Text;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 public class LoginData
 {
@@ -18,9 +20,11 @@ public class JWTResponse
 public partial class LoginModal : ContentPage
 {
     MainPage parent;
+    string text = "Login Failure Please try again";
+    ToastDuration duration = ToastDuration.Short;
+    double fontSize = 14;
 
-
-	public LoginModal(MainPage parg)
+    public LoginModal(MainPage parg)
 	{
         parent = parg;
 		InitializeComponent();
@@ -50,6 +54,8 @@ public partial class LoginModal : ContentPage
             else
             {
                 // Request failed, handle the error
+                var toast = Toast.Make(text, duration, fontSize);
+                toast.Show();
                 Debug.WriteLine($"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
             }
 

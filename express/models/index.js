@@ -3,6 +3,8 @@ import { College, Assessment, AssessmentType, Program, ProgramCourse, Prerequisi
 import { Sequelize } from "sequelize";
 import User from "./user.js";
 import dotenv from 'dotenv';
+import Term from './term.js';
+import student_course from "./student_course.js";
 dotenv.config();
 
 function DB() {
@@ -27,6 +29,8 @@ function DB() {
     models.Prerequisite = Prerequisite(sequelize);
     models.Assessment = Assessment(sequelize);
     models.User = User(sequelize);
+    models.Term = Term(sequelize);
+    models.StudentCourse = student_course(sequelize);
 
     // Set up associations
     Object.values(models).forEach(model => {

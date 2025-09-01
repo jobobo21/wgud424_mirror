@@ -35,11 +35,88 @@ namespace wgud424_maui.Services
                 return response;
             }
             catch (Exception ex) {
-                Debug.WriteLine("Exception", ex.Message);
-                return new HttpResponseMessage();
+                throw new Exception(ex.Message);
             }
            
 
+        }
+        async public static Task<bool> Put(string path, JsonContent jc)
+        {
+            try
+            {
+                client = await init(path);
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, "https://king-prawn-app-y5xwb.ondigitalocean.app"+path);
+                message.Content = jc;
+
+                HttpResponseMessage response = await client.SendAsync(message);
+                // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    Debug.Write($"PUT Path {path}");
+                    Debug.WriteLine($"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                    return false;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Debug.Write($"PUT Path {path}");
+                throw new Exception(e.Message);
+            }
+        }
+        async public static Task<HttpResponseMessage> Post(string path, JsonContent jc)
+        {
+            try
+            {
+                client = await init(path);
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+                message.Content = jc;
+
+                HttpResponseMessage response = await client.SendAsync(message);
+                return response;
+
+            }
+            catch (Exception e)
+            {
+                Debug.Write($"Post Path {path}");
+                
+                Debug.WriteLine(e.Message);
+                throw new Exception(e.Message);
+            }
+        }
+        async public static Task<bool> Delete(string path)
+        {
+            try
+            {
+                client = await init(path);
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+
+                HttpResponseMessage response = await client.SendAsync(message);
+                // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    Debug.Write($"Delete Path {path}");
+                    Debug.WriteLine($"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+                    return false;
+                }
+
+            }
+            catch (Exception e)
+            {
+                Debug.Write($"Delete Path {path}");
+                throw new Exception(e.Message);
+            }
         }
     }
 }
