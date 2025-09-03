@@ -43,9 +43,7 @@ router.get('/', authenticate, async (req, res) => {
         });
         
         res.status(200).json({
-            success: true,
-            data: terms,
-            count: terms.length
+            terms,
         });
         
     } catch (error) {
