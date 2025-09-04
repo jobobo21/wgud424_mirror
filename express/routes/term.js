@@ -42,9 +42,7 @@ router.get('/', authenticate, async (req, res) => {
             ]
         });
         
-        res.status(200).json({
-            terms,
-        });
+        res.status(200).json(terms);
         
     } catch (error) {
         console.error('Error fetching terms:', error);
