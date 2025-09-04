@@ -8,6 +8,7 @@ namespace wgud424_maui
     public partial class MainPage : ContentPage
     {
         int count = 0;
+        private AppShell parentShell { get; set; }
 
         public class StudentStatus
         {
@@ -39,6 +40,7 @@ namespace wgud424_maui
                         CourseProgress.Progress = progress;
                         ProgressLabel.Text = $"{result.pct_complete}% Complete";
                         CUBreakDown.Text = $"{result.complete_cu} CUs Complete, {result.active_cu} CUs Active";
+                        parentShell.PopulateTerms();
                     }
                 }
                 else
@@ -49,11 +51,11 @@ namespace wgud424_maui
             }
         }
 
-        public MainPage()
+        public MainPage(AppShell p)
         {
             InitializeComponent();
             Navigation.PushModalAsync(new LoginModal(this));
-
+            parentShell = p;
         }
 
         private void OnCounterClicked(object sender, EventArgs e)

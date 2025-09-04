@@ -38,7 +38,6 @@ public partial class LoginModal : ContentPage
 
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://king-prawn-app-y5xwb.ondigitalocean.app/login");
             message.Content = JsonContent.Create<LoginData>(dataToSend);
-
             HttpResponseMessage response = await client.SendAsync(message);
             // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
             if (response.IsSuccessStatusCode)
@@ -61,6 +60,8 @@ public partial class LoginModal : ContentPage
 
         }catch(Exception e)
         {
+            Debug.WriteLine("Error Logging In");
+            
             Debug.WriteLine(e.Message);
         }
 

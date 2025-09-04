@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wgud424_maui.Models
 {
-    internal class UserDB
+    public class User
     {
         public int id {  get; set; }
         public string email { get; set; } = string.Empty;
@@ -22,16 +22,40 @@ namespace wgud424_maui.Models
 
     }
 
-    internal class StudentModel : UserDB
+    public class Student : User
     {
-        public UserDB mentor { get; set; }
+        public User mentor { get; set; }
 
 
     }
-    internal class MentorModel : UserDB
+
+    public class Mentor : User
     {
-        public List<UserDB> students { get; set; } = new List<UserDB>();
+        public List<User> students { get; set; } = new List<User>();
 
     }
+    public class StudentCourse
+    {
+        public int id { get; set; }
+        public int userId { get; set; }
+        public int instructorId { get; set; }
+        public int courseId { get; set; }
+        public DateTime startDate { get; set; }
+        public DateTime? endDate { get; set; }
+        public string status { get; set; }
+        public int term_id { get; set; }
+        public Course Course { get; set; }
+        public Instructor Instructor { get; set; }
+    }
 
+
+
+    public class Instructor
+    {
+        public int id { get; set; }
+        public string first_name { get; set; } = string.Empty;
+        public string last_name { get; set; } = string.Empty;
+        public string email { get; set; } = string.Empty;
+        public string user_type { get; set; } = string.Empty;
+    }
 }

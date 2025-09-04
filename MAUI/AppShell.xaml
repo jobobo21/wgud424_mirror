@@ -7,9 +7,11 @@
     Shell.FlyoutBehavior="Disabled"
     Title="wgud424_maui">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar x:Name="Terms">
+        
+
+
+    </TabBar>
+    
 
 </Shell>

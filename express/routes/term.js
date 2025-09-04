@@ -53,6 +53,7 @@ router.get('/', authenticate, async (req, res) => {
         });
     }
 });
+
 // router.get('/student_status', authenticate, async (req, res) => {
 //     var user = await db.User.findByPk(req.userId);
 

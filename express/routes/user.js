@@ -14,8 +14,8 @@ router.get('/', async (req, res) => {
 router.get('/student_status', authenticate, async (req, res) => {
     var user = await db.User.findByPk(req.userId);
 
-    var queryStr = `Select (SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status = 'c' and userId = ${req.userId})) as complete_cu, `+
-`(SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM user_course WHERE status ='a' and userId = ${req.userId})) as active_cu, `+
+    var queryStr = `Select (SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status = 'c' and userId = ${req.userId})) as complete_cu, `+
+`(SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status ='a' and userId = ${req.userId})) as active_cu, `+
 `(SELECT SUM(competency_units) FROM courses WHERE id in (SELECT course_id FROM program_courses WHERE program_id = ${user.program_id})) as total_cu;`
 
     const [results, metadata] = await db.sequelize.query(queryStr);
