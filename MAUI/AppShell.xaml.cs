@@ -9,20 +9,30 @@ namespace wgud424_maui
 {
     public partial class AppShell : Shell
     {
-
+        MainPage mp { get; set; }
         public void AddTerm(Term tempTerm)
         {
             Debug.WriteLine("Term Found");
             TermView tf = new TermView(tempTerm, this);
             ShellContent sc = new ShellContent();
-            sc.Title = "Test";
+            sc.Title = "Term " + tempTerm.term_no;
             sc.Route = $"Term-{tempTerm.id}";
             sc.ContentTemplate = new DataTemplate(() => tf);
             Terms.Items.Add(tf);
 
         }
-        public async void PopulateTerms()
+        private void AddMainPageTab()
         {
+            ShellContent sc = new ShellContent();
+            sc.Title = "Status";
+            sc.Route = $"MainPage";
+            sc.ContentTemplate = new DataTemplate(() => mp);
+            Terms.Items.Add(mp);
+        }
+            public async void PopulateTerms(StudentStatus ss)
+        {
+            Terms.Items.Clear();
+            AddMainPageTab();
             HttpResponseMessage hrm = await DatabaseHandler.Get("/terms");
             if (hrm != null)
             {
@@ -32,7 +42,7 @@ namespace wgud424_maui
                     // Optionally, read the response content if the API returns data
                     var result = await hrm.Content.ReadFromJsonAsync<List<Term>>();
                     string jsonString = await hrm.Content.ReadAsStringAsync();
-
+                    Debug.WriteLine(jsonString);
                     if (result != null)
                     {
                         foreach (Term t in result)
@@ -50,13 +60,9 @@ namespace wgud424_maui
         }
         public AppShell()
         {
-            InitializeComponent();
-            MainPage mp = new MainPage(this);
-            ShellContent sc = new ShellContent();
-            sc.Title = "Test";
-            sc.Route = $"MainPage";
-            sc.ContentTemplate = new DataTemplate(() => mp);
-            Terms.Items.Add(mp);
+           InitializeComponent();
+            mp = new MainPage(this);
+           AddMainPageTab();
         }
     }
 }

@@ -5,20 +5,32 @@ using wgud424_maui.Services;
 using wgud424_maui.Views;
 namespace wgud424_maui
 {
+    public class StudentStatus
+    {
+        public int complete_cu { get; set; }
+        public int active_cu { get; set; }
+        public int total_cu { get; set; }
+        public float pct_complete { get; set; }
+        public int remaining_cu { get; set; }
+        public string user_first_name { get; set; } = string.Empty;
+        public string user_last_name { get; set; } = string.Empty;
+    }
     public partial class MainPage : ContentPage
     {
         int count = 0;
+        public StudentStatus ss { get; set; }
         private AppShell parentShell { get; set; }
 
-        public class StudentStatus
+       
+        public void RenderData()
         {
-            public int complete_cu { get; set; }
-            public int active_cu { get; set; }
-            public int total_cu { get; set; }
-            public float pct_complete { get; set; }
-            public int remaining_cu { get; set; }
-            public string user_first_name { get; set; } = string.Empty;
-            public string user_last_name { get; set; } = string.Empty;
+            Debug.WriteLine($"API response: {ss.complete_cu}, {ss.total_cu}");
+            NameLabel.Text = $"Welcome Back {ss.user_first_name} {ss.user_last_name}";
+            float progress = (float) ss.complete_cu / (float)ss.total_cu;
+            Debug.WriteLine($"Progress ${progress}");
+            CourseProgress.Progress = progress;
+            ProgressLabel.Text = $"{ss.pct_complete}% Complete";
+            CUBreakDown.Text = $"{ss.complete_cu} CUs Complete, {ss.active_cu} CUs Active";
         }
         public async void GetData()
         {
@@ -29,18 +41,13 @@ namespace wgud424_maui
                 {
                     // Request was successful (e.g., 200 OK, 201 Created)
                     // Optionally, read the response content if the API returns data
-                    var result = await response.Content.ReadFromJsonAsync<StudentStatus>();
+                    ss = await response.Content.ReadFromJsonAsync<StudentStatus>();
                     string jsonString = await response.Content.ReadAsStringAsync();
-                    if (result != null) {
-                        Debug.WriteLine(jsonString);
-                        Debug.WriteLine($"API response: {result.complete_cu}, {result.total_cu}");
-                        NameLabel.Text = $"Welcome Back {result.user_first_name} {result.user_last_name}";
-                        float progress = (float)result.complete_cu / (float)result.total_cu;
-                        Debug.WriteLine($"Progress ${progress}");
-                        CourseProgress.Progress = progress;
-                        ProgressLabel.Text = $"{result.pct_complete}% Complete";
-                        CUBreakDown.Text = $"{result.complete_cu} CUs Complete, {result.active_cu} CUs Active";
-                        parentShell.PopulateTerms();
+                    Debug.WriteLine(jsonString);
+
+                    if (ss != null) {
+                        RenderData();
+                        parentShell.PopulateTerms(ss);
                     }
                 }
                 else
