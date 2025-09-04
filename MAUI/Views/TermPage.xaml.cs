@@ -24,6 +24,8 @@ public partial class TermView : ContentPage
 
     private void CourseListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
-
+		StudentCourse sc = tm.StudentCourses[e.SelectedItemIndex];
+		StudentCoursePage scp = new StudentCoursePage(sc.id);
+		Navigation.PushAsync(scp);
     }
 }
