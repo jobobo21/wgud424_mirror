@@ -23,7 +23,7 @@ app.use("/login", login);
 app.use("/course", course);
 app.use("/user", user);
 app.use("/terms", term);
-app.use("/student-course", student_course)
+app.use("/student_course", student_course)
 app.listen(port, () => {
   console.log("Listening on " + port);
 });
