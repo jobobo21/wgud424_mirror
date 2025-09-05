@@ -30,6 +30,7 @@ public partial class StudentCoursePage : ContentPage
                     Instructor_Email_lbl.Text = studentCourse.Instructor.email;
                     StartDate_pkr.Date = studentCourse.startDate;
                     EndDate_pkr.Date = studentCourse.endDate;
+                    AssessmentList.ItemsSource = studentCourse.Course.assessments;
                 }
             }
             else

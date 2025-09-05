@@ -18,6 +18,33 @@ namespace wgud424_maui.Models
         public bool is_active { get; set; } = true;
         public DateTime created_at { get; set; } = DateTime.UtcNow;
         public DateTime updated_at { get; set; } = DateTime.UtcNow;
+        public List<Assessment> assessments { get; set; } = new List<Assessment>();
+    }
+    public class Assessment
+    {
+        public int id { get; set; }
+        public int course_id { get; set; }
+        public string name { get; set; } = string.Empty;
+        public string type { get; set; } = string.Empty;
+        public string description { get; set; } = string.Empty;
+        public decimal? passing_score { get; set; }
+        public int max_attempts { get; set; } = 3;
+        public int? time_limit_minutes { get; set; }
+        public bool is_proctored { get; set; } = false;
+        public bool is_required_to_pass { get; set; } = true;
+        public int sequence_order { get; set; } = 1;
+        public bool is_active { get; set; } = true;
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
+
+        // Navigation property
+        public Course? Course { get; set; }
+        public string TypeDisplayName => type switch
+        {
+            "O" => "Objective",
+            "P" => "Performance",
+            _ => "Unknown"
+        }; 
     }
 
     public enum AssessmentType

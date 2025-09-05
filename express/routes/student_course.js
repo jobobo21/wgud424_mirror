@@ -97,7 +97,7 @@ router.get('/:id', authenticate, async (req, res) => {
                     include: [{
                         model: db.Assessment,
                         as: "assessments",
-                        attributes: ['id', 'name', 'type', 'passing_score', 'max_attempts', 'is_proctored', 'sequence_order'],
+                        attributes: ['id', 'name', 'type', 'description', 'max_attempts', 'is_proctored', 'sequence_order'],
                         order: [['sequence_order', 'ASC']]
                     }]
                 },

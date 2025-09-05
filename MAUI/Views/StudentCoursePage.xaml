@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:wgud424_maui.Models"
              x:Class="wgud424_maui.Views.StudentCoursePage"
              x:Name="ContentPage"
              Title="StudentCoursePage">
@@ -61,6 +62,14 @@
             <DatePicker Grid.Column="1" Grid.Row="1" x:Name="EndDate_pkr"/>
 
         </Grid>
+        <ListView x:Name="AssessmentList">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Assessment">
+                    <TextCell Height="100" Text="{Binding description}"
+                      Detail="{Binding description}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </VerticalStackLayout>
 </ContentPage>
