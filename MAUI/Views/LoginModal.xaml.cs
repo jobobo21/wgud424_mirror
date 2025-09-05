@@ -33,7 +33,9 @@ public partial class LoginModal : ContentPage
     {
         try
         {
-            var dataToSend = new LoginData { email = Emailentry.Text, password = PasswordEntry.Text };
+            //var dataToSend = new LoginData { email = Emailentry.Text, password = PasswordEntry.Text };
+            var dataToSend = new LoginData { email = "jtell73@wgu.edu", password = "wgu1231231" };
+
             HttpClient client = new HttpClient();
 
             HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://king-prawn-app-y5xwb.ondigitalocean.app/login");

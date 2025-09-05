@@ -41,7 +41,7 @@ namespace wgud424_maui.Models
         public int instructorId { get; set; }
         public int courseId { get; set; }
         public DateTime startDate { get; set; }
-        public DateTime? endDate { get; set; }
+        public DateTime endDate { get; set; }
         public string status { get; set; }
         public int term_id { get; set; }
         public Course Course { get; set; }
