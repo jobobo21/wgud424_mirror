@@ -2,11 +2,13 @@ using System.Text.Json.Serialization;
 using wgud424_maui.Models;
 using wgud424_maui.Services;
 using System.Diagnostics;
+
 namespace wgud424_maui.Views;
 
 public partial class TermView : ContentPage
 {
     private Term tm = new Term();
+    private bool _isDisposed = false;
 
     public void Init()
     {
@@ -14,21 +16,28 @@ public partial class TermView : ContentPage
         int active = 0;
         try
         {
+            if (_isDisposed) return;
+
             if (tm?.StudentCourses != null)
             {
                 // Debug output to see what data we have
                 Debug.WriteLine($"Found {tm.StudentCourses.Count} student courses");
-                CourseListView.ItemsSource = tm.StudentCourses;
+
+                if (CourseListView != null && !_isDisposed)
+                {
+                    CourseListView.ItemsSource = tm.StudentCourses;
+                }
+
                 foreach (var course in tm.StudentCourses)
                 {
                     Debug.WriteLine($"Student Course ID: {course.id}");
                     Debug.WriteLine($"Course ID: {course.courseId}");
                     Debug.WriteLine($"Status: {course.status}");
-                    if(course.status == "a")
+                    if (course.status == "a")
                     {
                         active += 1;
                     }
-                    else if(course.status == "c")
+                    else if (course.status == "c")
                     {
                         complete += 1;
                     }
@@ -44,17 +53,24 @@ public partial class TermView : ContentPage
                     }
                     Debug.WriteLine("---");
                 }
-                CompletedCoursesLabel.Text = complete.ToString();
-                ActiveCoursesLabel.Text = active.ToString();
-                TotalCoursesLabel.Text = tm.StudentCourses.Count.ToString();
-                
-                
-             
+
+                // Update statistics with null checks
+                if (CompletedCoursesLabel != null && !_isDisposed)
+                    CompletedCoursesLabel.Text = complete.ToString();
+                if (ActiveCoursesLabel != null && !_isDisposed)
+                    ActiveCoursesLabel.Text = active.ToString();
+                if (TotalCoursesLabel != null && !_isDisposed)
+                    TotalCoursesLabel.Text = tm.StudentCourses.Count.ToString();
             }
             else
             {
                 Debug.WriteLine("No StudentCourses found or tm is null");
             }
+        }
+        catch (ObjectDisposedException)
+        {
+            _isDisposed = true;
+            Debug.WriteLine("Page was disposed during Init");
         }
         catch (Exception ex)
         {
@@ -64,43 +80,71 @@ public partial class TermView : ContentPage
 
     public TermView(Term tmpTerm, AppShell parent)
     {
-        InitializeComponent();
-
-        if (tmpTerm != null)
-        {
-            TermPage.Title = "Term " + tmpTerm.term_no;
-            tm = tmpTerm;
-            Init();
-        }
-        else
-        {
-            Debug.WriteLine("tmpTerm is null in constructor");
-        }
-    }
-
-    private void CourseListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
-    {
         try
         {
-            // Deselect the item
-            CourseListView.SelectedItem = null;
+            InitializeComponent();
 
-            if (e.SelectedItemIndex >= 0 && e.SelectedItemIndex < tm.StudentCourses.Count)
+            if (tmpTerm != null)
             {
-                StudentCourse sc = tm.StudentCourses[e.SelectedItemIndex];
-                Debug.WriteLine($"Selected course with ID: {sc.id}");
-
-                StudentCoursePage scp = new StudentCoursePage(sc.id);
-                Navigation.PushAsync(scp);
+                if (TermPage != null && !_isDisposed)
+                    TermPage.Title = "Term " + tmpTerm.term_no;
+                tm = tmpTerm;
+                Init();
             }
             else
             {
-                Debug.WriteLine($"Invalid selection index: {e.SelectedItemIndex}");
+                Debug.WriteLine("tmpTerm is null in constructor");
             }
+        }
+        catch (ObjectDisposedException)
+        {
+            _isDisposed = true;
+            Debug.WriteLine("Page was disposed during construction");
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error in constructor: {ex.Message}");
+        }
+    }
+
+    private async void CourseListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        Debug.WriteLine("Selection Changed");
+
+        try
+        {
+        if (e.CurrentSelection != null)
+            {
+                StudentCourse sc = (StudentCourse)CourseListView.SelectedItem;
+                Debug.WriteLine($"Selected course with ID: {sc.id}");
+
+                StudentCoursePage scp = new StudentCoursePage(sc.id);
+                await Navigation.PushAsync(scp);
+            }
+           
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error in CourseListView_ItemSelected: {ex.Message}");
         }
+    }
+
+    protected override void OnDisappearing()
+    {
+        try
+        {
+            _isDisposed = true;
+            base.OnDisappearing();
+        }
+        catch (ObjectDisposedException)
+        {
+            // Already disposed, ignore
+        }
+    }
+
+    protected override bool OnBackButtonPressed()
+    {
+        _isDisposed = true;
+        return base.OnBackButtonPressed();
     }
 }
