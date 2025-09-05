@@ -10,7 +10,7 @@ public partial class StudentCoursePage : ContentPage
     StudentCourse studentCourse = new StudentCourse();
     public async void GetData(int id)
     {
-        HttpResponseMessage response = await DatabaseHandler.Get($"/user/student_course/{id}");
+        HttpResponseMessage response = await DatabaseHandler.Get($"/student_course/{id}");
         if (response != null)
         {
             if (response.IsSuccessStatusCode)
@@ -23,7 +23,13 @@ public partial class StudentCoursePage : ContentPage
 
                 if (studentCourse != null)
                 {
-                    ContentPage.Title = studentCourse.Course.code;   
+                    ContentPage.Title = studentCourse.Course.code;
+                    CU_lbl.Text = $"CUs: {studentCourse.Course.competency_units}";
+                    Description_lbl.Text = studentCourse.Course.description;
+                    Instructor_lbl.Text = $"{studentCourse.Instructor.first_name} {studentCourse.Instructor.last_name}";
+                    Instructor_Email_lbl.Text = studentCourse.Instructor.email;
+                    StartDate_pkr.Date = studentCourse.startDate;
+                    EndDate_pkr.Date = studentCourse.endDate;
                 }
             }
             else
@@ -36,6 +42,7 @@ public partial class StudentCoursePage : ContentPage
     public StudentCoursePage(int studentCourseId)
 	{
 		InitializeComponent();
+
         GetData(studentCourseId );
 	}
 }

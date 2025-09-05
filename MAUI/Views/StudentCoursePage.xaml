@@ -4,10 +4,63 @@
              x:Class="wgud424_maui.Views.StudentCoursePage"
              x:Name="ContentPage"
              Title="StudentCoursePage">
-    <VerticalStackLayout>
+    <VerticalStackLayout Margin="10, 10">
         <Label 
-            Text="Welcome to .NET MAUI!"
+            x:Name="Description_lbl"
+            Text=""
+            FontSize="18"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            HorizontalOptions="Center" 
+            Margin="0, 0, 0, 10"/>
+     <Label 
+      x:Name="CU_lbl"
+      Text=""
+      FontSize="18"
+      VerticalOptions="Center" 
+      HorizontalOptions="Start" 
+      Margin="0, 0, 0, 10"/>
+        <HorizontalStackLayout>
+            <Label 
+            Text="Instructor:"
+            FontSize="18"
+            VerticalOptions="Start" 
+            HorizontalOptions="Start" 
+            Margin="0, 0, 0, 10"/>
+            <VerticalStackLayout>
+                <Label 
+            x:Name="Instructor_lbl"
+            Text="Instructor:"
+            FontSize="18"
+            VerticalOptions="Center" 
+            HorizontalOptions="Start" 
+            Margin="20, 0, 0, 10"/>
+                <Label 
+            x:Name="Instructor_Email_lbl"
+            Text="Instructor:"
+            FontSize="18"
+            VerticalOptions="Center" 
+            HorizontalOptions="Start" 
+            Margin="20, 0, 0, 10"/>
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+     
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*" />
+                <ColumnDefinition Width="50*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Content for each column -->
+            <Label Text="Start Date" Grid.Column="0" Grid.Row="0"/>
+            <DatePicker Grid.Column="0" Grid.Row="1" x:Name="StartDate_pkr"/>
+            <Label Text="End Date" Grid.Column="1" Grid.Row="0"/>
+            <DatePicker Grid.Column="1" Grid.Row="1" x:Name="EndDate_pkr"/>
+
+        </Grid>
+
     </VerticalStackLayout>
 </ContentPage>
