@@ -93,7 +93,13 @@ router.get('/:id', authenticate, async (req, res) => {
                 {
                     model: db.Course,
                     as: 'Course',
-                    attributes: ['id', 'name', 'code', 'competency_units', 'assessment_type', 'description']
+                    attributes: ['id', 'name', 'code', 'competency_units', 'assessment_type', 'description'],
+                    include: [{
+                        model: db.Assessment,
+                        as: "assessments",
+                        attributes: ['id', 'name', 'type', 'passing_score', 'max_attempts', 'is_proctored', 'sequence_order'],
+                        order: [['sequence_order', 'ASC']]
+                    }]
                 },
                 {
                     model: db.User,
@@ -117,29 +123,11 @@ router.get('/:id', authenticate, async (req, res) => {
         }
 
         // Fetch assessments separately to avoid association issues
-        let assessments = [];
-        if (studentCourse.Course) {
-            try {
-                assessments = await db.Assessment.findAll({
-                    where: {
-                        course_id: studentCourse.Course.id,
-                        is_active: true
-                    },
-                    attributes: ['id', 'name', 'type', 'passing_score', 'max_attempts', 'is_proctored', 'sequence_order'],
-                    order: [['sequence_order', 'ASC']]
-                });
-            } catch (assessmentError) {
-                console.log('Could not fetch assessments:', assessmentError.message);
-            }
-        }
+
 
         // Return the data directly with assessments added
-        const result = {
-            ...studentCourse.toJSON(),
-            assessments: assessments
-        };
 
-        res.status(200).json(result);
+        res.status(200).json(studentCourse);
 
     } catch (error) {
         console.error('Error fetching student course:', error);

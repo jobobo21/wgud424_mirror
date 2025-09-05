@@ -1,5 +1,5 @@
 // Initialize all models function
-import { College, Assessment, AssessmentType, Program, ProgramCourse, Prerequisite, Course, CompetencyCategory } from "./catalog.js";
+import { College, Assessment, AssessmentType, Program, ProgramCourse, Prerequisite, Course, CompetencyCategory, defineAssociations } from "./catalog.js";
 import { Sequelize } from "sequelize";
 import User from "./user.js";
 import dotenv from 'dotenv';
@@ -31,6 +31,7 @@ function DB() {
     models.User = User(sequelize);
     models.Term = Term(sequelize);
     models.StudentCourse = student_course(sequelize);
+    defineAssociations(models);
 
     // Set up associations
     Object.values(models).forEach(model => {
