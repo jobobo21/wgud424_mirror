@@ -3,50 +3,271 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="wgud424_maui.Views.LoginModal"
              Title="Login"
-             BackgroundColor="#003057">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome To WGU"
-            VerticalOptions="Center" 
-            FontSize="20"
-            TextColor="White"
-            HorizontalOptions="Center" />
-        <Label 
-            Text="Course Scheduling App"
-            VerticalOptions="Center" 
-            FontSize="20"
-            TextColor="White"
-            HorizontalOptions="Center" />
-        <Label 
-         Text="Please Login to continue"
-         VerticalOptions="Center" 
-         FontSize="14"
-         HorizontalOptions="Center" 
-         TextColor="White"
-         Margin="0, 20, 0, 100"
-         />
+             Shell.NavBarIsVisible="False">
 
-        <Label 
-   Text="Email"
-   VerticalOptions="Center" 
-   FontSize="18"
-   HorizontalOptions="Start" 
-   TextColor="White"
-   Margin="15, 20, 0, 1"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Color Palette -->
+            <Color x:Key="WGUPrimary">#003057</Color>
+            <Color x:Key="WGUSecondary">#0066CC</Color>
+            <Color x:Key="WGUAccent">#FFD700</Color>
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+            <Color x:Key="TextPrimary">#2C3E50</Color>
+            <Color x:Key="TextSecondary">#7B8A8B</Color>
+            <Color x:Key="InputBackground">#F8F9FA</Color>
+            <Color x:Key="InputBorder">#E9ECEF</Color>
+            <Color x:Key="SuccessColor">#28A745</Color>
 
-        <Entry Background="LightGray" Margin="15, 10, 15, 10" x:Name="Emailentry"/>
+            <!-- Gradients -->
+            <LinearGradientBrush x:Key="BackgroundGradient" StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#003057" Offset="0" />
+                <GradientStop Color="#0066CC" Offset="0.7" />
+                <GradientStop Color="#4A90E2" Offset="1" />
+            </LinearGradientBrush>
 
-        <Label 
-    Text="Password"
-    VerticalOptions="Center" 
-    FontSize="18"
-    HorizontalOptions="Start" 
-    TextColor="White"
-    Margin="15, 20, 0, 1"/>
+            <LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="1,0">
+                <GradientStop Color="#FFD700" Offset="0" />
+                <GradientStop Color="#FFC107" Offset="1" />
+            </LinearGradientBrush>
 
-        <Entry Background="LightGray" Margin="15, 10, 15, 10" IsPassword="True" x:Name="PasswordEntry"/>
+            <!-- Styles -->
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="32" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
 
-        <Button BackgroundColor="LightGray" Text="Login" TextColor="#003057" x:Name="LoginBtn" Clicked="LoginBtn_Clicked"/>
+            <Style x:Key="SubtitleLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="None" />
+                <Setter Property="TextColor" Value="#E8F4FD" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+            </Style>
 
-    </VerticalStackLayout>
+            <Style x:Key="WelcomeLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="#B8DCF2" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="HorizontalTextAlignment" Value="Center" />
+                <Setter Property="Margin" Value="0,8,0,0" />
+            </Style>
+
+            <Style x:Key="FieldLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+            </Style>
+
+            <Style x:Key="ModernEntry" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="{StaticResource InputBackground}" />
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="HeightRequest" Value="50" />
+            </Style>
+
+            <Style x:Key="LoginButton" TargetType="Button">
+                <Setter Property="Background" Value="{StaticResource ButtonGradient}" />
+                <Setter Property="TextColor" Value="{StaticResource WGUPrimary}" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="25" />
+                <Setter Property="HeightRequest" Value="50" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Main Background with Gradient -->
+    <Grid Background="{StaticResource BackgroundGradient}">
+
+    
+
+
+
+        <ScrollView>
+            <VerticalStackLayout Padding="24" 
+                               Spacing="0"
+                               VerticalOptions="Center">
+
+                <!-- Logo/Brand Section -->
+                <VerticalStackLayout Spacing="8" Margin="0,0,0,60">
+
+                    <!-- WGU Logo Placeholder -->
+                    <Frame BackgroundColor="#FFFFFF20"
+                           HasShadow="False"
+                           CornerRadius="40"
+                           WidthRequest="80"
+                           HeightRequest="80"
+                           HorizontalOptions="Center"
+                           Margin="0,0,0,24">
+                        <Label Text="🎓"
+                               FontSize="36"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               TextColor="White" />
+                    </Frame>
+
+                    <Label Text="Welcome To WGU"
+                           Style="{StaticResource TitleLabel}" />
+
+                    <Label Text="Course Scheduling App"
+                           Style="{StaticResource SubtitleLabel}" />
+
+                    <Label Text="Please login to continue"
+                           Style="{StaticResource WelcomeLabel}"
+                           Margin="0,16,0,0" />
+                </VerticalStackLayout>
+
+                <!-- Login Form Card -->
+                <Frame BackgroundColor="{StaticResource CardBackground}"
+                       HasShadow="True"
+                       CornerRadius="20"
+                       Padding="32,40">
+
+                    <VerticalStackLayout Spacing="24">
+
+                        <!-- Email Field -->
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="8">
+                                <Frame BackgroundColor="{StaticResource WGUSecondary}"
+                                       HasShadow="False"
+                                       CornerRadius="12"
+                                       Padding="6"
+                                       WidthRequest="24"
+                                       HeightRequest="24">
+                                    <Label Text="📧"
+                                           FontSize="10"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Frame>
+                                <Label Text="Email Address"
+                                       Style="{StaticResource FieldLabel}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <Frame BackgroundColor="{StaticResource InputBackground}"
+                                   HasShadow="False"
+                                   CornerRadius="12"
+                                   Padding="0"
+                                   BorderColor="{StaticResource InputBorder}">
+                                <Entry x:Name="Emailentry"
+                                       Style="{StaticResource ModernEntry}"
+                                       Placeholder="Enter your email"
+                                       Keyboard="Email"
+                                       BackgroundColor="Transparent" />
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Password Field -->
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="8">
+                                <Frame BackgroundColor="{StaticResource WGUSecondary}"
+                                       HasShadow="False"
+                                       CornerRadius="12"
+                                       Padding="6"
+                                       WidthRequest="24"
+                                       HeightRequest="24">
+                                    <Label Text="🔒"
+                                           FontSize="10"
+                                           TextColor="White"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center" />
+                                </Frame>
+                                <Label Text="Password"
+                                       Style="{StaticResource FieldLabel}"
+                                       VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <Frame BackgroundColor="{StaticResource InputBackground}"
+                                   HasShadow="False"
+                                   CornerRadius="12"
+                                   Padding="0"
+                                   BorderColor="{StaticResource InputBorder}">
+                                <Entry x:Name="PasswordEntry"
+                                       Style="{StaticResource ModernEntry}"
+                                       Placeholder="Enter your password"
+                                       IsPassword="True"
+                                       BackgroundColor="Transparent" />
+                            </Frame>
+                        </VerticalStackLayout>
+
+                        <!-- Login Button -->
+                        <Button x:Name="LoginBtn"
+                                Text="Login to WGU"
+                                Style="{StaticResource LoginButton}"
+                                Clicked="LoginBtn_Clicked"
+                                Margin="0,16,0,0">
+                            <Button.Shadow>
+                                <Shadow Brush="{StaticResource WGUAccent}"
+                                        Opacity="0.3"
+                                        Radius="10"
+                                        Offset="0,4" />
+                            </Button.Shadow>
+                        </Button>
+
+                        <!-- Additional Options -->
+                        <VerticalStackLayout Spacing="12" Margin="0,16,0,0">
+
+                            <!-- Divider -->
+                            <Grid>
+                                <BoxView HeightRequest="1"
+                                         BackgroundColor="{StaticResource InputBorder}"
+                                         HorizontalOptions="Fill"
+                                         VerticalOptions="Center" />
+                                <Label Text="Need Help?"
+                                       BackgroundColor="{StaticResource CardBackground}"
+                                       TextColor="{StaticResource TextSecondary}"
+                                       FontSize="12"
+                                       Padding="12,0"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </Grid>
+
+                            <!-- Help Links -->
+                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="24">
+                                <Label Text="Forgot Password?"
+                                       TextColor="{StaticResource WGUSecondary}"
+                                       FontSize="14"
+                                       TextDecorations="Underline">
+                                    <!-- <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
+                                    </Label.GestureRecognizers> -->
+                                </Label>
+
+                                <Label Text="Contact Support"
+                                       TextColor="{StaticResource WGUSecondary}"
+                                       FontSize="14"
+                                       TextDecorations="Underline">
+                                    <!-- <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnContactSupportTapped" />
+                                    </Label.GestureRecognizers> -->
+                                </Label>
+                            </HorizontalStackLayout>
+                        </VerticalStackLayout>
+
+                    </VerticalStackLayout>
+                </Frame>
+
+                <!-- Footer -->
+                <VerticalStackLayout Spacing="8" Margin="0,32,0,16">
+                    <Label Text="Western Governors University"
+                           TextColor="#B8DCF2"
+                           FontSize="12"
+                           HorizontalOptions="Center"
+                           FontAttributes="Bold" />
+                    <Label Text="Empowering students to change their lives"
+                           TextColor="#8CC5E8"
+                           FontSize="10"
+                           HorizontalOptions="Center"
+                           FontAttributes="Italic" />
+                </VerticalStackLayout>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

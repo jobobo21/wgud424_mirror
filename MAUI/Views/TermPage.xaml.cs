@@ -119,7 +119,7 @@ public partial class TermView : ContentPage
                 Debug.WriteLine($"Selected course with ID: {sc.id}");
 
                 StudentCoursePage scp = new StudentCoursePage(sc.id);
-                await Navigation.PushAsync(scp);
+                await Navigation.PushModalAsync(scp);
             }
            
         }

@@ -4,72 +4,282 @@
              xmlns:models="clr-namespace:wgud424_maui.Models"
              x:Class="wgud424_maui.Views.StudentCoursePage"
              x:Name="ContentPage"
-             Title="StudentCoursePage">
-    <VerticalStackLayout Margin="10, 10">
-        <Label 
-            x:Name="Description_lbl"
-            Text=""
-            FontSize="18"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" 
-            Margin="0, 0, 0, 10"/>
-     <Label 
-      x:Name="CU_lbl"
-      Text=""
-      FontSize="18"
-      VerticalOptions="Center" 
-      HorizontalOptions="Start" 
-      Margin="0, 0, 0, 10"/>
-        <HorizontalStackLayout>
-            <Label 
-            Text="Instructor:"
-            FontSize="18"
-            VerticalOptions="Start" 
-            HorizontalOptions="Start" 
-            Margin="0, 0, 0, 10"/>
-            <VerticalStackLayout>
-                <Label 
-            x:Name="Instructor_lbl"
-            Text="Instructor:"
-            FontSize="18"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" 
-            Margin="20, 0, 0, 10"/>
-                <Label 
-            x:Name="Instructor_Email_lbl"
-            Text="Instructor:"
-            FontSize="18"
-            VerticalOptions="Center" 
-            HorizontalOptions="Start" 
-            Margin="20, 0, 0, 10"/>
-            </VerticalStackLayout>
-        </HorizontalStackLayout>
-     
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*" />
-                <ColumnDefinition Width="50*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+             Title="Course Details"
+             BackgroundColor="#F8F9FA">
 
-            <!-- Content for each column -->
-            <Label Text="Start Date" Grid.Column="0" Grid.Row="0"/>
-            <DatePicker Grid.Column="0" Grid.Row="1" x:Name="StartDate_pkr"/>
-            <Label Text="End Date" Grid.Column="1" Grid.Row="0"/>
-            <DatePicker Grid.Column="1" Grid.Row="1" x:Name="EndDate_pkr"/>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <!-- Color Palette -->
+            <Color x:Key="PrimaryColor">#2E86C1</Color>
+            <Color x:Key="SecondaryColor">#5DADE2</Color>
+            <Color x:Key="AccentColor">#1ABC9C</Color>
+            <Color x:Key="TextPrimary">#2C3E50</Color>
+            <Color x:Key="TextSecondary">#7B8A8B</Color>
+            <Color x:Key="CardBackground">#FFFFFF</Color>
+            <Color x:Key="SectionBackground">#FAFBFC</Color>
 
-        </Grid>
-        <ListView x:Name="AssessmentList">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Assessment">
-                    <TextCell Height="100" Text="{Binding description}"
-                      Detail="{Binding description}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            <!-- Styles -->
+            <Style x:Key="CardFrame" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="CornerRadius" Value="12" />
+                <Setter Property="Padding" Value="20" />
+                <Setter Property="Margin" Value="0,8" />
+            </Style>
 
-    </VerticalStackLayout>
+            <Style x:Key="HeaderLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="Margin" Value="0,0,0,8" />
+            </Style>
+
+            <Style x:Key="SectionTitle" TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="Margin" Value="0,0,0,12" />
+            </Style>
+
+            <Style x:Key="BodyLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="LineHeight" Value="1.4" />
+            </Style>
+
+            <Style x:Key="SecondaryLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+                <Setter Property="FontAttributes" Value="Italic" />
+            </Style>
+
+            <Style x:Key="InfoLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="Margin" Value="0,0,8,0" />
+            </Style>
+
+            <Style x:Key="ModernDatePicker" TargetType="DatePicker">
+                <Setter Property="BackgroundColor" Value="{StaticResource CardBackground}" />
+                <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="16">
+
+            <!-- Course Title Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="8">
+                    <Label 
+                        x:Name="Description_lbl"
+                        Text="Course Title"
+                        Style="{StaticResource HeaderLabel}" />
+
+                    <BoxView HeightRequest="2" 
+                             BackgroundColor="{StaticResource AccentColor}"
+                             HorizontalOptions="Center"
+                             WidthRequest="80"
+                             CornerRadius="1" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Course Information Card -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+
+                    <!-- Credit Units -->
+                    <HorizontalStackLayout Spacing="8">
+                        <Frame BackgroundColor="{StaticResource PrimaryColor}" 
+                               HasShadow="False" 
+                               CornerRadius="20" 
+                               Padding="8,4"
+                               VerticalOptions="Center">
+                            <Label Text="📚" 
+                                   TextColor="White" 
+                                   FontSize="12" />
+                        </Frame>
+                        <Label x:Name="CU_lbl"
+                               Text="Credit Units"
+                               Style="{StaticResource BodyLabel}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <!-- Instructor Information -->
+                    <VerticalStackLayout Spacing="8">
+                        <HorizontalStackLayout Spacing="8">
+                            <Frame BackgroundColor="{StaticResource AccentColor}" 
+                                   HasShadow="False" 
+                                   CornerRadius="20" 
+                                   Padding="8,4"
+                                   VerticalOptions="Center">
+                                <Label Text="👨‍🏫" 
+                                       TextColor="White" 
+                                       FontSize="12" />
+                            </Frame>
+                            <Label Text="Instructor Information"
+                                   Style="{StaticResource InfoLabel}"
+                                   VerticalOptions="Center" />
+                        </HorizontalStackLayout>
+
+                        <VerticalStackLayout Spacing="4" Margin="32,0,0,0">
+                            <Label x:Name="Instructor_lbl"
+                                   Text="Instructor Name"
+                                   Style="{StaticResource BodyLabel}" />
+                            <Label x:Name="Instructor_Email_lbl"
+                                   Text="instructor@email.com"
+                                   Style="{StaticResource SecondaryLabel}" />
+                        </VerticalStackLayout>
+                    </VerticalStackLayout>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Course Duration Card -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="8">
+                        <Frame BackgroundColor="{StaticResource SecondaryColor}" 
+                               HasShadow="False" 
+                               CornerRadius="20" 
+                               Padding="8,4"
+                               VerticalOptions="Center">
+                            <Label Text="📅" 
+                                   TextColor="White" 
+                                   FontSize="12" />
+                        </Frame>
+                        <Label Text="Course Duration"
+                               Style="{StaticResource InfoLabel}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <Grid RowSpacing="12" ColumnSpacing="16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Start Date -->
+                        <Label Text="Start Date" 
+                               Grid.Column="0" 
+                               Grid.Row="0"
+                               Style="{StaticResource InfoLabel}" />
+                        <Frame Grid.Column="0" 
+                               Grid.Row="1"
+                               BackgroundColor="{StaticResource SectionBackground}"
+                               HasShadow="False"
+                               CornerRadius="8"
+                               Padding="12,8">
+                            <DatePicker x:Name="StartDate_pkr" 
+                                       Style="{StaticResource ModernDatePicker}"
+                                       BackgroundColor="Transparent" />
+                        </Frame>
+
+                        <!-- End Date -->
+                        <Label Text="End Date" 
+                               Grid.Column="1" 
+                               Grid.Row="0"
+                               Style="{StaticResource InfoLabel}" />
+                        <Frame Grid.Column="1" 
+                               Grid.Row="1"
+                               BackgroundColor="{StaticResource SectionBackground}"
+                               HasShadow="False"
+                               CornerRadius="8"
+                               Padding="12,8">
+                            <DatePicker x:Name="EndDate_pkr" 
+                                       Style="{StaticResource ModernDatePicker}"
+                                       BackgroundColor="Transparent" />
+                        </Frame>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Assessments Section -->
+            <Frame Style="{StaticResource CardFrame}">
+                <VerticalStackLayout Spacing="16">
+                    <HorizontalStackLayout Spacing="8">
+                        <Frame BackgroundColor="{StaticResource AccentColor}" 
+                               HasShadow="False" 
+                               CornerRadius="20" 
+                               Padding="8,4"
+                               VerticalOptions="Center">
+                            <Label Text="📝" 
+                                   TextColor="White" 
+                                   FontSize="12" />
+                        </Frame>
+                        <Label Text="Assessments"
+                               Style="{StaticResource SectionTitle}"
+                               VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <!-- Enhanced ListView with custom styling -->
+                    <ListView x:Name="AssessmentList"
+                             BackgroundColor="{StaticResource SectionBackground}"
+                             SeparatorColor="Transparent"
+                             SeparatorVisibility="None"
+                             HasUnevenRows="True"
+                             RowHeight="-1">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Assessment">
+                                <ViewCell>
+                                    <Frame BackgroundColor="{StaticResource CardBackground}"
+                                           HasShadow="True"
+                                           CornerRadius="12"
+                                           Padding="16"
+                                           Margin="8,4,8,8">
+                                        <Grid RowSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Frame Grid.Column="0"
+                                                   BackgroundColor="{StaticResource PrimaryColor}"
+                                                   HasShadow="False"
+                                                   CornerRadius="20"
+                                                   Padding="8"
+                                                   WidthRequest="40"
+                                                   HeightRequest="40"
+                                                   VerticalOptions="Start"
+                                                   Margin="0,0,12,0">
+                                                <Label Text="📋"
+                                                       TextColor="White"
+                                                       FontSize="12"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center" />
+                                            </Frame>
+
+                                            <VerticalStackLayout Grid.Column="1" 
+                                                               Spacing="6"
+                                                               VerticalOptions="Start">
+                                                <Label Text="{Binding name}"
+                                                       FontSize="16"
+                                                       FontAttributes="Bold"
+                                                       TextColor="{StaticResource TextPrimary}"
+                                                       LineBreakMode="WordWrap" />
+                                                <Label Text="{Binding description}"
+                                                       FontSize="14"
+                                                       TextColor="{StaticResource TextSecondary}"
+                                                       LineBreakMode="WordWrap"
+                                                       MaxLines="3" />
+                                            </VerticalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
