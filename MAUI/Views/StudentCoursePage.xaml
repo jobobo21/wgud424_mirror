@@ -228,7 +228,7 @@
                              HasUnevenRows="True"
                              RowHeight="-1">
                         <ListView.ItemTemplate>
-                            <DataTemplate x:DataType="models:Assessment">
+                            <DataTemplate x:DataType="models:StudentAssessment">
                                 <ViewCell>
                                     <Frame BackgroundColor="{StaticResource CardBackground}"
                                            HasShadow="True"
@@ -260,12 +260,12 @@
                                             <VerticalStackLayout Grid.Column="1" 
                                                                Spacing="6"
                                                                VerticalOptions="Start">
-                                                <Label Text="{Binding name}"
+                                                <Label Text="{Binding Assessment.name}"
                                                        FontSize="16"
                                                        FontAttributes="Bold"
                                                        TextColor="{StaticResource TextPrimary}"
                                                        LineBreakMode="WordWrap" />
-                                                <Label Text="{Binding description}"
+                                                <Label Text="{Binding Assessment.description}"
                                                        FontSize="14"
                                                        TextColor="{StaticResource TextSecondary}"
                                                        LineBreakMode="WordWrap"

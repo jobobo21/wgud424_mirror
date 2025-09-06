@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled"
     Title="wgud424_maui">
 
-    <TabBar x:Name="Terms">
+    <TabBar x:Name="Terms" >
         
 
 

@@ -2,23 +2,98 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="wgud424_maui.MainPage"
-             Title="Status">
-
+             Title="Status"
+             BackgroundColor="#F8F9FA">
     <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
-            <Label x:Name="NameLabel" FontSize="20"/>
-            <Label x:Name="ProgressLabel" FontSize="Medium" TextDecorations="Underline"/>
-            <ProgressBar x:Name="CourseProgress" ProgressColor="Navy"/>
-            <Label x:Name="CUBreakDown" FontSize="Medium"/>
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Fill" />
+        <VerticalStackLayout Padding="20" Spacing="30">
+
+            <!-- Welcome Header Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Welcome Back!" 
+                           FontSize="16" 
+                           TextColor="#6C757D" 
+                           HorizontalOptions="Center"/>
+                    <Label x:Name="NameLabel" 
+                           FontSize="24" 
+                           FontAttributes="Bold"
+                           TextColor="#212529"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Progress Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="15">
+                    <Label x:Name="ProgressLabel" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="#495057"/>
+
+                    <VerticalStackLayout Spacing="8">
+                        <ProgressBar x:Name="CourseProgress" 
+                                   ProgressColor="#007BFF"
+                                   BackgroundColor="#E9ECEF"
+                                   HeightRequest="12"/>
+                        <Label x:Name="CUBreakDown" 
+                               FontSize="14"
+                               TextColor="#6C757D"
+                               HorizontalOptions="End"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Mentor Information Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="15">
+                    <HorizontalStackLayout Spacing="10">
+                        <Frame BackgroundColor="#E3F2FD" 
+                               CornerRadius="25" 
+                               WidthRequest="50" 
+                               HeightRequest="50"
+                               Padding="0"
+                               HasShadow="False">
+                            <Label Text="👨‍🏫" 
+                                   FontSize="24" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout Spacing="5" VerticalOptions="Center">
+                            <Label Text="Your Mentor" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#495057"/>
+                            <Label x:Name="MentorName_lbl" 
+                                   FontSize="18"
+                                   FontAttributes="Bold"
+                                   TextColor="#212529"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+
+                    <Frame BackgroundColor="#F8F9FA" 
+                           CornerRadius="8" 
+                           Padding="15"
+                           HasShadow="False">
+                        <HorizontalStackLayout Spacing="10">
+                            <Label Text="✉️" FontSize="16"/>
+                            <Label x:Name="MentorEmail_lbl" 
+                                   FontSize="14"
+                                   TextColor="#6C757D"
+                                   VerticalOptions="Center"/>
+                        </HorizontalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </Frame>
+
         </VerticalStackLayout>
     </ScrollView>
-
 </ContentPage>

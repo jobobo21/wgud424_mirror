@@ -3,6 +3,7 @@ using System;
 using System.Diagnostics;
 using wgud424_maui.Services;
 using wgud424_maui.Views;
+using wgud424_maui.Models;
 namespace wgud424_maui
 {
     public class StudentStatus
@@ -14,6 +15,7 @@ namespace wgud424_maui
         public int remaining_cu { get; set; }
         public string user_first_name { get; set; } = string.Empty;
         public string user_last_name { get; set; } = string.Empty;
+        public Mentor mentor { get; set; }
     }
     public partial class MainPage : ContentPage
     {
@@ -31,6 +33,9 @@ namespace wgud424_maui
             CourseProgress.Progress = progress;
             ProgressLabel.Text = $"{ss.pct_complete}% Complete";
             CUBreakDown.Text = $"{ss.complete_cu} CUs Complete, {ss.active_cu} CUs Active";
+            MentorName_lbl.Text = $"{ss.mentor.first_name} {ss.mentor.last_name}";
+            MentorEmail_lbl.Text = ss.mentor.email;
+
         }
         public async void GetData()
         {
@@ -43,6 +48,7 @@ namespace wgud424_maui
                     // Optionally, read the response content if the API returns data
                     ss = await response.Content.ReadFromJsonAsync<StudentStatus>();
                     string jsonString = await response.Content.ReadAsStringAsync();
+
                     Debug.WriteLine(jsonString);
 
                     if (ss != null) {
@@ -65,17 +71,7 @@ namespace wgud424_maui
             parentShell = p;
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-            GetData();
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+      
     }
 
 }

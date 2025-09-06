@@ -119,7 +119,8 @@ public partial class TermView : ContentPage
                 Debug.WriteLine($"Selected course with ID: {sc.id}");
 
                 StudentCoursePage scp = new StudentCoursePage(sc.id);
-                await Navigation.PushModalAsync(scp);
+                await Navigation.PushAsync(scp);
+
             }
            
         }
@@ -141,7 +142,13 @@ public partial class TermView : ContentPage
             // Already disposed, ignore
         }
     }
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        CourseListView.SelectedItem = null;
+        Navigation.PopToRootAsync();
 
+    }
     protected override bool OnBackButtonPressed()
     {
         _isDisposed = true;

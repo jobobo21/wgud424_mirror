@@ -13,11 +13,11 @@ namespace wgud424_maui.Models
         public string first_name { get; set; } = string.Empty;
         public string last_name { get; set;} = string.Empty;
         public string password { get; set; } = string.Empty;
-        public int mentor_id { get; set; }
+        public int? mentor_id { get; set; }
         public string user_type { get; set; } = string.Empty;
-        public DateTime grad_date { get; set; }
+        public DateTime? grad_date { get; set; }
 
-        public int program_id { get; set; }
+        public int? program_id { get; set; }
 
 
     }
@@ -46,11 +46,17 @@ namespace wgud424_maui.Models
         public int term_id { get; set; }
         public Course Course { get; set; }
         public Instructor Instructor { get; set; }
+        public List<StudentAssessment> studentAssessments { get; set; }
     }
 
     public class StudentAssessment
     {
-        public int
+        public int student_assessmentId { get; set; }
+        public int student_courseId { get; set; }
+        public int assessmentId { get; set; }
+        public DateTime? startDate { get; set; }
+        public DateTime? endDate { get; set; }
+        public Assessment Assessment { get; set; }
     }
 
     public class Instructor

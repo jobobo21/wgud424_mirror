@@ -9,21 +9,17 @@ public partial class AssessmentPage : ContentPage
 {
     public async void GetData(int id)
     {
-        Assessment ca = new Assessment();
-        HttpResponseMessage response = await DatabaseHandler.Get($"/student_course/{id}");
+        StudentAssessment ca = new StudentAssessment();
+        HttpResponseMessage response = await DatabaseHandler.Get($"/student_assessment/{id}");
         if (response != null)
         {
             if (response.IsSuccessStatusCode)
             {
     
-                ca = await response.Content.ReadFromJsonAsync<Assessment>();
+                ca = await response.Content.ReadFromJsonAsync<StudentAssessment>();
                 string jsonString = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine(jsonString);
 
-                if (ca != new Assessment())
-                {
-                 StartDate_date.Date = ca.start_date   
-                }
             }
             else
             {
@@ -32,8 +28,9 @@ public partial class AssessmentPage : ContentPage
             }
         }
     }
-    public AssessmentPage()
+    public AssessmentPage(int assessmentId)
 	{
 		InitializeComponent();
+        GetData(assessmentId);
 	}
 }

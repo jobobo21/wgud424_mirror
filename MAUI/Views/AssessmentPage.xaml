@@ -11,7 +11,7 @@
             HorizontalOptions="Center" />
 
         <Label x:Name="Description_lbl"/>
-        <Label x:Name="PassingScore"/>
+        <Label x:Name="PassingScore"_lbl/>
 
         <Label Text="Start Date"/>
         
