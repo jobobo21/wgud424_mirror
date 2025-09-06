@@ -14,9 +14,9 @@ router.get('/', async (req, res) => {
 router.get('/student_status', authenticate, async (req, res) => {
     var user = await db.User.findByPk(req.userId);
 
-    var queryStr = `Select (SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status = 'c' and userId = ${req.userId})) as complete_cu, `+
-`(SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status ='a' and userId = ${req.userId})) as active_cu, `+
-`(SELECT SUM(competency_units) FROM courses WHERE id in (SELECT course_id FROM program_courses WHERE program_id = ${user.program_id})) as total_cu;`
+    var queryStr = `Select (SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status = 'c' and userId = ${req.userId})) as complete_cu, ` +
+        `(SELECT SUM(competency_units) FROM courses WHERE id IN (SELECT courseId FROM student_course WHERE status ='a' and userId = ${req.userId})) as active_cu, ` +
+        `(SELECT SUM(competency_units) FROM courses WHERE id in (SELECT course_id FROM program_courses WHERE program_id = ${user.program_id})) as total_cu;`
 
     const [results, metadata] = await db.sequelize.query(queryStr);
     var result = results[0];
@@ -26,6 +26,13 @@ router.get('/student_status', authenticate, async (req, res) => {
     result.remaining_cu = result.total_cu - result.complete_cu
     result.user_first_name = user.first_name;
     result.user_last_name = user.last_name;
+
+    if (user.mentor_id) {
+        var mentor = await db.User.findByPk(user.mentor_id);
+        mentor = mentor.toJSON()
+        delete mentor.password;
+        result.mentor = mentor
+    }
 
     res.status(200).json(result);
 
