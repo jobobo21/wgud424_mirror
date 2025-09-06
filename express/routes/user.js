@@ -38,6 +38,32 @@ router.get('/student_status', authenticate, async (req, res) => {
 
 
 })
+router.get("/students", authenticate, async (req, res) => {
+    var students = await db.User.findAll({
+        where: {
+            user_type: "s"
+        },
+        attributes: ['first_name', 'last_name', 'email'],
+        include: [
+            {
+                model: db.Program,
+                as: 'program',
+                attributes: ['name', 'code', 'degree_level']
+            }
+        ]
+    });
+    if (req.query && req.query.searchString) {
+        students = students.filter(s => {
+            s = s.toJSON()
+            if (JSON.stringify(s).toLowerCase().includes(req.query.searchString.toLowerCase())) {
+                return s
+            }
+        })
+        res.status(200).json(students)
+    } else {
+        res.status(200).json(students)
+    }
+})
 
 
 export default router;

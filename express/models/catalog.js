@@ -459,13 +459,17 @@ export const Assessment = (sequelize) => {
 
 // Define associations function
 export const defineAssociations = (models) => {
-  const { College, Program, Course, ProgramCourse, Prerequisite, Assessment, CompetencyCategory, StudentAssessment } = models;
+  const { College, Program, Course, ProgramCourse, Prerequisite, Assessment, CompetencyCategory, StudentAssessment, User } = models;
 
   // College associations
   College.hasMany(Program, { 
     foreignKey: 'college_id', 
     as: 'programs' 
   });
+  Program.hasMany(User, {
+    foreignKey: 'program_id',
+    as: 'students'
+  })
   Program.belongsTo(College, { 
     foreignKey: 'college_id', 
     as: 'college' 

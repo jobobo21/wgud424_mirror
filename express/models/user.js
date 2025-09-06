@@ -1,7 +1,7 @@
 // Assessment Types Model
 import { DataTypes } from "sequelize";
 export default function (sequelize) {
-    return sequelize.define('User', {
+    var User = sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -56,11 +56,21 @@ export default function (sequelize) {
 
         },
 
-    }, {
-        tableName: 'users',
-        timestamps: true,
-        createdAt: 'created_at',
-        updatedAt: 'updated_at',
-        underscored: true
-    });
+    },
+
+        {
+            tableName: 'users',
+            timestamps: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
+            underscored: true
+        });
+    User.associate = function (models) {
+        // User belongs to Program (student enrollment)
+        User.belongsTo(models.Program, {
+            foreignKey: 'program_id',
+            as: 'program'
+        });
+    }
+    return User;
 };
