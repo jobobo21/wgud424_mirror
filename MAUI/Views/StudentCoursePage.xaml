@@ -226,7 +226,8 @@
                              SeparatorColor="Transparent"
                              SeparatorVisibility="None"
                              HasUnevenRows="True"
-                             RowHeight="-1">
+                             RowHeight="-1"
+                             ItemSelected="AssessmentList_ItemSelected">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:StudentAssessment">
                                 <ViewCell>

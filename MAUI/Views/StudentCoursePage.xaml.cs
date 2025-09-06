@@ -46,9 +46,23 @@ public partial class StudentCoursePage : ContentPage
 
         GetData(studentCourseId );
 	}
+
+    private void AssessmentList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+    {
+        StudentAssessment ca = AssessmentList.SelectedItem as StudentAssessment;
+        if (ca != null) {
+            AssessmentPage ap = new AssessmentPage(ca.student_assessmentId);
+            Navigation.PushModalAsync(ap);
+        }
+    }
     //protected override void OnDisappearing()
     //{
     //    base.OnDisappearing();
     //    Navigation.PopToRootAsync();
     //}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        AssessmentList.SelectedItem = null;
+    }
 }

@@ -19,6 +19,10 @@ public partial class AssessmentPage : ContentPage
                 ca = await response.Content.ReadFromJsonAsync<StudentAssessment>();
                 string jsonString = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine(jsonString);
+                Title_lbl.Text = ca.Assessment.name;
+                
+                PassingScore_lbl.Text = $"{ca.Assessment.passing_score.ToString()}%";
+                Description_lbl.Text = ca.Assessment.description;
 
             }
             else
@@ -33,4 +37,9 @@ public partial class AssessmentPage : ContentPage
 		InitializeComponent();
         GetData(assessmentId);
 	}
+
+     private void Back_btn_Clicked(object sender, EventArgs e)
+    {
+        Navigation.PopModalAsync();
+    }
 }

@@ -2,27 +2,161 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="wgud424_maui.Views.AssessmentPage"
-             Title="AssessmentPage">
-    <VerticalStackLayout>
-        <Label 
-            x:Name="Title"
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+             Title="AssessmentPage"
+             BackgroundColor="#F8F9FA">
 
-        <Label x:Name="Description_lbl"/>
-        <Label x:Name="PassingScore"_lbl/>
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="25">
 
-        <Label Text="Start Date"/>
-        
-        <HorizontalStackLayout>
-            <DatePicker x:Name="StartDate_date"/>
-            <TimePicker x:Name="StartDate_time"/>
-        </HorizontalStackLayout>
-        <Label Text="End Date"/>
-        <HorizontalStackLayout>
-            <DatePicker x:Name="EndDate_date"/>
-            <TimePicker x:Name="EndDate_time"/>
-        </HorizontalStackLayout>
-    </VerticalStackLayout>
+            <!-- Assessment Header Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="15">
+                    <Label x:Name="Title_lbl"
+                           FontSize="24" 
+                           FontAttributes="Bold"
+                           TextColor="#212529"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                    <Label x:Name="Description_lbl"
+                           FontSize="16"
+                           TextColor="#6C757D"
+                           HorizontalOptions="Center"
+                           HorizontalTextAlignment="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Passing Score Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="10">
+                        <Frame BackgroundColor="#E8F5E8" 
+                               CornerRadius="25" 
+                               WidthRequest="50" 
+                               HeightRequest="50"
+                               Padding="0"
+                               HasShadow="False">
+                            <Label Text="🎯" 
+                                   FontSize="24" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="Passing Score" 
+                                   FontSize="16" 
+                                   FontAttributes="Bold"
+                                   TextColor="#495057"/>
+                            <Label x:Name="PassingScore_lbl" 
+                                   FontSize="20"
+                                   FontAttributes="Bold"
+                                   TextColor="#28A745"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Date & Time Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="📅 Assessment Schedule" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="#495057"
+                           HorizontalOptions="Center"/>
+
+                    <!-- Start Date Section -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Start Date and Time" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#495057"/>
+
+                        <Frame BackgroundColor="#F8F9FA" 
+                               CornerRadius="10" 
+                               Padding="15"
+                               HasShadow="False">
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="📅 Date" FontSize="14" TextColor="#6C757D"/>
+                                    <DatePicker x:Name="StartDate_date"
+                                               BackgroundColor="White"
+                                               TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="🕐 Time" FontSize="14" TextColor="#6C757D"/>
+                                    <TimePicker x:Name="StartDate_time"
+                                               BackgroundColor="White"
+                                               TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- End Date Section -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="End Date and Time" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#495057"/>
+
+                        <Frame BackgroundColor="#F8F9FA" 
+                               CornerRadius="10" 
+                               Padding="15"
+                               HasShadow="False">
+                            <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="📅 Date" FontSize="14" TextColor="#6C757D"/>
+                                    <DatePicker x:Name="EndDate_date"
+                                               BackgroundColor="White"
+                                               TextColor="Black"/>
+                                </VerticalStackLayout>
+                                <VerticalStackLayout Spacing="5">
+                                    <Label Text="🕐 Time" FontSize="14" TextColor="#6C757D"/>
+                                    <TimePicker x:Name="EndDate_time"
+                                               BackgroundColor="White"
+                                               TextColor="Black"/>
+                                </VerticalStackLayout>
+                            </HorizontalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Action Buttons Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <Button Text="💾 Save"
+                            BackgroundColor="#28A745"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="20,12"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            WidthRequest="120"/>
+                    <Button Text="⬅️ Back"
+                            x:Name="Back_btn"
+                            BackgroundColor="#6C757D"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="20,12"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            WidthRequest="120"
+                            Clicked="Back_btn_Clicked"/>
+                </HorizontalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
