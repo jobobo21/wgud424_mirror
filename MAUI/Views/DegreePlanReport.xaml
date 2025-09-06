@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="wgud424_maui.Views.DegreePlanReport"
+             Title="Degree Plan Report"
+             BackgroundColor="#F8F9FA">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25">
+
+            <!-- Report Header -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25"
+                   Margin="20,20,20,0">
+                <VerticalStackLayout Spacing="10">
+                    <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                        <Frame BackgroundColor="#E3F2FD" 
+                               CornerRadius="30" 
+                               WidthRequest="60" 
+                               HeightRequest="60"
+                               Padding="0"
+                               HasShadow="False">
+                            <Label Text="📊" 
+                                   FontSize="30" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                        <VerticalStackLayout VerticalOptions="Center">
+                            <Label Text="Degree Plan Report" 
+                                   FontSize="24" 
+                                   FontAttributes="Bold"
+                                   TextColor="#212529"/>
+                            <Label Text="Course Overview and Progress" 
+                                   FontSize="14"
+                                   TextColor="#6C757D"/>
+                        </VerticalStackLayout>
+                    </HorizontalStackLayout>
+                    <Button Text="⬅️ Back"
+                            x:Name="Back_btn"
+                            BackgroundColor="#6C757D"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="20,12"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            WidthRequest="120"
+                            Clicked="Back_btn_Clicked"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Data Table Section - Full Width -->
+            <VerticalStackLayout Spacing="0">
+                <!-- Horizontal ScrollView for the table -->
+                <ScrollView Orientation="Horizontal" HorizontalScrollBarVisibility="Always">
+                    <!-- Enhanced Grid with your existing structure -->
+                    <Grid x:Name="ReportGrid" Padding="15" MinimumWidthRequest="500" BackgroundColor="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Table Header with Enhanced Styling -->
+                        <Frame Grid.Column="0" Grid.Row="0" 
+                               BackgroundColor="#007BFF" 
+                               CornerRadius="0" 
+                               Padding="15,10"
+                               HasShadow="False"
+                               Margin="0,0,1,0">
+                            <Label Text="Code" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+
+                        <Frame Grid.Column="1" Grid.Row="0" 
+                               BackgroundColor="#007BFF" 
+                               CornerRadius="0" 
+                               Padding="15,10"
+                               HasShadow="False"
+                               Margin="0,0,1,0">
+                            <Label Text="Instructor" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+
+                        <Frame Grid.Column="2" Grid.Row="0" 
+                               BackgroundColor="#007BFF" 
+                               CornerRadius="0" 
+                               Padding="15,10"
+                               HasShadow="False"
+                               Margin="0,0,1,0">
+                            <Label Text="Start Date" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+
+                        <Frame Grid.Column="3" Grid.Row="0" 
+                               BackgroundColor="#007BFF" 
+                               CornerRadius="0" 
+                               Padding="15,10"
+                               HasShadow="False"
+                               Margin="0,0,1,0">
+                            <Label Text="End Date" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+
+                        <Frame Grid.Column="4" Grid.Row="0" 
+                               BackgroundColor="#007BFF" 
+                               CornerRadius="0" 
+                               Padding="15,10"
+                               HasShadow="False">
+                            <Label Text="Status" 
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   TextColor="White"
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"/>
+                        </Frame>
+                    </Grid>
+                </ScrollView>
+            </VerticalStackLayout>
+
+            
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

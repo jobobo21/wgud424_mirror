@@ -93,6 +93,7 @@
                     </Frame>
                 </VerticalStackLayout>
             </Frame>
+            <Button Text="View Degree Plan Report" x:Name="DegreePlan_btn" Clicked="DegreePlan_btn_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

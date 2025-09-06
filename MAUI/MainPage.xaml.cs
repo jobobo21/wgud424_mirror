@@ -71,7 +71,11 @@ namespace wgud424_maui
             parentShell = p;
         }
 
-      
+        private void DegreePlan_btn_Clicked(object sender, EventArgs e)
+        {
+            DegreePlanReport drp = new DegreePlanReport();
+            Navigation.PushModalAsync(drp);
+        }
     }
 
 }
