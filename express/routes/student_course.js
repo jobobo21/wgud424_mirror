@@ -94,11 +94,7 @@ router.get('/:id', authenticate, async (req, res) => {
                     model: db.Course,
                     as: 'Course',
                     attributes: ['id', 'name', 'code', 'competency_units', 'assessment_type', 'description'],
-                    include: [{
-                        model: db.Assessment,
-                        as: "assessments",
-                        attributes: ['id', 'name', 'type', 'description', 'max_attempts', 'is_proctored', 'sequence_order', 'passing_score', 'time_limit_minutes']
-                    }]
+
                 },
                 {
                     model: db.User,
@@ -110,6 +106,15 @@ router.get('/:id', authenticate, async (req, res) => {
                     model: db.Term,
                     as: 'Term',
                     attributes: ['id', 'term_no', 'startDate', 'endDate']
+                },
+                {
+                    model: db.StudentAssessment,
+                    as: "StudentAssessments",
+                    include: {
+                        model: db.Assessment,
+                        as: "Assessment",
+                        attributes: ['id', 'name', 'type', 'description', 'max_attempts', 'is_proctored', 'sequence_order', 'passing_score', 'time_limit_minutes']
+                    }
                 }
             ]
         });
@@ -143,11 +148,11 @@ router.get('/:id', authenticate, async (req, res) => {
                     console.log(`\n\n\n\nmade it this far!! ${JSON.stringify(studentAssessment)}\n\n\n\n`);
                     return {
                         ...assessment.toJSON(),
-                        studentAssessment    
+                        studentAssessment
                     };
                 })).then((ta) => {
                     var sc = studentCourse.toJSON();
-                    sc.Course.assessments = ta
+                    sc.StudentAssessments = ta
                     res.status(200).json(sc);
                 });
 

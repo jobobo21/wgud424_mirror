@@ -3,7 +3,6 @@
 // Dependencies: sequelize, mysql2
 
 import { DataTypes } from 'sequelize';
-
 // College Model
 export const College = (sequelize) => {
   return sequelize.define('College', {
@@ -460,7 +459,7 @@ export const Assessment = (sequelize) => {
 
 // Define associations function
 export const defineAssociations = (models) => {
-  const { College, Program, Course, ProgramCourse, Prerequisite, Assessment, CompetencyCategory, AssessmentType } = models;
+  const { College, Program, Course, ProgramCourse, Prerequisite, Assessment, CompetencyCategory, StudentAssessment } = models;
 
   // College associations
   College.hasMany(Program, { 
@@ -531,7 +530,10 @@ export const defineAssociations = (models) => {
     foreignKey: 'course_id',
     as: 'course'
   });
-
+ Assessment.hasMany(StudentAssessment, {
+    foreignKey: 'assessmentId',
+    as: 'Assessment'
+  });
   // Competency Category associations
   CompetencyCategory.hasMany(Course, {
     foreignKey: 'competency_category_id',
