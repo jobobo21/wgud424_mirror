@@ -84,7 +84,7 @@ router.get('/:id', authenticate, async (req, res) => {
     try {
         const { id } = req.params;
 
-        const studentCourse = await db.StudentCourse.findOne({
+        var studentCourse = await db.StudentCourse.findOne({
             where: {
                 id: parseInt(id),
                 userId: req.userId
@@ -97,8 +97,7 @@ router.get('/:id', authenticate, async (req, res) => {
                     include: [{
                         model: db.Assessment,
                         as: "assessments",
-                        attributes: ['id', 'name', 'type', 'description', 'max_attempts', 'is_proctored', 'sequence_order'],
-                        order: [['sequence_order', 'ASC']]
+                        attributes: ['id', 'name', 'type', 'description', 'max_attempts', 'is_proctored', 'sequence_order', 'passing_score', 'time_limit_minutes']
                     }]
                 },
                 {
@@ -122,12 +121,41 @@ router.get('/:id', authenticate, async (req, res) => {
             });
         }
 
-        // Fetch assessments separately to avoid association issues
+        // Fetch student assessments separately to avoid association issues
+        const studentAssessments = await db.StudentAssessment.findAll({
+            where: {
+                student_courseId: parseInt(id)
+            },
+            attributes: ['student_assessmentId', 'assessmentId', 'startDate', 'endDate']
+        });
+
+        // Enhance assessments with student progress
+        // console.log("\n\n\n\nmade it this far!!\n\n\n\n");
+        if (studentCourse.Course && studentCourse.Course.assessments) {
+
+            studentCourse.Test = "Row 134";
+            var assessments = await Promise.all(studentCourse.Course.assessments
+                .map(async assessment => {
+                    console.log()
+                    const studentAssessment = studentAssessments.find(
+                        sa => sa.assessmentId === assessment.id
+                    );
+                    console.log(`\n\n\n\nmade it this far!! ${JSON.stringify(studentAssessment)}\n\n\n\n`);
+                    return {
+                        ...assessment.toJSON(),
+                        studentAssessment    
+                    };
+                })).then((ta) => {
+                    var sc = studentCourse.toJSON();
+                    sc.Course.assessments = ta
+                    res.status(200).json(sc);
+                });
+
+        } else {
+            res.status(200).json(studentCourse);
+        }
 
 
-        // Return the data directly with assessments added
-
-        res.status(200).json(studentCourse);
 
     } catch (error) {
         console.error('Error fetching student course:', error);
@@ -138,6 +166,7 @@ router.get('/:id', authenticate, async (req, res) => {
         });
     }
 });
+
 
 /**
  * GET /student-courses/course/:courseId

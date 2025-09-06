@@ -36,6 +36,7 @@ namespace wgud424_maui.Models
         public bool is_active { get; set; } = true;
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
+        public StudentAssessment studentAssessment { get; set; } = new StudentAssessment();
 
         // Navigation property
         public Course? Course { get; set; }

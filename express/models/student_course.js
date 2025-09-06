@@ -88,14 +88,14 @@ export default (sequelize) => {
         foreignKey: 'userId',
         as: 'Student'
       });
-      
+
       // Student course belongs to an instructor (also a user)
       StudentCourse.belongsTo(models.User, {
         foreignKey: 'instructorId',
         as: 'Instructor'
       });
     }
-    
+
     // Student course belongs to a course
     if (models.Course) {
       StudentCourse.belongsTo(models.Course, {
@@ -103,12 +103,18 @@ export default (sequelize) => {
         as: 'Course'
       });
     }
-    
+
     // Student course belongs to a term
     if (models.Term) {
       StudentCourse.belongsTo(models.Term, {
         foreignKey: 'term_id',
         as: 'Term'
+      });
+    }
+    if (models.StudentAssessment) {
+      StudentCourse.hasMany(models.StudentAssessment, {
+        foreignKey: 'student_courseId',
+        as: 'StudentAssessments'
       });
     }
   };

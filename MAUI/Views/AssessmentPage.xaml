@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="wgud424_maui.Views.AssessmentPage"
+             Title="AssessmentPage">
+    <VerticalStackLayout>
+        <Label 
+            x:Name="Title"
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        <Label x:Name="Description_lbl"/>
+        <Label x:Name="PassingScore"/>
+
+        <Label Text="Start Date"/>
+        
+        <HorizontalStackLayout>
+            <DatePicker x:Name="StartDate_date"/>
+            <TimePicker x:Name="StartDate_time"/>
+        </HorizontalStackLayout>
+        <Label Text="End Date"/>
+        <HorizontalStackLayout>
+            <DatePicker x:Name="EndDate_date"/>
+            <TimePicker x:Name="EndDate_time"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

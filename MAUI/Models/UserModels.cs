@@ -48,7 +48,10 @@ namespace wgud424_maui.Models
         public Instructor Instructor { get; set; }
     }
 
-
+    public class StudentAssessment
+    {
+        public int
+    }
 
     public class Instructor
     {

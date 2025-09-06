@@ -5,6 +5,7 @@ import User from "./user.js";
 import dotenv from 'dotenv';
 import Term from './term.js';
 import student_course from "./student_course.js";
+import student_assessment from "./student_assessments.js";
 dotenv.config();
 
 function DB() {
@@ -30,6 +31,7 @@ function DB() {
     models.Assessment = Assessment(sequelize);
     models.User = User(sequelize);
     models.Term = Term(sequelize);
+    models.StudentAssessment = student_assessment(sequelize);
     models.StudentCourse = student_course(sequelize);
     defineAssociations(models);
 
