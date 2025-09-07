@@ -102,11 +102,15 @@ router.get('/upcomming', authenticate, async (req, res) => {
                     [Op.notIn]: studentCourseIds
                 }
             },
-            include:[{model: db.Course, as: "course"}]
+            include:[{model: db.Course, as: "course"
+            }]
         })
         
 
-        res.status(200).json(courses);
+        res.status(200).json(courses.map(c => {
+            c = c.toJSON();
+            return {...c.course, program_id: c.program_id}
+        }));
 
     } catch (error) {
         console.error('Error fetching student courses:', error);
