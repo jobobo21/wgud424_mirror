@@ -1,4 +1,5 @@
 // routes/student-courses.js
+import { Op } from 'sequelize';
 import authenticate from '../middleware/authenticate.js';
 import database from '../models/index.js';
 const db = database();
@@ -75,6 +76,48 @@ router.get('/', authenticate, async (req, res) => {
         });
     }
 });
+
+router.get('/upcomming', authenticate, async (req, res) => {
+    try {
+        //get user info
+        var user = await db.User.findByPk(req.userId, {
+            attributes: ["first_name", "last_name", "email", "program_id"],
+        });
+        user = user.toJSON();
+        //get all student courses that are not elligable to add
+        var studentCourses = await db.StudentCourse.findAll({
+            where: {
+                userId: req.userId,
+                status: {[Op.in]: ["c", "a"]}
+            },
+            attributes: ["courseId"]
+        })
+        var studentCourseIds = studentCourses.map(sc => sc.toJSON().courseId);
+
+        // query all courses in program
+        var courses = await db.ProgramCourse.findAll({
+            where: {
+                program_id: user.program_id,
+                id: {
+                    [Op.notIn]: studentCourseIds
+                }
+            },
+            include:[{model: db.Course, as: "course"}]
+        })
+        
+
+        res.status(200).json(courses);
+
+    } catch (error) {
+        console.error('Error fetching student courses:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error fetching student courses',
+            error: error.message
+        });
+    }
+});
+
 
 /**
  * GET /student-courses/:id
@@ -325,7 +368,7 @@ router.get('/term/:termId', authenticate, async (req, res) => {
     }
 });
 router.delete("/:id", authenticate, async (req, res) => {
-   var status = await db.StudentCourse.destroy({
+    var status = await db.StudentCourse.destroy({
         where: {
             id: req.params.id
         }
