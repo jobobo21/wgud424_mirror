@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="wgud424_maui.Views.StudentSearch"
+             xmlns:local="clr-namespace:wgud424_maui.Views"
+             Title="StudentSearch">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Row="0"
+               Text="Search For Students"
+               FontSize="24"
+               FontAttributes="Bold"
+               TextColor="#212529"
+               VerticalOptions="Center" 
+               HorizontalOptions="Center" 
+               Margin="20,20,20,10"/>
+
+        <Entry Grid.Row="1"
+               x:Name="StudentSearch_entry" 
+               Placeholder="Search by name or email..."
+               BackgroundColor="White"
+               TextColor="Black"
+               FontSize="16"
+               Margin="20,0,20,10"/>
+
+        <!-- Enhanced Button Section -->
+        <HorizontalStackLayout Grid.Row="2" 
+                              HorizontalOptions="Center" 
+                              Spacing="15"
+                              Margin="20,10,20,10">
+            <Button Text="🔍 Search" 
+                    x:Name="Search_btn" 
+                    Clicked="Search_btn_Clicked"
+                    BackgroundColor="#007BFF"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Padding="20,12"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    WidthRequest="120"/>
+
+            <Button Text="⬅️ Back"
+                    x:Name="Back_btn"
+                    BackgroundColor="#6C757D"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Padding="20,12"
+                    FontSize="16"
+                    Clicked="Back_btn_Clicked"
+                    FontAttributes="Bold"
+                    WidthRequest="120"/>
+            <!-- Clicked="Back_btn_Clicked" - Add this event handler when ready -->
+        </HorizontalStackLayout>
+
+        <!-- Results Header -->
+        <Label Grid.Row="3"
+               Text="Search Results"
+               FontSize="18"
+               FontAttributes="Bold"
+               TextColor="#495057"
+               Margin="20,10,20,5"
+               IsVisible="False"
+               x:Name="ResultsHeader"/>
+
+        <ScrollView Grid.Row="4" Margin="20,5,20,20">
+            <CollectionView x:Name="StudentSearch_CollectionView" 
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:StudentSearchResult">
+                        <Frame BackgroundColor="White"
+                               CornerRadius="12"
+                               HasShadow="True"
+                               Padding="0"
+                               Margin="0,5,0,10">
+                            <StackLayout Padding="20">
+                                <Label Text="{Binding full_name}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold"
+                                       TextColor="#212529"/>
+                                <Label Text="{Binding email}" 
+                                       FontSize="14" 
+                                       TextColor="#007BFF"
+                                       Margin="0,5,0,0"/>
+                                <Label Text="{Binding program.name}" 
+                                       FontSize="14" 
+                                       TextColor="#6C757D"
+                                       Margin="0,5,0,0"/>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>

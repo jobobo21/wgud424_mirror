@@ -76,6 +76,12 @@ namespace wgud424_maui
             DegreePlanReport drp = new DegreePlanReport();
             Navigation.PushModalAsync(drp);
         }
+
+        private void StudentSearch_btn_Clicked(object sender, EventArgs e)
+        {
+            StudentSearch studentSearch = new StudentSearch();
+            Navigation.PushModalAsync(studentSearch);
+        }
     }
 
 }

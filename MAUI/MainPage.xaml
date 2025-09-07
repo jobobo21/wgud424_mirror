@@ -94,6 +94,7 @@
                 </VerticalStackLayout>
             </Frame>
             <Button Text="View Degree Plan Report" x:Name="DegreePlan_btn" Clicked="DegreePlan_btn_Clicked"/>
+            <Button Text="Student Search" x:Name="StudentSearch_btn" Clicked="StudentSearch_btn_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

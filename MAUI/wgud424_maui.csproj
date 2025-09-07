@@ -73,6 +73,9 @@
 	  <MauiXaml Update="Views\LoginModal.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\StudentSearch.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\TermPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
