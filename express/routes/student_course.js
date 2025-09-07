@@ -324,5 +324,13 @@ router.get('/term/:termId', authenticate, async (req, res) => {
         });
     }
 });
+router.delete("/:id", authenticate, async (req, res) => {
+   var status = await db.StudentCourse.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+    res.json(status)
+})
 
 export default router;
