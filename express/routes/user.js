@@ -52,16 +52,20 @@ router.get("/students", authenticate, async (req, res) => {
             }
         ]
     });
+    var results = students.map( s => {
+        s = s.toJSON()
+        s.full_name = s.first_name + " " + s.last_name;
+        return s
+    })
     if (req.query && req.query.searchString) {
-        students = students.filter(s => {
-            s = s.toJSON()
+        results = results.filter(s => {
             if (JSON.stringify(s).toLowerCase().includes(req.query.searchString.toLowerCase())) {
                 return s
             }
         })
-        res.status(200).json(students)
+        res.status(200).json(results)
     } else {
-        res.status(200).json(students)
+        res.status(200).json(results)
     }
 })
 
