@@ -2,12 +2,12 @@ using System.Diagnostics;
 using System.Net.Http.Json;
 using wgud424_maui.Models;
 using wgud424_maui.Services;
-
 namespace wgud424_maui.Views;
 
 public partial class StudentCoursePage : ContentPage
 {
     StudentCourse studentCourse = new StudentCourse();
+    TermView parent { get; set; }
     public async void GetData(int id)
     {
         HttpResponseMessage response = await DatabaseHandler.Get($"/student_course/{id}");
@@ -40,11 +40,13 @@ public partial class StudentCoursePage : ContentPage
             }
         }
     }
-    public StudentCoursePage(int studentCourseId)
+    public StudentCoursePage(int studentCourseId, TermView tv)
 	{
 		InitializeComponent();
 
         GetData(studentCourseId );
+        parent = tv;
+
 	}
 
     private void AssessmentList_ItemSelected(object sender, SelectedItemChangedEventArgs e)
@@ -55,14 +57,25 @@ public partial class StudentCoursePage : ContentPage
             Navigation.PushModalAsync(ap);
         }
     }
-    //protected override void OnDisappearing()
-    //{
-    //    base.OnDisappearing();
-    //    Navigation.PopToRootAsync();
-    //}
+  
     protected override void OnAppearing()
     {
         base.OnAppearing();
         AssessmentList.SelectedItem = null;
+    }
+
+    private async void DeleteStudentCourse_btn_Clicked(object sender, EventArgs e)
+    {
+        bool response = await DatabaseHandler.Delete($"/student_course/{studentCourse.id}");
+        if (response == true)
+        {
+            Navigation.PopAsync();
+            parent.Refresh();
+        }
+        else
+        {
+            Debug.WriteLine("Error Deleting Course from Term");
+        }
+
     }
 }

@@ -280,6 +280,8 @@
                     </ListView>
                 </VerticalStackLayout>
             </Frame>
+            <Button x:Name="DeleteStudentCourse_btn" Text="Remove From Term" Background="Red" TextColor="White"
+                    Clicked="DeleteStudentCourse_btn_Clicked"/>
 
         </VerticalStackLayout>
     </ScrollView>

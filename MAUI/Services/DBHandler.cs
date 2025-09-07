@@ -102,6 +102,7 @@ namespace wgud424_maui.Services
                 // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
                 if (response.IsSuccessStatusCode)
                 {
+                    Debug.WriteLine("       \n\n\n\n\n\nDelete Successfull \n\n\n\n\n");
                     return true;
                 }
                 else

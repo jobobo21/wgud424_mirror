@@ -22,7 +22,7 @@ namespace wgud424_maui
         int count = 0;
         public StudentStatus ss { get; set; }
         private AppShell parentShell { get; set; }
-
+        bool init = false;
        
         public void RenderData()
         {
@@ -53,7 +53,10 @@ namespace wgud424_maui
 
                     if (ss != null) {
                         RenderData();
-                        parentShell.PopulateTerms(ss);
+                        if(init == false) {
+                            init = true;
+                            parentShell.PopulateTerms(ss);
+                        }
                     }
                 }
                 else
@@ -76,7 +79,11 @@ namespace wgud424_maui
             DegreePlanReport drp = new DegreePlanReport();
             Navigation.PushModalAsync(drp);
         }
-
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            GetData();
+        }
         private void StudentSearch_btn_Clicked(object sender, EventArgs e)
         {
             StudentSearch studentSearch = new StudentSearch();

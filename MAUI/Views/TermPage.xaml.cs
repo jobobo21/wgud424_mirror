@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using wgud424_maui.Models;
 using wgud424_maui.Services;
 using System.Diagnostics;
+using System.Net.Http.Json;
 
 namespace wgud424_maui.Views;
 
@@ -9,15 +10,35 @@ public partial class TermView : ContentPage
 {
     private Term tm = new Term();
     private bool _isDisposed = false;
+    public async void Refresh()
+    {
+        HttpResponseMessage response = await DatabaseHandler.Get($"/terms/{tm.id}");
+        CourseListView.ItemsSource = new List<StudentCourse>();
+        if (response != null)
+        {
+            if (response.IsSuccessStatusCode)
+            {
 
+                tm = await response.Content.ReadFromJsonAsync<Term>();
+                CourseListView.ItemsSource = tm.StudentCourses;
+                string jsonString = await response.Content.ReadAsStringAsync();
+                Debug.WriteLine(jsonString);
+
+            }
+            else
+            {
+                // Request failed, handle the error
+                Debug.WriteLine($"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
+            }
+        }
+    }
     public void Init()
     {
         int complete = 0;
         int active = 0;
+        Debug.WriteLine($"\n\n\n\n Init Function Started {tm.StudentCourses.Count}\n\n\n\n\n");
         try
         {
-            if (_isDisposed) return;
-
             if (tm?.StudentCourses != null)
             {
                 // Debug output to see what data we have
@@ -96,11 +117,6 @@ public partial class TermView : ContentPage
                 Debug.WriteLine("tmpTerm is null in constructor");
             }
         }
-        catch (ObjectDisposedException)
-        {
-            _isDisposed = true;
-            Debug.WriteLine("Page was disposed during construction");
-        }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error in constructor: {ex.Message}");
@@ -118,7 +134,7 @@ public partial class TermView : ContentPage
                 StudentCourse sc = (StudentCourse)CourseListView.SelectedItem;
                 Debug.WriteLine($"Selected course with ID: {sc.id}");
 
-                StudentCoursePage scp = new StudentCoursePage(sc.id);
+                StudentCoursePage scp = new StudentCoursePage(sc.id, this);
                 await Navigation.PushAsync(scp);
 
             }
