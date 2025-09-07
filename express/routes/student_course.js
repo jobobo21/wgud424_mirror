@@ -330,7 +330,7 @@ router.delete("/:id", authenticate, async (req, res) => {
             id: req.params.id
         }
     })
-    res.json(status)
+    res.status(200).json(status)
 })
 
 export default router;
