@@ -42,6 +42,7 @@ namespace wgud424_maui.Services
         }
         async public static Task<bool> Put(string path, JsonContent jc)
         {
+            Debug.WriteLine($"\n\n\nPUT Path {path}\n\n\n");
             try
             {
                 client = await init(path);
@@ -53,11 +54,15 @@ namespace wgud424_maui.Services
                 // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
                 if (response.IsSuccessStatusCode)
                 {
+                    Debug.WriteLine($"\n\n\nResponse: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}\n\n\n");
+
                     return true;
                 }
                 else
                 {
-                    Debug.Write($"PUT Path {path}");
+                    Debug.WriteLine($"\n\n\nResponse: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}\n\n\n");
+
+                    
                     Debug.WriteLine($"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}");
                     return false;
                 }
@@ -65,7 +70,7 @@ namespace wgud424_maui.Services
             }
             catch (Exception e)
             {
-                Debug.Write($"PUT Path {path}");
+                Debug.Write($"\n\n\n\nPUT Path {path}\n\n\n\n");
                 throw new Exception(e.Message);
             }
         }
