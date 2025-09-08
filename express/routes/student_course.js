@@ -382,6 +382,7 @@ router.delete("/:id", authenticate, async (req, res) => {
 router.post("/", authenticate, async(req, res) => {
     var newStudentCourse = req.body;
     newStudentCourse.userId = req.userId;
+    console.log("\n\n\n\n creating studentCourse"+JSON.stringify(req.body)+"\n\n\n\n\n")
     const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
     res.status(200).json(createdStudentCourse);
 })
