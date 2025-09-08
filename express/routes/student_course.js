@@ -379,5 +379,11 @@ router.delete("/:id", authenticate, async (req, res) => {
     })
     res.status(200).json(status)
 })
+router.post("/", authenticate, async(req, res) => {
+    var newStudentCourse = req.body;
+    newStudentCourse.userId = req.userId;
+    const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
+    res.status(200).json(createdStudentCourse);
+})
 
 export default router;
