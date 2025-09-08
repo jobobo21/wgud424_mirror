@@ -1,5 +1,5 @@
 // routes/student-courses.js
-import { Op } from 'sequelize';
+import { Op, where } from 'sequelize';
 import authenticate from '../middleware/authenticate.js';
 import database from '../models/index.js';
 const db = database();
@@ -382,8 +382,17 @@ router.delete("/:id", authenticate, async (req, res) => {
 router.post("/", authenticate, async(req, res) => {
     var newStudentCourse = req.body;
     newStudentCourse.userId = req.userId;
-    console.log("\n\n\n\n creating studentCourse"+JSON.stringify(req.body)+"\n\n\n\n\n")
+    console.log("\n\n\n\n creating studentCourse"+JSON.stringify(req.body)+"\n\n\n\n\n");
+
     const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
+    const courseAssessments = await db.Assessment.findAll({where: {course_id: newStudentCourse.courseId}});
+    courseAssessments.toJSON().forEach(ca => {
+
+        db.StudentAssessment.create({
+            student_courseId: createdStudentCourse.id,
+            assessmentId :ca.id,
+        })
+    });
     res.status(200).json(createdStudentCourse);
 })
 

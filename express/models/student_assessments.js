@@ -21,7 +21,7 @@ export default function(sequelize) {
         },
         assessmentId: {
             type: DataTypes.INTEGER,
-            allowNull: true,
+            allowNull: false,
             references: {
                 model: 'assessments',
                 key: 'id'
