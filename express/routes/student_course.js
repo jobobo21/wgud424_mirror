@@ -387,6 +387,7 @@ router.post("/", authenticate, async(req, res) => {
         user_type: "i"
     }, order: db.sequelize.random() })
     newStudentCourse.instructorId = instructor.id;
+    newStudentCourse.status = "i";
     const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
 
     const courseAssessments = await db.Assessment.findAll({where: {course_id: newStudentCourse.courseId}});

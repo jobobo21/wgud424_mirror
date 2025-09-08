@@ -38,6 +38,12 @@ router.get('/student_status', authenticate, async (req, res) => {
 
 
 })
+router.get("/instructor", async (req, res) => {
+        const instructor = await db.User.findOne({ where:{
+            user_type: "i"
+        }, order: db.sequelize.random() })
+        res.json(instructor);
+})
 router.get("/students", authenticate, async (req, res) => {
     var students = await db.User.findAll({
         where: {
