@@ -42,9 +42,44 @@
                     FontAttributes="Bold"
                     Padding="0"
                     VerticalOptions="Center"/>
-            
         </Grid>
-        <Entry x:Name="SearchEntry" Grid.Row="1" Grid.Column="0" TextChanged="SearchEntry_TextChanged"/>
+
+        <!-- Enhanced Search Section -->
+        <Frame Grid.Row="1" 
+               Margin="20,10,20,15"
+               BackgroundColor="White"
+               CornerRadius="25"
+               HasShadow="True"
+               Padding="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Search Icon -->
+                <Label Grid.Column="0"
+                       Text="🔍"
+                       FontSize="18"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       Margin="15,0,5,0"
+                       TextColor="#6C757D"/>
+
+                <!-- Search Entry -->
+                <Entry x:Name="SearchEntry" 
+                       Grid.Column="1"
+                       Placeholder="Search courses..."
+                       PlaceholderColor="#ADB5BD"
+                       TextColor="#212529"
+                       BackgroundColor="Transparent"
+                       FontSize="16"
+                       VerticalOptions="Center"
+                       TextChanged="SearchEntry_TextChanged"
+                       Margin="0,0,15,0"/>
+            </Grid>
+        </Frame>
+
         <!-- Course List in ScrollView -->
         <ScrollView Grid.Row="2" Margin="20,0,20,20">
             <CollectionView x:Name="CourseList" 
@@ -60,17 +95,17 @@
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer Tapped="OnCourseTapped"/>
                                 </StackLayout.GestureRecognizers>
-                                    <Label Text="{Binding code}" 
+                                <Label Text="{Binding code}" 
                                            FontSize="18" 
                                            FontAttributes="Bold"
                                            TextColor="Navy"
                                            />
-                                    <Label Text="{Binding name}" 
+                                <Label Text="{Binding name}" 
                                            FontSize="18" 
                                            FontAttributes="Bold"
                                            TextColor="#212529"/>
-                          
-                            
+
+
                                 <Label Text="{Binding description}" 
                                        FontSize="14" 
                                        TextColor="SlateGray"

@@ -70,6 +70,7 @@ public partial class AddCoursePage : ContentPage
 
     private void CloseButton_Clicked(object sender, EventArgs e)
     {
+        SearchEntry.Text = string.Empty;
         Navigation.PopModalAsync();
     }
 
