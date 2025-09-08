@@ -386,8 +386,8 @@ router.post("/", authenticate, async(req, res) => {
 
     const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
     const courseAssessments = await db.Assessment.findAll({where: {course_id: newStudentCourse.courseId}});
-    courseAssessments.toJSON().forEach(ca => {
-
+    courseAssessments.forEach(ca => {
+        ca = ca.toJSON();
         db.StudentAssessment.create({
             student_courseId: createdStudentCourse.id,
             assessmentId :ca.id,
