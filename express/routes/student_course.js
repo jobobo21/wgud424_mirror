@@ -1,5 +1,5 @@
 // routes/student-courses.js
-import { Op, where } from 'sequelize';
+import { Op, Sequelize, where } from 'sequelize';
 import authenticate from '../middleware/authenticate.js';
 import database from '../models/index.js';
 const db = database();
@@ -383,8 +383,12 @@ router.post("/", authenticate, async(req, res) => {
     var newStudentCourse = req.body;
     newStudentCourse.userId = req.userId;
     console.log("\n\n\n\n creating studentCourse"+JSON.stringify(req.body)+"\n\n\n\n\n");
-
+    const instructor = await db.User.findOne({ where:{
+        user_type: "i"
+    }, order: db.sequelize.random() })
+    
     const createdStudentCourse = await db.StudentCourse.create(newStudentCourse);
+
     const courseAssessments = await db.Assessment.findAll({where: {course_id: newStudentCourse.courseId}});
     courseAssessments.forEach(ca => {
         ca = ca.toJSON();
