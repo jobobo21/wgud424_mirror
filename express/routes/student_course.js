@@ -400,5 +400,13 @@ router.post("/", authenticate, async(req, res) => {
     });
     res.status(200).json(createdStudentCourse);
 })
+router.put("/:id", authenticate, async(req, res) => {
+    var newStudentCourse = req.body;
+     
+    var existingStudentCourse = await db.StudentCourse.findByPk(req.params.id);
+    existingStudentCourse.set(newStudentCourse);
+    await existingStudentCourse.save();
 
+    res.status(200).json(existingStudentCourse);
+})
 export default router;
