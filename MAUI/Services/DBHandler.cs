@@ -75,10 +75,13 @@ namespace wgud424_maui.Services
             {
                 client = await init(path);
 
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+                string jsonContent = await jc.ReadAsStringAsync();
+                Debug.WriteLine(jsonContent);
                 message.Content = jc;
 
                 HttpResponseMessage response = await client.SendAsync(message);
+                Debug.WriteLine($"\n\n\nResponse: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}\n\n\n");
                 return response;
 
             }
@@ -87,6 +90,7 @@ namespace wgud424_maui.Services
                 Debug.Write($"Post Path {path}");
                 
                 Debug.WriteLine(e.Message);
+
                 throw new Exception(e.Message);
             }
         }

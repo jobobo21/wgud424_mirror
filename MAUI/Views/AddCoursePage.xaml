@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="wgud424_maui.Views.AddCoursePage"
+             xmlns:local="clr-namespace:wgud424_maui.Views"
+             Title="AddCoursePage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Row with Title and Close Button -->
+        <Grid Grid.Row="0" Margin="20,20,20,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Title -->
+            <Label Grid.Column="0"
+                   Text="Add Course"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#212529"
+                   x:Name="Title"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Start"/>
+
+            <!-- Close Button -->
+            <Button Grid.Column="1"
+                    x:Name="CloseButton"
+                    Text="✕"
+                    BackgroundColor="#DC3545"
+                    TextColor="White"
+                    CornerRadius="20"
+                    WidthRequest="40"
+                    HeightRequest="40"
+                    FontSize="18"
+                    Clicked="CloseButton_Clicked"
+                    FontAttributes="Bold"
+                    Padding="0"
+                    VerticalOptions="Center"/>
+        </Grid>
+
+        <!-- Course List in ScrollView -->
+        <ScrollView Grid.Row="1" Margin="20,0,20,20">
+            <CollectionView x:Name="CourseList" 
+                            SelectionMode="Single">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="local:DisplayCourse">
+                        <Frame BackgroundColor="White"
+                               CornerRadius="12"
+                               HasShadow="True"
+                               Padding="0"
+                               Margin="0,5,0,10">
+                            <StackLayout Padding="20">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OnCourseTapped"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{Binding name}" 
+                                       FontSize="18" 
+                                       FontAttributes="Bold"
+                                       TextColor="#212529"/>
+                                <Label Text="{Binding description}" 
+                                       FontSize="14" 
+                                       TextColor="#007BFF"
+                                       Margin="0,5,0,0"/>
+                                <HorizontalStackLayout>
+                                    <Label Text="CUs:" FontSize="14"/>
+                                    <Label Text="{Binding competency_units}" 
+                                           FontSize="14" 
+                                           TextColor="#6C757D"
+                                           Margin="5,0,0,0"/>
+                                </HorizontalStackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </Grid>
+</ContentPage>

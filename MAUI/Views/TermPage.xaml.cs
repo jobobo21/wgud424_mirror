@@ -8,8 +8,9 @@ namespace wgud424_maui.Views;
 
 public partial class TermView : ContentPage
 {
-    private Term tm = new Term();
+    public Term tm = new Term();
     private bool _isDisposed = false;
+    AddCoursePage acp { get; set; }
     public async void Refresh()
     {
         HttpResponseMessage response = await DatabaseHandler.Get($"/terms/{tm.id}");
@@ -104,12 +105,15 @@ public partial class TermView : ContentPage
         try
         {
             InitializeComponent();
-
+            acp = new AddCoursePage(this);
+            
             if (tmpTerm != null)
             {
                 if (TermPage != null && !_isDisposed)
                     TermPage.Title = "Term " + tmpTerm.term_no;
                 tm = tmpTerm;
+                acp.parent = this;
+                acp.GetData();
                 Init();
             }
             else
@@ -169,5 +173,12 @@ public partial class TermView : ContentPage
     {
         _isDisposed = true;
         return base.OnBackButtonPressed();
+    }
+
+    private void AddCourse_btn_Clicked(object sender, EventArgs e)
+    {
+        
+        Navigation.PushModalAsync(acp);
+
     }
 }

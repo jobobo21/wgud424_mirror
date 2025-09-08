@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="wgud424_maui.Views.AddCourseForm"
+             xmlns:local="clr-namespace:wgud424_maui.Views"
+             Title="Add Course Form"
+             BackgroundColor="#F8F9FA">
+
+    <ScrollView>
+        <VerticalStackLayout Margin="20" Spacing="25">
+
+            <!-- Header Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Add Course to Term" 
+                           FontSize="24" 
+                           FontAttributes="Bold"
+                           TextColor="#212529"
+                           HorizontalOptions="Center"/>
+                    <Label Text="Configure course details and schedule" 
+                           FontSize="14"
+                           TextColor="#6C757D"
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Course Information Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Course Information" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="#495057"/>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Course Code" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               TextColor="#6C757D"/>
+                        <Label x:Name="CourseCode_lbl"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="#007BFF"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Course Name" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               TextColor="#6C757D"/>
+                        <Label x:Name="CourseName_lbl"
+                               FontSize="16"
+                               TextColor="#212529"/>
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Spacing="8">
+                        <Label Text="Description" 
+                               FontSize="14" 
+                               FontAttributes="Bold"
+                               TextColor="#6C757D"/>
+                        <Label x:Name="CourseDescription_lbl"
+                               FontSize="14"
+                               TextColor="#495057"
+                               LineBreakMode="WordWrap"/>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Schedule Section -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <VerticalStackLayout Spacing="20">
+                    <Label Text="Course Schedule" 
+                           FontSize="18" 
+                           FontAttributes="Bold"
+                           TextColor="#495057"/>
+
+                    <!-- Start Date -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="Start Date" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#495057"/>
+                        <Frame BackgroundColor="#F8F9FA" 
+                               CornerRadius="10" 
+                               Padding="15"
+                               HasShadow="False">
+                            <DatePicker x:Name="StartDate_pkr"
+                                       BackgroundColor="Transparent"
+                                       TextColor="Black"
+                                       FontSize="16"/>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- End Date -->
+                    <VerticalStackLayout Spacing="10">
+                        <Label Text="End Date" 
+                               FontSize="16" 
+                               FontAttributes="Bold"
+                               TextColor="#495057"/>
+                        <Frame BackgroundColor="#F8F9FA" 
+                               CornerRadius="10" 
+                               Padding="15"
+                               HasShadow="False">
+                            <DatePicker x:Name="EndDate_pkr"
+                                       BackgroundColor="Transparent"
+                                       TextColor="Black"
+                                       FontSize="16"/>
+                        </Frame>
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Action Buttons -->
+            <Frame BackgroundColor="White" 
+                   CornerRadius="15" 
+                   HasShadow="True"
+                   Padding="25">
+                <HorizontalStackLayout Spacing="15" HorizontalOptions="Center">
+                    <Button x:Name="ConfirmButton"
+                            Text="✓ Confirm"
+                            BackgroundColor="#28A745"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="25,15"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            WidthRequest="140"
+                            Clicked="ConfirmButton_Clicked"/>
+                    <!-- Clicked="ConfirmButton_Clicked" - Add event handler when ready -->
+
+                    <Button x:Name="CancelButton"
+                            Text="✕ Cancel"
+                            BackgroundColor="#DC3545"
+                            Clicked="CancelButton_Clicked"
+                            TextColor="White"
+                            CornerRadius="10"
+                            Padding="25,15"
+                            FontSize="16"
+                            FontAttributes="Bold"
+                            WidthRequest="140"/>
+                    <!-- Clicked="CancelButton_Clicked" - Add event handler when ready -->
+                </HorizontalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -18,7 +18,7 @@ namespace wgud424_maui.Models
         public bool is_active { get; set; } = true;
         public DateTime created_at { get; set; } = DateTime.UtcNow;
         public DateTime updated_at { get; set; } = DateTime.UtcNow;
-        public List<Assessment> assessments { get; set; } = new List<Assessment>();
+        public List<Assessment>? assessments { get; set; } = new List<Assessment>();
     }
     public class Assessment
     {
