@@ -123,6 +123,16 @@
                            FontSize="12" 
                            TextColor="Gray"
                            Margin="0,5,0,0"/>
+                                <HorizontalStackLayout>
+                                    <Label Text="CUs:" 
+                                            FontSize="12" 
+                                            TextColor="Gray"
+                                            Margin="0,5,0,0"/>
+                                    <Label Text="{Binding Course.competency_units}" 
+                                            FontSize="12" 
+                                            TextColor="Gray"
+                                            Margin="0,5,0,0"/>      
+                                </HorizontalStackLayout>
                             </StackLayout>
                         </Border>
                     </DataTemplate>

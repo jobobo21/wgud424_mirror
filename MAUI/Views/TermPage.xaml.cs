@@ -22,8 +22,11 @@ public partial class TermView : ContentPage
 
                 tm = await response.Content.ReadFromJsonAsync<Term>();
                 CourseListView.ItemsSource = tm.StudentCourses;
+                StartDatePicker.Date = tm.startDate;
+                EndDatePicker.Date = tm.endDate;
                 string jsonString = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine(jsonString);
+                acp = new AddCoursePage(this);
 
             }
             else
@@ -83,6 +86,8 @@ public partial class TermView : ContentPage
                     ActiveCoursesLabel.Text = active.ToString();
                 if (TotalCoursesLabel != null && !_isDisposed)
                     TotalCoursesLabel.Text = tm.StudentCourses.Count.ToString();
+                StartDatePicker.Date = tm.startDate;
+                EndDatePicker.Date = tm.endDate;
             }
             else
             {
@@ -113,7 +118,6 @@ public partial class TermView : ContentPage
                     TermPage.Title = "Term " + tmpTerm.term_no;
                 tm = tmpTerm;
                 acp.parent = this;
-                acp.GetData();
                 Init();
             }
             else

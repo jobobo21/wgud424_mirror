@@ -26,8 +26,11 @@ public partial class StudentCoursePage : ContentPage
                     ContentPage.Title = studentCourse.Course.code;
                     CU_lbl.Text = $"CUs: {studentCourse.Course.competency_units}";
                     Description_lbl.Text = studentCourse.Course.description;
-                    Instructor_lbl.Text = $"{studentCourse.Instructor.first_name} {studentCourse.Instructor.last_name}";
-                    Instructor_Email_lbl.Text = studentCourse.Instructor.email;
+                    if(studentCourse.Instructor != null)
+                    {
+                        Instructor_lbl.Text = $"{studentCourse.Instructor.first_name} {studentCourse.Instructor.last_name}";
+                        Instructor_Email_lbl.Text = studentCourse.Instructor.email;
+                    }
                     StartDate_pkr.Date = studentCourse.startDate;
                     EndDate_pkr.Date = studentCourse.endDate;
                     AssessmentList.ItemsSource = studentCourse.studentAssessments;

@@ -12,6 +12,7 @@ public partial class AddCourseForm : ContentPage
 {
 	public DisplayCourse dc = new DisplayCourse();
 	public TermView? tv { get; set; }
+    public AddCoursePage parent { get; set; }
 	public void Init()
 	{
 		CourseCode_lbl.Text = dc.code;
@@ -26,9 +27,13 @@ public partial class AddCourseForm : ContentPage
         }
 
 	}
-	public AddCourseForm()
+	public AddCourseForm(DisplayCourse tmpDC, TermView tmpTV, AddCoursePage tmpACP)
 	{
 		InitializeComponent();
+        dc = tmpDC;
+        tv = tmpTV;
+        parent = tmpACP;
+        Init();
 	}
 	
     private void CancelButton_Clicked(object sender, EventArgs e)
@@ -52,6 +57,7 @@ public partial class AddCourseForm : ContentPage
             if (hrm != null && hrm.IsSuccessStatusCode)
             {
                 Debug.WriteLine("\n\n\n\n Creation Success \n\n\n\n\n");
+                parent.GetData();
                 Navigation.PopModalAsync();
                 ToastDuration duration = ToastDuration.Short;
                 tv.Refresh();
