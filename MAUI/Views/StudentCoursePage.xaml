@@ -253,6 +253,7 @@
                                        BackgroundColor="Transparent" />
                         </Frame>
                     </Grid>
+                    <Button Text="Update Dates" Clicked="UpdateDateBtn_clicked"/>
                 </VerticalStackLayout>
             </Frame>
 

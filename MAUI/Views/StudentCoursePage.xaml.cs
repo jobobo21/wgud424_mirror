@@ -6,8 +6,14 @@ using wgud424_maui.Models;
 using wgud424_maui.Services;
 using static System.Net.Mime.MediaTypeNames;
 namespace wgud424_maui.Views;
-using CommunityToolkit.Maui.Alerts;
 
+using Android.AdServices.Topics;
+using CommunityToolkit.Maui.Alerts;
+class DateUpdate
+{
+    public DateTime startDate;
+    public DateTime endDate;
+}
 public partial class StudentCoursePage : ContentPage
 {
     StudentCourse studentCourse = new StudentCourse();
@@ -38,6 +44,11 @@ public partial class StudentCoursePage : ContentPage
 
                     StartDate_pkr.Date = studentCourse.startDate;
                     EndDate_pkr.Date = studentCourse.endDate;
+                    //set valid date ranges based on term.
+                    StartDate_pkr.MinimumDate = parent.tm.startDate;
+                    StartDate_pkr.MaximumDate = parent.tm.endDate;
+                    EndDate_pkr.MinimumDate = parent.tm.startDate;
+                    EndDate_pkr.MaximumDate = parent.tm.endDate;
 
                     // Updated status display logic
                     UpdateStatusDisplay(studentCourse.status);
@@ -117,7 +128,22 @@ public partial class StudentCoursePage : ContentPage
             Debug.WriteLine("Error Deleting Course from Term");
         }
     }
+    private async void UpdateDateBtn_clicked(object sender, EventArgs e)
+    {
+        if(StartDate_pkr.Date <= EndDate_pkr.Date)
+        {
+            StudentCourse tmpSc = studentCourse;
+            tmpSc.endDate = EndDate_pkr.Date;
+            tmpSc.startDate = StartDate_pkr.Date;
+            JsonContent jc = JsonContent.Create<StudentCourse>(tmpSc);
+            var response = await DatabaseHandler.Put($"/student_course/{studentCourse.id}", jc);
+        }
+        else
+        {
+            await DisplayAlert("Date Missmatch", "Start Date cannot be after End Date", "OK");
 
+        }
+    }
     private async void Activate_btn_Clicked(object sender, EventArgs e)
     {
         try
