@@ -27,6 +27,10 @@ public partial class TermView : ContentPage
                 string jsonString = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine(jsonString);
                 acp = new AddCoursePage(this);
+                if(tm != null)
+                {
+                    Init();
+                }
 
             }
             else
@@ -80,11 +84,11 @@ public partial class TermView : ContentPage
                 }
 
                 // Update statistics with null checks
-                if (CompletedCoursesLabel != null && !_isDisposed)
+                //if (CompletedCoursesLabel != null && !_isDisposed)
                     CompletedCoursesLabel.Text = complete.ToString();
-                if (ActiveCoursesLabel != null && !_isDisposed)
+                //if (ActiveCoursesLabel != null && !_isDisposed)
                     ActiveCoursesLabel.Text = active.ToString();
-                if (TotalCoursesLabel != null && !_isDisposed)
+                //if (TotalCoursesLabel != null && !_isDisposed)
                     TotalCoursesLabel.Text = tm.StudentCourses.Count.ToString();
                 StartDatePicker.Date = tm.startDate;
                 EndDatePicker.Date = tm.endDate;
@@ -170,6 +174,7 @@ public partial class TermView : ContentPage
     {
         base.OnAppearing();
         CourseListView.SelectedItem = null;
+        Init();
         Navigation.PopToRootAsync();
 
     }

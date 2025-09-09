@@ -59,21 +59,24 @@ public partial class StudentCoursePage : ContentPage
             case "c": // Complete
                 StatusLabel.TextColor = Color.FromArgb("#2E7D32");
                 StatusLabel.Text = "✅ Complete";
-                ActivateButtonFrame.IsVisible = false;
+                Activate_btn.IsVisible = false;
                 break;
 
             case "a": // Active
                 StatusLabel.TextColor = Color.FromArgb("#F57C00");
                 StatusLabel.Text = "🟢 Active";
-                ActivateButtonFrame.IsVisible = false;
+                Activate_btn.IsVisible = true;
+                Activate_btn.Text = "Deactivate";
+                Activate_btn.BackgroundColor = Colors.Orange;
                 break;
 
             case "i": // Inactive
             default:
                 StatusLabel.TextColor = Color.FromArgb("#757575");
                 StatusLabel.Text = "⚪ Inactive";
-                ActivateButtonFrame.IsVisible = true;
+                Activate_btn.IsVisible = true;
                 Activate_btn.Text = "Activate";
+                Activate_btn.BackgroundColor = Color.FromArgb("#4CAF50");
                 break;
         }
     }
@@ -115,20 +118,39 @@ public partial class StudentCoursePage : ContentPage
         }
     }
 
-    // Add click handler for the Activate button
     private async void Activate_btn_Clicked(object sender, EventArgs e)
     {
         try
         {
             StudentCourse tmpSc = studentCourse;
-            tmpSc.status = "a";
+            string newStatus;
+            string actionText;
+            string successMessage;
+
+            // Determine the action based on current status
+            if (studentCourse.status.ToLower() == "a")
+            {
+                // Deactivating an active course
+                newStatus = "i";
+                actionText = "deactivating";
+                successMessage = "Course has been deactivated";
+            }
+            else
+            {
+                // Activating an inactive course
+                newStatus = "a";
+                actionText = "activating";
+                successMessage = "Course has been activated";
+            }
+
+            tmpSc.status = newStatus;
             JsonContent jc = JsonContent.Create<StudentCourse>(tmpSc);
 
             var response = await DatabaseHandler.Put($"/student_course/{tmpSc.id}", jc);
             if (response == true)
             {
-                // Instead of calling GetData, update the UI directly
-                studentCourse.status = "a";
+                studentCourse.status = newStatus;
+                parent.Refresh();
 
                 // Check if UI elements are still valid before updating
                 MainThread.BeginInvokeOnMainThread(() =>
@@ -137,10 +159,10 @@ public partial class StudentCoursePage : ContentPage
                     {
                         if (this.Handler != null && StatusLabel?.Handler != null)
                         {
-                            UpdateStatusDisplay("a");
+                            UpdateStatusDisplay(newStatus);
 
                             ToastDuration duration = ToastDuration.Short;
-                            string text = "Course has been activated";
+                            string text = successMessage;
                             int fontSize = 14;
                             var toast = Toast.Make(text, duration, fontSize);
                             toast.Show();
@@ -156,7 +178,7 @@ public partial class StudentCoursePage : ContentPage
         }
         catch (Exception ex)
         {
-            Debug.WriteLine($"Error activating course: {ex.Message}");
+            Debug.WriteLine($"Error with course status change: {ex.Message}");
 
             // Also wrap DisplayAlert in MainThread check
             MainThread.BeginInvokeOnMainThread(async () =>
@@ -165,7 +187,7 @@ public partial class StudentCoursePage : ContentPage
                 {
                     if (this.Handler != null)
                     {
-                        await DisplayAlert("Error", "An error occurred while activating the course.", "OK");
+                        await DisplayAlert("Error", "An error occurred while changing the course status.", "OK");
                     }
                 }
                 catch (ObjectDisposedException)

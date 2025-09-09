@@ -126,25 +126,18 @@
                     </HorizontalStackLayout>
 
                     <!-- Activate Button -->
-                    <Frame Grid.Column="1"
-                       x:Name="ActivateButtonFrame"
-                       BackgroundColor="#4CAF50"
-                       HasShadow="True"
-                       CornerRadius="20"
-                       Padding="0"
-                       IsVisible="False"
-                       VerticalOptions="Center">
+                
                     <Button x:Name="Activate_btn" 
                     Text="Activate"
-                    BackgroundColor="Transparent"
+                    Grid.Column="1"
+                    BackgroundColor="#4CAF50"
                     TextColor="White"
                     FontSize="14"
                     FontAttributes="Bold"
                     Padding="16,8"
-                    CornerRadius="20"
+                    CornerRadius="5"
                     BorderWidth="0"
                     Clicked="Activate_btn_Clicked"/>
-                    </Frame>
                 </Grid>
             </Frame>
 
