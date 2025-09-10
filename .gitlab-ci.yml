@@ -69,7 +69,7 @@ test:backend:
   only:
     - branches
     - merge_requests
-    changes:
+  changes:
       - express/**/*
 
 # Test Frontend (if you have one)
