@@ -1,5 +1,5 @@
 # .gitlab-ci.yml
-# Fixed GitLab CI configuration
+# GitLab CI with changes detection
 
 image: node:18
 
@@ -44,6 +44,13 @@ test:backend:
     - mysql -h mysql -u root -proot_password test_db < tests/fixtures/schema.sql
   script:
     - npm test
-  only:
-    - branches
-    - merge_requests
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - express/**/*
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - express/**/*
+    - if: '$CI_COMMIT_BRANCH == "stable"'
+      changes:
+        - express/**/*
