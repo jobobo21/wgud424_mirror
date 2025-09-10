@@ -1,5 +1,5 @@
 # .gitlab-ci.yml
-# Simple working configuration - always runs
+# GitLab CI with changes detection
 
 image: node:18
 
@@ -9,7 +9,14 @@ stages:
 variables:
   MYSQL_ROOT_PASSWORD: root_password
   MYSQL_DATABASE: test_db
-  DATABASE_URL: "mysql://root:root_password@mysql:3306/test_db"
+  MYSQL_USER: test_user
+  MYSQL_PASSWORD: test_password
+  DATABASE_URL: "mysql://test_user:test_password@mysql:3306/test_db"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}-express
+  paths:
+    - express/node_modules/
 
 test:backend:
   stage: test
@@ -19,11 +26,31 @@ test:backend:
       variables:
         MYSQL_ROOT_PASSWORD: root_password
         MYSQL_DATABASE: test_db
+        MYSQL_USER: test_user
+        MYSQL_PASSWORD: test_password
   before_script:
     - cd express
     - npm ci
     - apt-get update -qq && apt-get install -y -qq default-mysql-client
-    - sleep 10  # Simple wait for MySQL
+    - |
+      for i in {1..30}; do
+        if mysql -h mysql -u root -proot_password -e "SELECT 1" >/dev/null 2>&1; then
+          echo "MySQL is ready"
+          break
+        fi
+        echo "Waiting for MySQL..."
+        sleep 2
+      done
     - mysql -h mysql -u root -proot_password test_db < tests/fixtures/schema.sql
   script:
     - npm test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      changes:
+        - express/**/*
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - express/**/*
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      changes:
+        - express/**/*
