@@ -1,0 +1,87 @@
+# .gitlab-ci.yml (at repository root)
+# Main CI configuration that runs tests for all subdirectories
+
+image: node:18
+
+stages:
+  - test
+  - build
+  - deploy
+
+variables:
+  MYSQL_ROOT_PASSWORD: root_password
+  MYSQL_DATABASE: test_db
+  MYSQL_USER: test_user
+  MYSQL_PASSWORD: test_password
+  DATABASE_URL: "mysql://test_user:test_password@mysql:3306/test_db"
+
+# Cache for different directories
+cache:
+  - key: ${CI_COMMIT_REF_SLUG}-express
+    paths:
+      - express/node_modules/
+  - key: ${CI_COMMIT_REF_SLUG}-frontend
+    paths:
+      - frontend/node_modules/
+
+# Test Express backend
+test:backend:
+  stage: test
+  services:
+    - name: mysql:8.0
+      alias: mysql
+      variables:
+        MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+        MYSQL_DATABASE: $MYSQL_DATABASE
+        MYSQL_USER: $MYSQL_USER
+        MYSQL_PASSWORD: $MYSQL_PASSWORD
+  
+  before_script:
+    # Install MySQL client
+    - apt-get update -qq && apt-get install -y -qq default-mysql-client
+    
+    # Wait for MySQL
+    - |
+      for i in {1..30}; do
+        if mysql -h mysql -u root -p${MYSQL_ROOT_PASSWORD} -e "SELECT 1" >/dev/null 2>&1; then
+          break
+        fi
+        sleep 2
+      done
+    
+    # Setup database
+    - mysql -h mysql -u root -p${MYSQL_ROOT_PASSWORD} test_db < express/tests/fixtures/schema.sql
+    
+  script:
+    - cd express
+    - npm ci
+    - npm test
+    - npm run test:coverage
+    
+  coverage: '/Lines\s*:\s*(\d+\.\d+)%/'
+  artifacts:
+    paths:
+      - express/coverage/
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: express/coverage/cobertura-coverage.xml
+  only:
+    - branches
+    - merge_requests
+    changes:
+      - express/**/*
+
+# Test Frontend (if you have one)
+test:frontend:
+  stage: test
+  script:
+    - cd frontend
+    - npm ci
+    - npm test
+  only:
+    - branches
+    - merge_requests
+  changes:
+    - frontend/**/*
+  allow_failure: true  # Remove this when frontend tests are ready
