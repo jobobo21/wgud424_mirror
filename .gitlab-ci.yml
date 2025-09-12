@@ -19,7 +19,7 @@ variables:
   MYSQL_PASSWORD: test_password
   DATABASE_URL: "mysql://test_user:test_password@mysql:3306/test_db"
   NODE_ENV: test
-
+ 
 # Cache .NET packages and node_modules
 cache:
   key: ${CI_COMMIT_REF_SLUG}
