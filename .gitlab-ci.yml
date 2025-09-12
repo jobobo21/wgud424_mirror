@@ -55,9 +55,7 @@ test:maui:
     
   after_script:
     # Display test results summary
-    - echo "Test execution completed"
-    - find . -name "test-results.trx" -exec echo "Test results found at: {}" \;
-    
+    - echo "Test execution completed"    
   artifacts:
     when: always
     expire_in: 1 week
