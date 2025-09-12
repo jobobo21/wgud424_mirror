@@ -1,8 +1,4 @@
-# .gitlab-ci.yml
-# Simple working configuration - always runs
-
-image: node:18
-
+# .gitlab-ci.yml (root)
 stages:
   - test
 
@@ -10,9 +6,13 @@ variables:
   MYSQL_ROOT_PASSWORD: root_password
   MYSQL_DATABASE: test_db
   DATABASE_URL: "mysql://root:root_password@mysql:3306/test_db"
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
 
+# Express API test job
 test:backend:
   stage: test
+  image: node:18
   services:
     - name: mysql:8.0
       alias: mysql
@@ -27,3 +27,20 @@ test:backend:
     - mysql -h mysql -u root -proot_password test_db < tests/fixtures/schema.sql
   script:
     - npm test
+
+# .NET MAUI test job
+test:maui:
+  stage: test
+  image: mcr.microsoft.com/dotnet/sdk:8.0
+  before_script:
+    - dotnet restore wgud424_maui.sln
+  script:
+    - dotnet build wgud424_maui.sln --configuration Release --no-restore
+    - dotnet test wgud424_maui_test/wgud424_maui_test.csproj --configuration Release --no-build --logger "trx;LogFileName=maui-test-results.trx"
+  artifacts:
+    when: always
+    paths:
+      - "wgud424_maui_test/**/*.trx"
+    reports:
+      junit:
+        - "wgud424_maui_test/**/*.trx"
