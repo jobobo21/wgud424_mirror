@@ -1,0 +1,28 @@
+# wgud424_maui/.gitlab-ci.yml
+image: mcr.microsoft.com/dotnet/sdk:8.0
+
+stages:
+  - test
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "true"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+
+test:maui:
+  stage: test
+  
+  before_script:
+    - cd ..  # Go back to solution root
+    - dotnet restore wgud424_maui.sln
+    
+  script:
+    - dotnet build wgud424_maui.sln --configuration Release --no-restore
+    - dotnet test wgud424_maui_test/wgud424_maui_test.csproj --configuration Release --no-build
+    
+  artifacts:
+    when: always
+    paths:
+      - "wgud424_maui_test/**/*.trx"
+    reports:
+      junit:
+        - "wgud424_maui_test/**/*.trx"
