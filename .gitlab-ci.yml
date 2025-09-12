@@ -93,7 +93,7 @@ test:express:
     - cd express
     
     # Install dependencies
-    - npm ci
+    - npm ci 
     
     # Install MySQL client
     - apt-get update -qq && apt-get install -y -qq default-mysql-client
