@@ -33,14 +33,31 @@ test:maui:
   stage: test
   image: mcr.microsoft.com/dotnet/sdk:8.0
   before_script:
+    # Install MAUI workload
+    - dotnet workload install maui
     - dotnet restore wgud424_maui.sln
   script:
     - dotnet build wgud424_maui.sln --configuration Release --no-restore
-    - dotnet test wgud424_maui_test/wgud424_maui_test.csproj --configuration Release --no-build --logger "trx;LogFileName=maui-test-results.trx"
+    - dotnet test wgud424_maui_test/wgud424_maui_test.csproj 
+      --configuration Release 
+      --no-build 
+      --logger "trx;LogFileName=maui-test-results.trx"
+      --results-directory ./TestResults
+  after_script:
+    # Debug: Show what files were actually created
+    - echo "=== Searching for test result files ==="
+    - find . -name "*.trx" -type f
+    - find . -name "*test*" -type f | grep -i result || true
+    - ls -la TestResults/ || echo "TestResults directory not found"
+    - ls -la wgud424_maui_test/ || echo "Test project directory listing failed"
   artifacts:
     when: always
+    expire_in: 1 week
     paths:
-      - "wgud424_maui_test/**/*.trx"
+      - "TestResults/**/*"
+      - "**/*.trx"
+      - "wgud424_maui_test/TestResults/**/*"
     reports:
       junit:
-        - "wgud424_maui_test/**/*.trx"
+        - "TestResults/**/*.trx"
+        - "**/*.trx"
