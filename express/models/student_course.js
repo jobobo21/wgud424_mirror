@@ -52,7 +52,7 @@ export default (sequelize) => {
     }
   }, {
     tableName: 'student_course',
-    timestamps: false, 
+    timestamps: true, 
     indexes: [
       {
         fields: ['userId'],

@@ -5,7 +5,7 @@ import express from 'express';
 import sinon from 'sinon';
 import esmock from 'esmock';
 
-describe('Student Courses Routes with ESMock', () => {
+describe('Student Course Routes with ESMock', () => {
     let app;
     let router;
     let mockDb;
@@ -93,9 +93,12 @@ describe('Student Courses Routes with ESMock', () => {
                 .get('/student_course')
                 .expect(200);
             
-            expect(response.body.success).to.equal(true);
-            expect(response.body.count).to.equal(2);
-            expect(response.body.data).to.deep.equal(mockCourses);
+            expect(response.body).to.deep.equal(mockCourses);
+            
+            // Verify the query was called correctly
+            const callArgs = mockDb.StudentCourse.findAll.firstCall.args[0];
+            expect(callArgs.where.userId).to.equal(1);
+            expect(callArgs.order).to.deep.equal([['startDate', 'DESC']]);
         });
         
         it('should filter by status', async () => {
@@ -107,6 +110,21 @@ describe('Student Courses Routes with ESMock', () => {
             
             const callArgs = mockDb.StudentCourse.findAll.firstCall.args[0];
             expect(callArgs.where.status).to.equal('a');
+            expect(callArgs.where.userId).to.equal(1);
+        });
+        
+        it('should include course data when requested', async () => {
+            mockDb.StudentCourse.findAll.resolves([]);
+            
+            await request(app)
+                .get('/student_course?include_course=true')
+                .expect(200);
+            
+            const callArgs = mockDb.StudentCourse.findAll.firstCall.args[0];
+            expect(callArgs.include).to.be.an('array');
+            const courseInclude = callArgs.include.find(inc => inc.model === mockDb.Course);
+            expect(courseInclude).to.exist;
+            expect(courseInclude.as).to.equal('Course');
         });
         
         it('should return 400 for invalid status', async () => {
@@ -116,6 +134,17 @@ describe('Student Courses Routes with ESMock', () => {
             
             expect(response.body.success).to.equal(false);
             expect(response.body.message).to.include('Invalid status');
+        });
+        
+        it('should handle database errors', async () => {
+            mockDb.StudentCourse.findAll.rejects(new Error('Database error'));
+            
+            const response = await request(app)
+                .get('/student_course')
+                .expect(500);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Error fetching student courses');
         });
     });
     
@@ -127,54 +156,245 @@ describe('Student Courses Routes with ESMock', () => {
                 toJSON: () => ({ program_id: 1 })
             };
             
-            mockDb.User.findByPk.resolves(mockUser);
-            mockDb.StudentCourse.findAll.resolves([]);
-            mockDb.ProgramCourse.findAll.resolves([
+            const mockProgramCourses = [
                 {
-                    course: { id: 102, name: 'Math 102' },
+                    id: 1,
+                    program_id: 1,
+                    course: { id: 102, name: 'Math 102', code: 'MATH102' },
                     toJSON: () => ({
                         program_id: 1,
-                        course: { id: 102, name: 'Math 102' }
+                        course: { id: 102, name: 'Math 102', code: 'MATH102' }
                     })
                 }
-            ]);
+            ];
+            
+            mockDb.User.findByPk.resolves(mockUser);
+            mockDb.StudentCourse.findAll.resolves([]);
+            mockDb.ProgramCourse.findAll.resolves(mockProgramCourses);
             
             const response = await request(app)
                 .get('/student_course/upcomming')
                 .expect(200);
             
-            expect(response.body.success).to.equal(true);
-            expect(response.body.count).to.equal(1);
+            expect(response.body).to.be.an('array');
+            expect(response.body[0]).to.have.property('id', 102);
+            expect(response.body[0]).to.have.property('program_id', 1);
+        });
+        
+        it('should return 404 when user not found', async () => {
+            mockDb.User.findByPk.resolves(null);
+            
+            const response = await request(app)
+                .get('/student_course/upcomming')
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('User not found');
+        });
+        
+        it('should return 400 when user has no program', async () => {
+            const mockUser = {
+                id: 1,
+                program_id: null,
+                toJSON: () => ({ program_id: null })
+            };
+            
+            mockDb.User.findByPk.resolves(mockUser);
+            
+            const response = await request(app)
+                .get('/student_course/upcomming')
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('User is not enrolled in a program');
+        });
+        
+        it('should exclude already enrolled courses', async () => {
+            const mockUser = {
+                id: 1,
+                program_id: 1,
+                toJSON: () => ({ program_id: 1 })
+            };
+            
+            mockDb.User.findByPk.resolves(mockUser);
+            mockDb.StudentCourse.findAll.resolves([
+                { courseId: 101 },
+                { courseId: 102 }
+            ]);
+            mockDb.ProgramCourse.findAll.resolves([]);
+            
+            await request(app)
+                .get('/student_course/upcomming')
+                .expect(200);
+            
+            const callArgs = mockDb.ProgramCourse.findAll.firstCall.args[0];
+            expect(callArgs.where.course_id).to.have.property('$notIn');
+            expect(callArgs.where.course_id.$notIn).to.deep.equal([101, 102]);
+        });
+    });
+    
+    describe('GET /student_course/:id', () => {
+        it('should return specific student course', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                courseId: 101,
+                status: 'a',
+                Course: { id: 101, name: 'Math 101' }
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .get('/student_course/1')
+                .expect(200);
+            
+            expect(response.body).to.deep.equal(mockStudentCourse);
+            
+            const callArgs = mockDb.StudentCourse.findOne.firstCall.args[0];
+            expect(callArgs.where.id).to.equal(1);
+            expect(callArgs.where.userId).to.equal(1);
+        });
+        
+        it('should return 404 when student course not found', async () => {
+            mockDb.StudentCourse.findOne.resolves(null);
+            
+            const response = await request(app)
+                .get('/student_course/999')
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Student course not found');
+        });
+        
+        it('should return 400 for invalid ID', async () => {
+            const response = await request(app)
+                .get('/student_course/invalid')
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.include('Invalid student course ID');
+        });
+    });
+    
+    describe('GET /student_course/course/:courseId', () => {
+        it('should return student course by course ID', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                courseId: 101,
+                status: 'a'
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .get('/student_course/course/101')
+                .expect(200);
+            
+            expect(response.body).to.deep.equal(mockStudentCourse);
+            
+            const callArgs = mockDb.StudentCourse.findOne.firstCall.args[0];
+            expect(callArgs.where.courseId).to.equal(101);
+            expect(callArgs.where.userId).to.equal(1);
+        });
+        
+        it('should return 404 when enrollment not found', async () => {
+            mockDb.StudentCourse.findOne.resolves(null);
+            
+            const response = await request(app)
+                .get('/student_course/course/999')
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Student course enrollment not found');
+        });
+    });
+    
+    describe('GET /student_course/status/:status', () => {
+        it('should return courses by status', async () => {
+            const mockCourses = [
+                { id: 1, status: 'a', courseId: 101 },
+                { id: 2, status: 'a', courseId: 102 }
+            ];
+            
+            mockDb.StudentCourse.findAll.resolves(mockCourses);
+            
+            const response = await request(app)
+                .get('/student_course/status/a')
+                .expect(200);
+            
+            expect(response.body).to.deep.equal(mockCourses);
+            
+            const callArgs = mockDb.StudentCourse.findAll.firstCall.args[0];
+            expect(callArgs.where.status).to.equal('a');
+            expect(callArgs.where.userId).to.equal(1);
+        });
+        
+        it('should return 400 for invalid status', async () => {
+            const response = await request(app)
+                .get('/student_course/status/invalid')
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.include('Invalid status');
+        });
+    });
+    
+    describe('GET /student_course/term/:termId', () => {
+        it('should return courses by term', async () => {
+            const mockCourses = [
+                { id: 1, term_id: 1, courseId: 101 },
+                { id: 2, term_id: 1, courseId: 102 }
+            ];
+            
+            mockDb.StudentCourse.findAll.resolves(mockCourses);
+            
+            const response = await request(app)
+                .get('/student_course/term/1')
+                .expect(200);
+            
+            expect(response.body).to.deep.equal(mockCourses);
+            
+            const callArgs = mockDb.StudentCourse.findAll.firstCall.args[0];
+            expect(callArgs.where.term_id).to.equal(1);
+            expect(callArgs.where.userId).to.equal(1);
+            expect(callArgs.order).to.deep.equal([['startDate', 'ASC']]);
         });
     });
     
     describe('POST /student_course', () => {
         it('should create new enrollment', async () => {
-            mockDb.Course.findByPk.resolves({ id: 101, name: 'Math 101' });
-            mockDb.StudentCourse.findOne.resolves(null);
-            mockDb.User.findOne.resolves({ id: 2, user_type: 'i' });
-            mockDb.StudentCourse.create.resolves({
+            const mockCourse = { id: 101, name: 'Math 101' };
+            const mockInstructor = { id: 2, user_type: 'i' };
+            const mockStudentCourse = {
                 id: 1,
                 userId: 1,
                 courseId: 101,
                 instructorId: 2,
                 status: 'i'
-            });
+            };
+            
+            mockDb.Course.findByPk.resolves(mockCourse);
+            mockDb.StudentCourse.findOne.resolves(null); // No existing enrollment
+            mockDb.User.findOne.resolves(mockInstructor);
+            mockDb.StudentCourse.create.resolves(mockStudentCourse);
             mockDb.Assessment.findAll.resolves([]);
-            mockDb.StudentCourse.findByPk.resolves({
-                id: 1,
-                userId: 1,
-                courseId: 101,
-                Course: { id: 101, name: 'Math 101' }
-            });
             
             const response = await request(app)
                 .post('/student_course')
                 .send({ courseId: 101 })
                 .expect(201);
             
-            expect(response.body.success).to.equal(true);
-            expect(response.body.message).to.equal('Student course enrollment created successfully');
+            expect(response.body).to.deep.equal(mockStudentCourse);
+            
+            // Verify course lookup
+            expect(mockDb.Course.findByPk.calledWith(101)).to.be.true;
+            
+            // Verify enrollment check
+            const findOneArgs = mockDb.StudentCourse.findOne.firstCall.args[0];
+            expect(findOneArgs.where.userId).to.equal(1);
+            expect(findOneArgs.where.courseId).to.equal(101);
         });
         
         it('should return 400 when courseId missing', async () => {
@@ -185,6 +405,204 @@ describe('Student Courses Routes with ESMock', () => {
             
             expect(response.body.success).to.equal(false);
             expect(response.body.message).to.equal('Course ID is required');
+        });
+        
+        it('should return 404 when course not found', async () => {
+            mockDb.Course.findByPk.resolves(null);
+            
+            const response = await request(app)
+                .post('/student_course')
+                .send({ courseId: 999 })
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Course not found');
+        });
+        
+        it('should return 409 when already enrolled', async () => {
+            const mockCourse = { id: 101, name: 'Math 101' };
+            const existingEnrollment = { id: 1, userId: 1, courseId: 101, status: 'a' };
+            
+            mockDb.Course.findByPk.resolves(mockCourse);
+            mockDb.StudentCourse.findOne.resolves(existingEnrollment);
+            
+            const response = await request(app)
+                .post('/student_course')
+                .send({ courseId: 101 })
+                .expect(409);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Already enrolled in this course');
+        });
+        
+        it('should return 500 when no instructors available', async () => {
+            const mockCourse = { id: 101, name: 'Math 101' };
+            
+            mockDb.Course.findByPk.resolves(mockCourse);
+            mockDb.StudentCourse.findOne.resolves(null);
+            mockDb.User.findOne.resolves(null); // No instructors
+            
+            const response = await request(app)
+                .post('/student_course')
+                .send({ courseId: 101 })
+                .expect(500);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('No instructors available');
+        });
+    });
+    
+    describe('PUT /student_course/:id', () => {
+        it('should update student course', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'i',
+                update: sinon.stub().resolves()
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .put('/student_course/1')
+                .send({ status: 'a' })
+                .expect(200);
+            
+            expect(mockStudentCourse.update.calledWith({ status: 'a' })).to.be.true;
+        });
+        
+        it('should return 404 when student course not found', async () => {
+            mockDb.StudentCourse.findOne.resolves(null);
+            
+            const response = await request(app)
+                .put('/student_course/999')
+                .send({ status: 'a' })
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Student course not found or access denied');
+        });
+        
+        it('should return 400 when trying to change completed course status', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'c',
+                update: sinon.stub()
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .put('/student_course/1')
+                .send({ status: 'a' })
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Cannot change status of completed course');
+        });
+        
+        it('should return 400 for invalid status', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'i',
+                update: sinon.stub()
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .put('/student_course/1')
+                .send({ status: 'invalid' })
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.include('Invalid status');
+        });
+        
+        it('should return 400 for invalid date range', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'i',
+                update: sinon.stub()
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .put('/student_course/1')
+                .send({ 
+                    startDate: '2024-12-31', 
+                    endDate: '2024-01-01' 
+                })
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('End date must be after start date');
+        });
+    });
+    
+    describe('DELETE /student_course/:id', () => {
+        it('should delete student course', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'i'
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            mockDb.StudentAssessment.destroy.resolves(2);
+            mockDb.StudentCourse.destroy.resolves(1);
+            
+            const response = await request(app)
+                .delete('/student_course/1')
+                .expect(200);
+            
+            expect(response.body.success).to.equal(true);
+            expect(response.body.message).to.equal('Student course deleted successfully');
+            expect(response.body.deletedCount).to.equal(1);
+            
+            // Verify assessments were deleted first
+            expect(mockDb.StudentAssessment.destroy.calledBefore(mockDb.StudentCourse.destroy)).to.be.true;
+        });
+        
+        it('should return 404 when student course not found', async () => {
+            mockDb.StudentCourse.findOne.resolves(null);
+            
+            const response = await request(app)
+                .delete('/student_course/999')
+                .expect(404);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Student course not found or access denied');
+        });
+        
+        it('should return 400 when trying to delete completed course', async () => {
+            const mockStudentCourse = {
+                id: 1,
+                userId: 1,
+                status: 'c'
+            };
+            
+            mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
+            
+            const response = await request(app)
+                .delete('/student_course/1')
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.equal('Cannot delete completed courses');
+        });
+        
+        it('should return 400 for invalid ID', async () => {
+            const response = await request(app)
+                .delete('/student_course/invalid')
+                .expect(400);
+            
+            expect(response.body.success).to.equal(false);
+            expect(response.body.message).to.include('Invalid student course ID');
         });
     });
 });

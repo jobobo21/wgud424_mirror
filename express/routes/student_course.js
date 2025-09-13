@@ -126,11 +126,7 @@ router.get('/', authenticate, async (req, res) => {
             order: [['startDate', 'DESC']]
         });
 
-        res.status(200).json({
-            success: true,
-            count: studentCourses.length,
-            data: studentCourses
-        });
+        res.status(200).json(studentCourses);
 
     } catch (error) {
         console.error('Error fetching student courses:', error);
@@ -212,11 +208,7 @@ router.get('/upcomming', authenticate, async (req, res) => {
             return { ...pcData.course, program_id: pcData.program_id };
         }).filter(course => course !== null);
 
-        res.status(200).json({
-            success: true,
-            count: courses.length,
-            data: courses
-        });
+        res.status(200).json(courses);
 
     } catch (error) {
         console.error('Error fetching upcoming courses:', error);
@@ -284,10 +276,7 @@ router.get('/:id', authenticate, async (req, res) => {
             throw new StudentCourseError('Student course not found', 404);
         }
 
-        res.status(200).json({
-            success: true,
-            data: studentCourse
-        });
+        res.status(200).json(studentCourse);
 
     } catch (error) {
         console.error('Error fetching student course:', error);
@@ -345,10 +334,7 @@ router.get('/course/:courseId', authenticate, async (req, res) => {
             throw new StudentCourseError('Student course enrollment not found', 404);
         }
 
-        res.status(200).json({
-            success: true,
-            data: studentCourse
-        });
+        res.status(200).json(studentCourse);
 
     } catch (error) {
         console.error('Error fetching student course by course ID:', error);
@@ -404,11 +390,7 @@ router.get('/status/:status', authenticate, async (req, res) => {
             order: [['startDate', 'DESC']]
         });
 
-        res.status(200).json({
-            success: true,
-            count: studentCourses.length,
-            data: studentCourses
-        });
+        res.status(200).json(studentCourses);
 
     } catch (error) {
         console.error('Error fetching student courses by status:', error);
@@ -463,11 +445,7 @@ router.get('/term/:termId', authenticate, async (req, res) => {
             order: [['startDate', 'ASC']]
         });
 
-        res.status(200).json({
-            success: true,
-            count: studentCourses.length,
-            data: studentCourses
-        });
+        res.status(200).json(studentCourses);
 
     } catch (error) {
         console.error('Error fetching student courses by term:', error);
@@ -624,19 +602,9 @@ router.post("/", authenticate, async (req, res) => {
         });
         
         // Fetch the complete enrollment with associations
-        const completeEnrollment = await db.StudentCourse.findByPk(createdStudentCourse.id, {
-            include: [
-                { model: db.Course, as: 'Course' },
-                { model: db.User, as: 'Instructor' },
-                { model: db.Term, as: 'Term' }
-            ]
-        });
+       
         
-        res.status(201).json({
-            success: true,
-            message: 'Student course enrollment created successfully',
-            data: completeEnrollment
-        });
+        res.status(201).json(newStudentCourse);
         
     } catch (error) {
         console.error('Error creating student course:', error);
@@ -723,20 +691,8 @@ router.put("/:id", authenticate, async (req, res) => {
         // Update the record
         await existingStudentCourse.update(updateData);
         
-        // Fetch updated record with associations
-        const updatedStudentCourse = await db.StudentCourse.findByPk(id, {
-            include: [
-                { model: db.Course, as: 'Course' },
-                { model: db.User, as: 'Instructor' },
-                { model: db.Term, as: 'Term' }
-            ]
-        });
-        
-        res.status(200).json({
-            success: true,
-            message: 'Student course updated successfully',
-            data: updatedStudentCourse
-        });
+               
+        res.status(200).json(existingStudentCourse);
         
     } catch (error) {
         console.error('Error updating student course:', error);

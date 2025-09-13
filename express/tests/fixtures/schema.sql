@@ -21,7 +21,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
-SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'd2e12e14-7a0c-11f0-9612-22d0c7b7b446:1-1369';
+-- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ 'd2e12e14-7a0c-11f0-9612-22d0c7b7b446:1-1369';
 
 --
 -- Table structure for table `assessment_types`
