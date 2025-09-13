@@ -7,7 +7,6 @@ using wgud424_maui.Services;
 using static System.Net.Mime.MediaTypeNames;
 namespace wgud424_maui.Views;
 
-using Android.AdServices.Topics;
 using CommunityToolkit.Maui.Alerts;
 class DateUpdate
 {

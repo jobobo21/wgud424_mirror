@@ -6,6 +6,17 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Diagnostics; // Required for PostAsJsonAsync
+using System.Net.Http.Json; // Required for PostAsJsonAsync
+
+public class LoginData
+{
+    public string email { get; set; }
+    public string password { get; set; }
+};
+public class JWTResponse
+{
+    public string token { get; set; }
+}
 namespace wgud424_maui.Services
 {
 
@@ -14,7 +25,7 @@ namespace wgud424_maui.Services
 
         private static HttpRequestMessage message;
         private static HttpClient client { get; set; }
-       
+    
         async static Task<HttpClient> init(string path)
         {
             string token = await SecureStorage.Default.GetAsync("JWT");
@@ -39,6 +50,34 @@ namespace wgud424_maui.Services
             }
            
 
+        }
+        public static async Task<bool> LoginAsync(string email, string password)
+        {
+            try
+            {
+                var loginData = new LoginData { email = email, password = password };
+                HttpClient client = new HttpClient();
+
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post,
+                    "https://king-prawn-app-y5xwb.ondigitalocean.app/login");
+                message.Content = JsonContent.Create<LoginData>(loginData);
+
+                HttpResponseMessage response = await client.SendAsync(message);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<JWTResponse>();
+                    await SecureStorage.Default.SetAsync("JWT", result.token);
+                    return true;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Login error: {ex.Message}");
+                return false;
+            }
         }
         async public static Task<bool> Put(string path, JsonContent jc)
         {
