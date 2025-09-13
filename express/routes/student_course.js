@@ -604,7 +604,7 @@ router.post("/", authenticate, async (req, res) => {
         // Fetch the complete enrollment with associations
        
         
-        res.status(201).json(newStudentCourse);
+        res.status(201).json(createdStudentCourse);
         
     } catch (error) {
         console.error('Error creating student course:', error);

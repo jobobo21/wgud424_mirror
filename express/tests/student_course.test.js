@@ -4,6 +4,7 @@ import request from 'supertest';
 import express from 'express';
 import sinon from 'sinon';
 import esmock from 'esmock';
+import { Op } from 'sequelize';
 
 describe('Student Course Routes with ESMock', () => {
     let app;
@@ -47,12 +48,18 @@ describe('Student Course Routes with ESMock', () => {
             Term: {}
         };
         
-        // Mock transaction
+        // Mock transaction function to work with the withTransaction helper
         const mockTransaction = {
             commit: sinon.stub().resolves(),
             rollback: sinon.stub().resolves()
         };
-        mockDb.sequelize.transaction.resolves(mockTransaction);
+        
+        mockDb.sequelize.transaction.callsFake(async (callback) => {
+            if (callback) {
+                return await callback(mockTransaction);
+            }
+            return mockTransaction;
+        });
         
         // Mock authenticate middleware
         mockAuthenticate = sinon.stub().callsFake((req, res, next) => {
@@ -227,9 +234,15 @@ describe('Student Course Routes with ESMock', () => {
                 .get('/student_course/upcomming')
                 .expect(200);
             
+            // Verify the enrolled courses query
+            const enrolledCoursesQuery = mockDb.StudentCourse.findAll.firstCall.args[0];
+            expect(enrolledCoursesQuery.where.status).to.have.property(Op.in);
+            expect(enrolledCoursesQuery.where.status[Op.in]).to.deep.equal(['c', 'a']);
+            
+            // Verify the program courses query excludes enrolled courses
             const callArgs = mockDb.ProgramCourse.findAll.firstCall.args[0];
-            expect(callArgs.where.course_id).to.have.property('$notIn');
-            expect(callArgs.where.course_id.$notIn).to.deep.equal([101, 102]);
+            expect(callArgs.where.course_id).to.have.property(Op.notIn);
+            expect(callArgs.where.course_id[Op.notIn]).to.deep.equal([101, 102]);
         });
     });
     
@@ -375,11 +388,25 @@ describe('Student Course Routes with ESMock', () => {
                 status: 'i'
             };
             
+            // Mock the transaction callback to return the created student course
+            const mockTransaction = {
+                commit: sinon.stub().resolves(),
+                rollback: sinon.stub().resolves()
+            };
+            
+            mockDb.sequelize.transaction.callsFake(async (callback) => {
+                if (callback) {
+                    return await callback(mockTransaction);
+                }
+                return mockTransaction;
+            });
+            
             mockDb.Course.findByPk.resolves(mockCourse);
             mockDb.StudentCourse.findOne.resolves(null); // No existing enrollment
             mockDb.User.findOne.resolves(mockInstructor);
             mockDb.StudentCourse.create.resolves(mockStudentCourse);
             mockDb.Assessment.findAll.resolves([]);
+            mockDb.StudentAssessment.bulkCreate.resolves([]);
             
             const response = await request(app)
                 .post('/student_course')
@@ -395,6 +422,8 @@ describe('Student Course Routes with ESMock', () => {
             const findOneArgs = mockDb.StudentCourse.findOne.firstCall.args[0];
             expect(findOneArgs.where.userId).to.equal(1);
             expect(findOneArgs.where.courseId).to.equal(101);
+            expect(findOneArgs.where.status).to.have.property(Op.in);
+            expect(findOneArgs.where.status[Op.in]).to.deep.equal(['a', 'i']);
         });
         
         it('should return 400 when courseId missing', async () => {
@@ -433,6 +462,11 @@ describe('Student Course Routes with ESMock', () => {
             
             expect(response.body.success).to.equal(false);
             expect(response.body.message).to.equal('Already enrolled in this course');
+            
+            // Verify the query checked for active and in-progress enrollments
+            const findOneArgs = mockDb.StudentCourse.findOne.firstCall.args[0];
+            expect(findOneArgs.where.status).to.have.property(Op.in);
+            expect(findOneArgs.where.status[Op.in]).to.deep.equal(['a', 'i']);
         });
         
         it('should return 500 when no instructors available', async () => {
@@ -552,6 +586,19 @@ describe('Student Course Routes with ESMock', () => {
                 status: 'i'
             };
             
+            // Setup transaction mock to work with withTransaction
+            const mockTransaction = {
+                commit: sinon.stub().resolves(),
+                rollback: sinon.stub().resolves()
+            };
+            
+            mockDb.sequelize.transaction.callsFake(async (callback) => {
+                if (callback) {
+                    return await callback(mockTransaction);
+                }
+                return mockTransaction;
+            });
+            
             mockDb.StudentCourse.findOne.resolves(mockStudentCourse);
             mockDb.StudentAssessment.destroy.resolves(2);
             mockDb.StudentCourse.destroy.resolves(1);
@@ -564,8 +611,17 @@ describe('Student Course Routes with ESMock', () => {
             expect(response.body.message).to.equal('Student course deleted successfully');
             expect(response.body.deletedCount).to.equal(1);
             
-            // Verify assessments were deleted first
-            expect(mockDb.StudentAssessment.destroy.calledBefore(mockDb.StudentCourse.destroy)).to.be.true;
+            // Verify StudentAssessment.destroy was called with correct parameters
+            expect(mockDb.StudentAssessment.destroy.calledOnce).to.be.true;
+            const assessmentDestroyArgs = mockDb.StudentAssessment.destroy.firstCall.args[0];
+            expect(assessmentDestroyArgs.where.student_courseId).to.equal(1);
+            expect(assessmentDestroyArgs.transaction).to.equal(mockTransaction);
+            
+            // Verify StudentCourse.destroy was called with correct parameters
+            expect(mockDb.StudentCourse.destroy.calledOnce).to.be.true;
+            const courseDestroyArgs = mockDb.StudentCourse.destroy.firstCall.args[0];
+            expect(courseDestroyArgs.where.id).to.equal(1);
+            expect(courseDestroyArgs.transaction).to.equal(mockTransaction);
         });
         
         it('should return 404 when student course not found', async () => {
