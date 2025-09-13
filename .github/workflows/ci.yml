@@ -1,0 +1,208 @@
+# .github/workflows/ci.yml
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, develop, stable, '*test*' ]
+    tags: 
+      - '*test*'
+  pull_request:
+    branches: [ main, develop, stable ]
+
+env:
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+
+jobs:
+  # Express API Tests
+  test-express:
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: express/package-lock.json
+
+    - name: Install dependencies
+      working-directory: ./express
+      run: npm ci
+
+    - name: Wait for MySQL
+      run: |
+        for i in {1..30}; do
+          if mysqladmin ping -h 127.0.0.1 -u root -proot_password --silent; then
+            echo "MySQL is ready!"
+            break
+          fi
+          sleep 2
+        done
+
+    - name: Setup database
+      working-directory: ./express
+      run: |
+        mysql -h 127.0.0.1 -u root -proot_password test_db < tests/fixtures/schema.sql
+
+    - name: Run tests
+      working-directory: ./express
+      run: npm test
+
+    - name: Generate coverage
+      working-directory: ./express
+      run: npm run test:coverage
+
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v4
+      with:
+        directory: ./express/coverage/
+        flags: express
+
+  # .NET MAUI Tests (Windows runner with MAUI support)
+  test-maui:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install MAUI Workload
+      run: dotnet workload install maui
+
+    - name: Restore dependencies
+      run: dotnet restore wgud424_maui_test/wgud424_maui_test.csproj
+
+    - name: Build test project
+      run: dotnet build wgud424_maui_test/wgud424_maui_test.csproj --configuration Release --no-restore
+
+    - name: Run MAUI tests
+      run: |
+        dotnet test wgud424_maui_test/wgud424_maui_test.csproj `
+          --configuration Release `
+          --no-build `
+          --logger "trx;LogFileName=maui-test-results.trx" `
+          --results-directory TestResults `
+          --verbosity normal
+
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: maui-test-results
+        path: TestResults/**/*.trx
+
+
+  # Integration tests that run both Express and MAUI together
+  integration-tests:
+    runs-on: windows-latest
+    needs: [test-express, test-maui]
+    if: github.event_name == 'pull_request' && contains(github.head_ref, 'stable')
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root_password
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: express/package-lock.json
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Install MAUI Workload
+      run: dotnet workload install maui
+
+    - name: Install Express dependencies
+      working-directory: ./express
+      run: npm ci
+
+    - name: Wait for MySQL
+      run: |
+        $timeout = 30
+        $count = 0
+        do {
+          Start-Sleep -Seconds 2
+          $count++
+          try {
+            $result = mysqladmin ping -h 127.0.0.1 -u root -proot_password --silent 2>$null
+            if ($LASTEXITCODE -eq 0) {
+              Write-Host "MySQL is ready!"
+              break
+            }
+          } catch {
+            # Continue waiting
+          }
+        } while ($count -lt $timeout)
+
+    - name: Setup database
+      working-directory: ./express
+      run: |
+        mysql -h 127.0.0.1 -u root -proot_password test_db -e "source tests/fixtures/schema.sql"
+
+    - name: Start Express API in background
+      working-directory: ./express
+      run: |
+        Start-Process -FilePath "node" -ArgumentList "server.js" -WindowStyle Hidden
+        Start-Sleep -Seconds 10
+
+    - name: Build MAUI project
+      run: dotnet build wgud424_maui.sln --configuration Release
+
+    - name: Run integration tests
+      run: |
+        dotnet test wgud424_maui_test/wgud424_maui_test.csproj `
+          --configuration Release `
+          --no-build `
+          --logger "trx;LogFileName=integration-test-results.trx" `
+          --results-directory TestResults `
+          --filter "Category=Integration" `
+          --verbosity normal
+
+    - name: Upload integration test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: integration-test-results
+        path: TestResults/**/*.trx

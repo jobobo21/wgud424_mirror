@@ -52,7 +52,7 @@ export default (sequelize) => {
     }
   }, {
     tableName: 'student_course',
-    timestamps: false, // No created_at/updated_at in student_course table
+    timestamps: true, 
     indexes: [
       {
         fields: ['userId'],

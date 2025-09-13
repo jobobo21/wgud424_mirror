@@ -5,13 +5,27 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "test": "mocha --exit tests/*",
-    "start": "node server.js"
+    "test": "mocha --loader=esmock --exit tests/*.test.js",
+    "test:unit": "mocha --loader=esmock --exit tests/*.test.js --grep 'unit'",
+    "test:integration": "mocha --loader=esmock --exit tests/*.test.js --grep 'integration'",
+    "test:ci": "mocha --loader=esmock --exit --reporter json --reporter-option output=test-results.json tests/*.test.js",
+    "test:coverage": "c8 --reporter=html --reporter=text --reporter=lcov mocha --loader=esmock --exit tests/*.test.js",
+    "test:watch": "mocha --loader=esmock --watch tests/*.test.js",
+    "test:specific": "mocha --loader=esmock --exit --grep",
+    "lint": "eslint . --ext .js",
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
   },
   "license": "MIT",
   "devDependencies": {
     "mocha": "^10.2.0",
-    "supertest": "^6.3.4"
+    "supertest": "^6.3.4",
+    "chai": "^4.3.10",
+    "sinon": "^17.0.1",
+    "esmock": "^2.6.0",
+    "c8": "^8.0.1",
+    "eslint": "^8.56.0",
+    "nodemon": "^3.0.2"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -21,5 +35,9 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.3",
     "sequelize": "^6.37.7"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }
