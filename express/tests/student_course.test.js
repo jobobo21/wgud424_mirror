@@ -90,8 +90,8 @@ describe('Student Course Routes with ESMock', () => {
     describe('GET /student_course', () => {
         it('should return all student courses', async () => {
             const mockCourses = [
-                { id: 1, userId: 1, courseId: 101, status: 'a', createdAt: new Date().toString() },
-                { id: 2, userId: 1, courseId: 102, status: 'c', createdAt: new Date().toString() }
+                { id: 1, userId: 1, courseId: 101, status: 'a', createdAt: new Date().toISOString() },
+                { id: 2, userId: 1, courseId: 102, status: 'c', createdAt: new Date().toISOString() }
             ];
             
             mockDb.StudentCourse.findAll.resolves(mockCourses);

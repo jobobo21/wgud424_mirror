@@ -129,7 +129,7 @@ router.get('/', authenticate, async (req, res) => {
             const data = typeof sc.toJSON === 'function' ? sc.toJSON() : { ...sc };
             return {
                 ...data,
-                createdAt: data.createdAt || new Date()
+                createdAt: data.createdAt || new Date().toISOString()
             };
         }));
 
