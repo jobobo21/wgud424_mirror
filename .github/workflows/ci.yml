@@ -214,4 +214,4 @@ jobs:
     #   run: dotnet restore wgud424_maui_test/wgud424_maui_test.csproj
 
     # - name: Build test project for analysis
-      run: dotnet build wgud424_maui_test/wgud424_maui_test.csproj --configuration Release
+   #   run: dotnet build wgud424_maui_test/wgud424_maui_test.csproj --configuration Release
