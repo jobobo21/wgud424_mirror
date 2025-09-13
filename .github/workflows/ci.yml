@@ -114,13 +114,6 @@ jobs:
         name: maui-test-results
         path: TestResults/**/*.trx
 
-    - name: Publish test results
-      uses: dorny/test-reporter@v1
-      if: always()
-      with:
-        name: MAUI Tests
-        path: TestResults/**/*.trx
-        reporter: dotnet-trx
 
   # Integration tests that run both Express and MAUI together
   integration-tests:
