@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,6 +48,20 @@ namespace wgud424_maui.Models
         public Course Course { get; set; }
         public Instructor Instructor { get; set; }
         public List<StudentAssessment> studentAssessments { get; set; }
+        private DateTime CreatedAt { get; set; }
+        public string createdAt { 
+            get { return this.CreatedAt.ToLocalTime().ToString("MM/dd/yyyy hh:mm:ss tt"); } 
+            set {
+                if(value != null)
+                {
+                    this.CreatedAt = DateTime.ParseExact(value, "yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
+                }
+                else
+                {
+                    this.CreatedAt = DateTime.MinValue;
+                }
+            } 
+        }
     }
 
     public class StudentAssessment

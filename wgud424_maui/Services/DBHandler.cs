@@ -25,7 +25,9 @@ namespace wgud424_maui.Services
 
         private static HttpRequestMessage message;
         private static HttpClient client { get; set; }
-    
+        private static string basePath = "https://hammerhead-app-2tyyw.ondigitalocean.app";
+
+
         async static Task<HttpClient> init(string path)
         {
             string token = await SecureStorage.Default.GetAsync("JWT");
@@ -40,7 +42,7 @@ namespace wgud424_maui.Services
             {
                 client = await init(path);
 
-                message = new HttpRequestMessage(HttpMethod.Get, $"https://king-prawn-app-y5xwb.ondigitalocean.app{path}");
+                message = new HttpRequestMessage(HttpMethod.Get, $"{basePath}{path}");
 
                 HttpResponseMessage response = await client.SendAsync(message);
                 return response;
@@ -59,7 +61,7 @@ namespace wgud424_maui.Services
                 HttpClient client = new HttpClient();
 
                 HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post,
-                    "https://king-prawn-app-y5xwb.ondigitalocean.app/login");
+                    basePath+"/login");
                 message.Content = JsonContent.Create<LoginData>(loginData);
 
                 HttpResponseMessage response = await client.SendAsync(message);
@@ -68,13 +70,17 @@ namespace wgud424_maui.Services
                 {
                     var result = await response.Content.ReadFromJsonAsync<JWTResponse>();
                     await SecureStorage.Default.SetAsync("JWT", result.token);
+                    Debug.WriteLine("\n\n\nLogin Failure\n\n\n");
+
                     return true;
                 }
-
+                Debug.WriteLine("\n\n\nLogin Failure\n\n\n");
                 return false;
             }
             catch (Exception ex)
             {
+                Debug.WriteLine("\n\n\nLogin Failure\n\n\n");
+
                 Debug.WriteLine($"Login error: {ex.Message}");
                 return false;
             }
@@ -86,7 +92,7 @@ namespace wgud424_maui.Services
             {
                 client = await init(path);
 
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, "https://king-prawn-app-y5xwb.ondigitalocean.app"+path);
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Put, basePath+path);
                 message.Content = jc;
 
                 HttpResponseMessage response = await client.SendAsync(message);
@@ -119,7 +125,7 @@ namespace wgud424_maui.Services
             {
                 client = await init(path);
 
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Post, basePath + path);
                 string jsonContent = await jc.ReadAsStringAsync();
                 Debug.WriteLine(jsonContent);
                 message.Content = jc;
@@ -144,7 +150,7 @@ namespace wgud424_maui.Services
             {
                 client = await init(path);
 
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, "https://king-prawn-app-y5xwb.ondigitalocean.app" + path);
+                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Delete, basePath + path);
 
                 HttpResponseMessage response = await client.SendAsync(message);
                 // response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
