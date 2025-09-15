@@ -12,11 +12,23 @@ public partial class DegreePlanReport : ContentPage
     public DegreePlanReport()
     {
         InitializeComponent();
-        GetData();
+        try
+        {
+            GetData();
+        }
+        catch (Exception ex)
+        {
+            Debug.Write("\n\n\n\n");
+            Debug.WriteLine(ex);
+            Debug.Write("\n\n\n\n");
+
+        }
+
     }
     public async void GetData()
     {
-        HttpResponseMessage response = await DatabaseHandler.Get("/student_course");
+        HttpResponseMessage response = await DatabaseHandler.Get("/student_course?include_instructor=true&include_course=true");
+        Debug.WriteLine("\n\n\nMade it this far\n\n\n");
         if (response != null)
         {
             if (response.IsSuccessStatusCode)
@@ -34,8 +46,14 @@ public partial class DegreePlanReport : ContentPage
                     // Create styled frames for each cell (now with 5 columns)
                     var codeFrame = CreateDataCellFrame(sc.Course.code, i, 0, i % 2 == 0);
                     var instFrame = CreateDataCellFrame($"{sc.Instructor.first_name} {sc.Instructor.last_name}".Trim(), i, 1, i % 2 == 0);
-                    var startFrame = CreateDataCellFrame(sc.startDate.ToString("MM/dd/yyyy"), i, 2, i % 2 == 0);
-                    if(sc.endDate != null)
+                    if(sc.createdAt != null)
+                    {
+
+                        var startFrame = CreateDataCellFrame(sc.createdAt, i, 2, i % 2 == 0);
+                        ReportGrid.Children.Add(startFrame);
+
+                    }
+                    if (sc.endDate != null)
                     {
                         var endFrame = CreateDataCellFrame(sc.endDate.ToString("MM/dd/yyyy") ?? "N/A", i, 3, i % 2 == 0);
                         ReportGrid.Children.Add(endFrame);
@@ -46,7 +64,6 @@ public partial class DegreePlanReport : ContentPage
 
                     ReportGrid.Children.Add(codeFrame);
                     ReportGrid.Children.Add(instFrame);
-                    ReportGrid.Children.Add(startFrame);
                     ReportGrid.Children.Add(statusFrame);
 
                     i++;

@@ -59,7 +59,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="150"/>
-                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="200"/>
                             <ColumnDefinition Width="120"/>
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="120"/>
@@ -103,7 +103,7 @@
                                Padding="15,10"
                                HasShadow="False"
                                Margin="0,0,1,0">
-                            <Label Text="Start Date" 
+                            <Label Text="Date Added" 
                                    FontSize="16"
                                    FontAttributes="Bold"
                                    TextColor="White"
