@@ -61,22 +61,7 @@ jobs:
     - name: Install dependencies
       working-directory: ./express
       run: npm ci
-
-    - name: Wait for MySQL
-      run: |
-        for i in {1..30}; do
-          if mysqladmin ping -h 127.0.0.1 -u root -proot_password --silent; then
-            echo "MySQL is ready!"
-            break
-          fi
-          sleep 2
-        done
-
-    - name: Setup database
-      working-directory: ./express
-      run: |
-        mysql -h 127.0.0.1 -u root -proot_password test_db < tests/fixtures/schema.sql
-
+      
     - name: Run tests
       working-directory: ./express
       run: npm test
