@@ -34,8 +34,7 @@
                                FontSize="14" 
                                FontAttributes="Bold"
                                TextColor="DarkGray"/>
-                            <DatePicker x:Name="StartDatePicker" 
-                                   BackgroundColor="LightGray"
+                            <Label x:Name="StartDatePicker" 
                                    TextColor="Black"
                                    FontSize="14"/>
                         </VerticalStackLayout>
@@ -46,15 +45,14 @@
                                FontSize="14" 
                                FontAttributes="Bold"
                                TextColor="DarkGray"/>
-                            <DatePicker x:Name="EndDatePicker" 
-                                   BackgroundColor="LightGray"
+                            <Label x:Name="EndDatePicker" 
                                    TextColor="Black"
                                    FontSize="14"/>
                         </VerticalStackLayout>
                     </Grid>
 
-                    <Button x:Name="AddCourse_btn" Text="Add Course" Clicked="AddCourse_btn_Clicked"/>
-
+                    <Button x:Name="AddCourse_btn" Text="Add Course" CornerRadius="20" Clicked="AddCourse_btn_Clicked"/>
+                    <Button x:Name="DeleteTerm_btn" BackgroundColor="Crimson" CornerRadius="20" Text="Delete Term" Clicked="DeleteTerm_btn_Clicked"/>
                 </VerticalStackLayout>
             </Frame>
 
