@@ -41,9 +41,9 @@ router.get('/', authenticate, async (req, res) => {
                 [{ model: db.StudentCourse, as: 'StudentCourses' }, 'startDate', 'ASC']
             ]
         });
-        
+
         res.status(200).json(terms);
-        
+
     } catch (error) {
         console.error('Error fetching terms:', error);
         res.status(500).json({
@@ -57,7 +57,7 @@ router.get('/', authenticate, async (req, res) => {
 router.get('/:id', authenticate, async (req, res) => {
     try {
         var terms = await db.Term.findByPk(req.params.id, {
-          
+
             include: [
                 {
                     model: db.User,
@@ -87,9 +87,9 @@ router.get('/:id', authenticate, async (req, res) => {
                 [{ model: db.StudentCourse, as: 'StudentCourses' }, 'startDate', 'ASC']
             ]
         });
-        
+
         res.status(200).json(terms);
-        
+
     } catch (error) {
         console.error('Error fetching terms:', error);
         res.status(500).json({
@@ -98,6 +98,23 @@ router.get('/:id', authenticate, async (req, res) => {
             error: error.message
         });
     }
+});
+
+router.post("/", authenticate, async (req, res) => {
+    try {
+        var new_term = req.body
+        new_term.student_id = req.userId
+        var created_term = await db.Term.create(new_term)
+        return res.status(201).json(created_term);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error creating term',
+            error: error.message
+        })
+    }
+
+
 });
 
 
