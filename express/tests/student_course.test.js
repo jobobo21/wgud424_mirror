@@ -11,6 +11,7 @@ describe('Student Course Routes with ESMock', () => {
     let router;
     let mockDb;
     let mockAuthenticate;
+    let consoleErrorStub;
     
     beforeEach(async () => {
         // Create mock database
@@ -85,7 +86,17 @@ describe('Student Course Routes with ESMock', () => {
     
     afterEach(() => {
         sinon.restore();
+        // Restore console.error if it was stubbed
+        if (consoleErrorStub) {
+            consoleErrorStub.restore();
+            consoleErrorStub = null;
+        }
     });
+    
+    // Helper function to suppress console errors for tests that expect errors
+    const suppressConsoleError = () => {
+        consoleErrorStub = sinon.stub(console, 'error');
+    };
     
     describe('GET /student_course', () => {
         it('should return all student courses', async () => {
@@ -135,6 +146,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid status', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const response = await request(app)
                 .get('/student_course?status=invalid')
                 .expect(400);
@@ -144,6 +158,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should handle database errors', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.StudentCourse.findAll.rejects(new Error('Database error'));
             
             const response = await request(app)
@@ -189,6 +206,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when user not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.User.findByPk.resolves(null);
             
             const response = await request(app)
@@ -200,6 +220,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 when user has no program', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockUser = {
                 id: 1,
                 program_id: null,
@@ -270,6 +293,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when student course not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.StudentCourse.findOne.resolves(null);
             
             const response = await request(app)
@@ -281,6 +307,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid ID', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const response = await request(app)
                 .get('/student_course/invalid')
                 .expect(400);
@@ -313,6 +342,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when enrollment not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.StudentCourse.findOne.resolves(null);
             
             const response = await request(app)
@@ -345,6 +377,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid status', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const response = await request(app)
                 .get('/student_course/status/invalid')
                 .expect(400);
@@ -427,6 +462,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 when courseId missing', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const response = await request(app)
                 .post('/student_course')
                 .send({})
@@ -437,6 +475,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when course not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.Course.findByPk.resolves(null);
             
             const response = await request(app)
@@ -449,6 +490,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 409 when already enrolled', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockCourse = { id: 101, name: 'Math 101' };
             const existingEnrollment = { id: 1, userId: 1, courseId: 101, status: 'a' };
             
@@ -470,6 +514,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 500 when no instructors available', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockCourse = { id: 101, name: 'Math 101' };
             
             mockDb.Course.findByPk.resolves(mockCourse);
@@ -506,6 +553,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when student course not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.StudentCourse.findOne.resolves(null);
             
             const response = await request(app)
@@ -518,6 +568,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 when trying to change completed course status', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockStudentCourse = {
                 id: 1,
                 userId: 1,
@@ -537,6 +590,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid status', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockStudentCourse = {
                 id: 1,
                 userId: 1,
@@ -556,6 +612,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid date range', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockStudentCourse = {
                 id: 1,
                 userId: 1,
@@ -625,6 +684,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 404 when student course not found', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             mockDb.StudentCourse.findOne.resolves(null);
             
             const response = await request(app)
@@ -636,6 +698,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 when trying to delete completed course', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const mockStudentCourse = {
                 id: 1,
                 userId: 1,
@@ -653,6 +718,9 @@ describe('Student Course Routes with ESMock', () => {
         });
         
         it('should return 400 for invalid ID', async () => {
+            // Suppress expected console errors
+            suppressConsoleError();
+            
             const response = await request(app)
                 .delete('/student_course/invalid')
                 .expect(400);
