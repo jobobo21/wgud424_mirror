@@ -117,5 +117,16 @@ router.post("/", authenticate, async (req, res) => {
 
 });
 
-
+router.delete("/:id", authenticate, async (req, res) => {
+    try {
+        var response = await db.Term.destroy({ where: { id: req.params.id } });
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error creating term',
+            error: error.message
+        })
+    }
+})
 export default router;
