@@ -15,7 +15,10 @@ namespace wgud424_maui_test.Views
         public LoginModalTests()
         {
             // Create LoginModal with null parent for testing
-            _loginModal = new LoginModal(null);
+            var mockService = new Mock<ILoginService>();
+            mockService.Setup(s => s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                       .ReturnsAsync(false);
+            _loginModal = new LoginModal(null, mockService.Object);
         }
 
         public void Dispose()
@@ -27,7 +30,10 @@ namespace wgud424_maui_test.Views
         public void Constructor_ShouldInitializeWithNullParent()
         {
             // Arrange & Act
-            var loginModal = new LoginModal(null);
+            var mockService = new Mock<ILoginService>();
+            mockService.Setup(s => s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                       .ReturnsAsync(false);
+            var loginModal = new LoginModal(null, mockService.Object);
 
             // Assert
             Assert.NotNull(loginModal);
@@ -37,8 +43,8 @@ namespace wgud424_maui_test.Views
         public async Task HandleLogin_ShouldUseEmailAndPasswordProperties()
         {
             // Arrange
-            _loginModal.EmailText = "jtell73@wgu.edu";
-            _loginModal.PasswordText = "wgu1231231";
+            _loginModal.EmailText = "fakeemail@wgu.edu";
+            _loginModal.PasswordText = "fakepassword";
 
             // Act
             // This will make an actual HTTP call to DatabaseHandler.LoginAsync
@@ -48,8 +54,8 @@ namespace wgud424_maui_test.Views
             // Assert
             Assert.IsType<bool>(result);
             // Verify the properties are accessible
-            Assert.Equal("jtell73@wgu.edu", _loginModal.EmailText);
-            Assert.Equal("wgu1231231", _loginModal.PasswordText);
+            Assert.Equal("fakeemail@wgu.edu", _loginModal.EmailText);
+            Assert.Equal("fakepassword", _loginModal.PasswordText);
         }
 
         [Fact]
@@ -146,7 +152,10 @@ namespace wgud424_maui_test.Views
         public async Task LoginModal_ShouldHandleRealLoginFlow()
         {
             // Arrange
-            var loginModal = new LoginModal(null);
+            var mockService = new Mock<ILoginService>();
+            mockService.Setup(s => s.LoginAsync(It.IsAny<string>(), It.IsAny<string>()))
+                       .ReturnsAsync(false);
+            var loginModal = new LoginModal(null, mockService.Object);
 
             // Act
             // This will make a real HTTP call to your API

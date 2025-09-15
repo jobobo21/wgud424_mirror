@@ -70,7 +70,9 @@ namespace wgud424_maui
         public MainPage(AppShell p)
         {
             InitializeComponent();
-            Navigation.PushModalAsync(new LoginModal(this));
+            DatabaseLoginService dbLoginService = new DatabaseLoginService();
+            //updated to provide injectable testing
+            Navigation.PushModalAsync(new LoginModal(this, dbLoginService));
             parentShell = p;
         }
 

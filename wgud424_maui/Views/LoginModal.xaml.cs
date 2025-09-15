@@ -12,7 +12,8 @@ using wgud424_maui.Services;
 namespace wgud424_maui.Views;
 public partial class LoginModal : ContentPage
 {
-    MainPage parent;
+    private readonly MainPage _parent;
+    private readonly ILoginService _loginService;
     string text = "Login Failure Please try again";
     ToastDuration duration = ToastDuration.Short;
     
@@ -28,17 +29,18 @@ public partial class LoginModal : ContentPage
         get => PasswordEntry.Text;
         set => PasswordEntry.Text = value;
     }
-    public LoginModal(MainPage parg)
+    public LoginModal(MainPage parg, ILoginService loginService)
 	{
-        parent = parg;
-		InitializeComponent();
+        _parent = parg;
+        _loginService = loginService;
+        InitializeComponent();
 	}
     public async Task<bool> HandleLogin()
     {
         try
         {
             Toast.Make("Login Success!", duration, 14);
-            return await DatabaseHandler.LoginAsync(EmailText, PasswordText);
+            return await _loginService.LoginAsync(EmailText, PasswordText);
 
         }
         catch(Exception e)
@@ -61,7 +63,7 @@ public partial class LoginModal : ContentPage
 
         if (loginResult)
         {
-            parent?.GetData();
+            _parent?.GetData();
             Navigation?.PopModalAsync();
 
         }
