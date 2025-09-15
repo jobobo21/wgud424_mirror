@@ -212,42 +212,6 @@
 
                         <!-- Additional Options -->
                         <VerticalStackLayout Spacing="12" Margin="0,16,0,0">
-
-                            <!-- Divider -->
-                            <Grid>
-                                <BoxView HeightRequest="1"
-                                         BackgroundColor="{StaticResource InputBorder}"
-                                         HorizontalOptions="Fill"
-                                         VerticalOptions="Center" />
-                                <Label Text="Need Help?"
-                                       BackgroundColor="{StaticResource CardBackground}"
-                                       TextColor="{StaticResource TextSecondary}"
-                                       FontSize="12"
-                                       Padding="12,0"
-                                       HorizontalOptions="Center"
-                                       VerticalOptions="Center" />
-                            </Grid>
-
-                            <!-- Help Links -->
-                            <HorizontalStackLayout HorizontalOptions="Center" Spacing="24">
-                                <Label Text="Forgot Password?"
-                                       TextColor="{StaticResource WGUSecondary}"
-                                       FontSize="14"
-                                       TextDecorations="Underline">
-                                    <!-- <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnForgotPasswordTapped" />
-                                    </Label.GestureRecognizers> -->
-                                </Label>
-
-                                <Label Text="Contact Support"
-                                       TextColor="{StaticResource WGUSecondary}"
-                                       FontSize="14"
-                                       TextDecorations="Underline">
-                                    <!-- <Label.GestureRecognizers>
-                                        <TapGestureRecognizer Tapped="OnContactSupportTapped" />
-                                    </Label.GestureRecognizers> -->
-                                </Label>
-                            </HorizontalStackLayout>
                         </VerticalStackLayout>
 
                     </VerticalStackLayout>

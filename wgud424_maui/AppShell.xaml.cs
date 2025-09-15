@@ -9,7 +9,9 @@ namespace wgud424_maui
 {
     public partial class AppShell : Shell
     {
+        public List<Term> _Terms = new List<Term>();
         MainPage mp { get; set; }
+        AddTermForm addTermForm { get; set; }
         public void AddTerm(Term tempTerm)
         {
             Debug.WriteLine("Term Found");
@@ -27,9 +29,20 @@ namespace wgud424_maui
             sc.Title = "Status";
             sc.Route = $"MainPage";
             sc.ContentTemplate = new DataTemplate(() => mp);
+
             Terms.Items.Add(mp);
         }
-            public async void PopulateTerms(StudentStatus ss)
+        private void AddAddTermForm()
+        {
+            ShellContent sc = new ShellContent();
+            sc.Title = "Add Term";
+            sc.Route = "AddTermForm";
+            sc.ContentTemplate = new DataTemplate(() => addTermForm);
+            Tab t = new Tab { Title = "Add Term", Items = { sc } };
+            Terms.Items.Add(t);
+        }
+     
+        public async void PopulateTerms()
         {
             Terms.Items.Clear();
             AddMainPageTab();
@@ -45,6 +58,7 @@ namespace wgud424_maui
                     Debug.WriteLine(jsonString);
                     if (result != null)
                     {
+                        _Terms = result;
                         foreach (Term t in result)
                         {
                             AddTerm(t);
@@ -57,11 +71,13 @@ namespace wgud424_maui
                     Debug.WriteLine($"Error: {hrm.StatusCode} - {await hrm.Content.ReadAsStringAsync()}");
                 }
             }
+            AddAddTermForm();
         }
         public AppShell()
         {
            InitializeComponent();
             mp = new MainPage(this);
+            addTermForm = new AddTermForm(this);
            AddMainPageTab();
         }
     }

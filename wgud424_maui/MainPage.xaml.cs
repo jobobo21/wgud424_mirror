@@ -55,7 +55,7 @@ namespace wgud424_maui
                         RenderData();
                         if(init == false) {
                             init = true;
-                            parentShell.PopulateTerms(ss);
+                            parentShell.PopulateTerms();
                         }
                     }
                 }

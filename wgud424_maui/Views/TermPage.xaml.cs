@@ -3,6 +3,8 @@ using wgud424_maui.Models;
 using wgud424_maui.Services;
 using System.Diagnostics;
 using System.Net.Http.Json;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 
 namespace wgud424_maui.Views;
 
@@ -11,6 +13,7 @@ public partial class TermView : ContentPage
     public Term tm = new Term();
     private bool _isDisposed = false;
     AddCoursePage acp { get; set; }
+    private AppShell _parent { get; set; }
     public async void Refresh()
     {
         HttpResponseMessage response = await DatabaseHandler.Get($"/terms/{tm.id}");
@@ -22,8 +25,8 @@ public partial class TermView : ContentPage
 
                 tm = await response.Content.ReadFromJsonAsync<Term>();
                 CourseListView.ItemsSource = tm.StudentCourses;
-                StartDatePicker.Date = tm.startDate;
-                EndDatePicker.Date = tm.endDate;
+                StartDatePicker.Text = tm.startDate.ToString("d");
+                EndDatePicker.Text = tm.endDate.ToString("d");
                 string jsonString = await response.Content.ReadAsStringAsync();
                 Debug.WriteLine(jsonString);
                 acp = new AddCoursePage(this);
@@ -90,8 +93,14 @@ public partial class TermView : ContentPage
                     ActiveCoursesLabel.Text = active.ToString();
                 //if (TotalCoursesLabel != null && !_isDisposed)
                     TotalCoursesLabel.Text = tm.StudentCourses.Count.ToString();
-                StartDatePicker.Date = tm.startDate;
-                EndDatePicker.Date = tm.endDate;
+                StartDatePicker.Text = tm.startDate.ToString("d");
+                EndDatePicker.Text = tm.endDate.ToString("d");
+                DeleteTerm_btn.IsVisible = false;
+                if (tm.StudentCourses.Count == 0)
+                {
+                    DeleteTerm_btn.IsVisible = true;
+                }
+                
             }
             else
             {
@@ -115,7 +124,7 @@ public partial class TermView : ContentPage
         {
             InitializeComponent();
             acp = new AddCoursePage(this);
-            
+            _parent = parent;
             if (tmpTerm != null)
             {
                 if (TermPage != null && !_isDisposed)
@@ -189,5 +198,23 @@ public partial class TermView : ContentPage
         
         Navigation.PushModalAsync(acp);
 
+    }
+    private void Toaster(string message)
+    {
+        var toast = Toast.Make(message, ToastDuration.Short, 14);
+        toast.Show();
+    }
+    private async void DeleteTerm_btn_Clicked(object sender, EventArgs e)
+    {
+        bool response = await DatabaseHandler.Delete($"/terms/{tm.id}");
+        if (response)
+        {
+            Toaster("Term Removed Successfully!");
+            _parent.PopulateTerms();
+        }
+        else
+        {
+            Toaster("Term Removal Failure");
+        }
     }
 }

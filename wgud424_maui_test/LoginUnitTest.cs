@@ -47,8 +47,6 @@ namespace wgud424_maui_test.Views
             _loginModal.PasswordText = "fakepassword";
 
             // Act
-            // This will make an actual HTTP call to DatabaseHandler.LoginAsync
-            // The result depends on your API response
             bool result = await _loginModal.HandleLogin();
 
             // Assert
@@ -88,16 +86,9 @@ namespace wgud424_maui_test.Views
         [Fact]
         public async Task HandleLogin_ShouldReturnFalse_WhenExceptionOccurs()
         {
-            // This test is limited because DatabaseHandler is static
-            // In a real scenario, you'd want to inject DatabaseHandler as a dependency
-
-            // For now, we can only test the exception handling wrapper
-            // Act
             var result = await _loginModal.HandleLogin();
 
-            // Assert
-            // Result will be true/false depending on actual API call
-            // We're testing that the method returns a boolean without throwing
+
             Assert.IsType<bool>(result);
         }
     }
@@ -134,15 +125,6 @@ namespace wgud424_maui_test.Views
             Assert.Equal(testToken, jwtResponse.token);
         }
 
-        // Note: Testing DatabaseHandler.LoginAsync directly is challenging because:
-        // 1. It's a static method
-        // 2. It makes actual HTTP calls
-        // 3. It uses SecureStorage
-        // 
-        // For better testability, consider:
-        // 1. Making DatabaseHandler non-static with dependency injection
-        // 2. Injecting HttpClient
-        // 3. Injecting ISecureStorageService
     }
 
     // Integration tests (these will make real HTTP calls)
@@ -158,12 +140,11 @@ namespace wgud424_maui_test.Views
             var loginModal = new LoginModal(null, mockService.Object);
 
             // Act
-            // This will make a real HTTP call to your API
-            // Only run this test when you want to test against your actual API
+
             bool result = await loginModal.HandleLogin();
 
             // Assert
-            // The result depends on whether the hardcoded credentials are valid
+
             Assert.IsType<bool>(result);
         }
     }
