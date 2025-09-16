@@ -1,0 +1,84 @@
+# .github/workflows/android-release.yml
+name: Android Release Build
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Triggers on version tags like v1.0.0
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
+
+jobs:
+  build-android:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+        
+    - name: Install MAUI Workload
+      run: dotnet workload install maui
+      
+    - name: Restore NuGet packages
+      run: dotnet restore wgud424_maui/wgud424_maui.csproj
+      
+    - name: Decode Keystore
+      run: |
+        $bytes = [System.Convert]::FromBase64String("${{ secrets.KEYSTORE_BASE64 }}")
+        [System.IO.File]::WriteAllBytes("${{ github.workspace }}\keystore.jks", $bytes)
+      shell: pwsh
+      
+    - name: Build and Publish APK
+      run: |
+        dotnet publish wgud424_maui/wgud424_maui.csproj -f net8.0-android -c Release `
+          -p:AndroidKeyStore=true `
+          -p:AndroidSigningKeyStore="${{ github.workspace }}\keystore.jks" `
+          -p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" `
+          -p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASSWORD }}" `
+          -p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASSWORD }}"
+      shell: pwsh
+      
+    - name: Find APK files
+      id: find-apk
+      run: |
+        $apkFiles = Get-ChildItem -Path . -Filter "*.apk" -Recurse
+        if ($apkFiles.Count -gt 0) {
+          $apkPath = $apkFiles[0].FullName
+          echo "apk-path=$apkPath" >> $env:GITHUB_OUTPUT
+          echo "Found APK at: $apkPath"
+        } else {
+          echo "No APK files found!"
+          exit 1
+        }
+      shell: pwsh
+      
+    - name: Upload APK as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: android-apk-${{ github.run_number }}
+        path: ${{ steps.find-apk.outputs.apk-path }}
+        retention-days: 90
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: ${{ steps.find-apk.outputs.apk-path }}
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+        body: |
+          ## 📱 Android APK Release
+          
+          Download the APK file below to install on your Android device.
+          
+          **Note**: You may need to enable "Install from unknown sources" in your Android settings.
+          
+          ### Changes in this release:
+          ${{ github.event.head_commit.message }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
