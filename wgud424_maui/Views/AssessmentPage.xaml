@@ -143,7 +143,8 @@
                             Padding="20,12"
                             FontSize="16"
                             FontAttributes="Bold"
-                            WidthRequest="120"/>
+                            WidthRequest="120"
+                            Clicked="Save_btn_Clicked"/>
                     <Button Text="⬅️ Back"
                             x:Name="Back_btn"
                             BackgroundColor="#6C757D"

@@ -15,7 +15,7 @@ class DateUpdate
 }
 public partial class StudentCoursePage : ContentPage
 {
-    StudentCourse studentCourse = new StudentCourse();
+    public StudentCourse studentCourse = new StudentCourse();
     TermView parent { get; set; }
 
     public async void GetData(int id)
@@ -70,6 +70,9 @@ public partial class StudentCoursePage : ContentPage
                 StatusLabel.TextColor = Color.FromArgb("#2E7D32");
                 StatusLabel.Text = "✅ Complete";
                 Activate_btn.IsVisible = false;
+                StartDate_pkr.IsEnabled = false;
+                EndDate_pkr.IsEnabled = false;
+                DeleteStudentCourse_btn.IsVisible = false;
                 break;
 
             case "a": // Active
@@ -78,6 +81,8 @@ public partial class StudentCoursePage : ContentPage
                 Activate_btn.IsVisible = true;
                 Activate_btn.Text = "Deactivate";
                 Activate_btn.BackgroundColor = Colors.Orange;
+                DeleteStudentCourse_btn.IsVisible = false;
+
                 break;
 
             case "i": // Inactive
@@ -87,6 +92,7 @@ public partial class StudentCoursePage : ContentPage
                 Activate_btn.IsVisible = true;
                 Activate_btn.Text = "Activate";
                 Activate_btn.BackgroundColor = Color.FromArgb("#4CAF50");
+                DeleteStudentCourse_btn.IsVisible = true;
                 break;
         }
     }
@@ -103,7 +109,7 @@ public partial class StudentCoursePage : ContentPage
         StudentAssessment ca = AssessmentList.SelectedItem as StudentAssessment;
         if (ca != null)
         {
-            AssessmentPage ap = new AssessmentPage(ca.student_assessmentId);
+            AssessmentPage ap = new AssessmentPage(ca.student_assessmentId, this);
             Navigation.PushModalAsync(ap);
         }
     }
@@ -136,12 +142,28 @@ public partial class StudentCoursePage : ContentPage
             tmpSc.startDate = StartDate_pkr.Date;
             JsonContent jc = JsonContent.Create<StudentCourse>(tmpSc);
             var response = await DatabaseHandler.Put($"/student_course/{studentCourse.id}", jc);
+            if (response == true)
+            {
+                Toaster("Course dates updated successfully.");
+            }
+            else
+            {
+                Toaster("An error occurred while updating the course dates.");
+            }
         }
         else
         {
             await DisplayAlert("Date Missmatch", "Start Date cannot be after End Date", "OK");
 
         }
+    }
+    private void Toaster(string message)
+    {
+        ToastDuration duration = ToastDuration.Short;
+        string text = message;
+        int fontSize = 14;
+        var toast = Toast.Make(text, duration, fontSize);
+        toast.Show();
     }
     private async void Activate_btn_Clicked(object sender, EventArgs e)
     {
@@ -175,29 +197,12 @@ public partial class StudentCoursePage : ContentPage
             if (response == true)
             {
                 studentCourse.status = newStatus;
+                Toaster("Course status updated successfully.");
+                UpdateStatusDisplay(newStatus);
                 parent.Refresh();
 
                 // Check if UI elements are still valid before updating
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    try
-                    {
-                        if (this.Handler != null && StatusLabel?.Handler != null)
-                        {
-                            UpdateStatusDisplay(newStatus);
-
-                            ToastDuration duration = ToastDuration.Short;
-                            string text = successMessage;
-                            int fontSize = 14;
-                            var toast = Toast.Make(text, duration, fontSize);
-                            toast.Show();
-                        }
-                    }
-                    catch (ObjectDisposedException ex)
-                    {
-                        Debug.WriteLine($"UI update failed - page disposed: {ex.Message}");
-                    }
-                });
+             
             }
             Debug.WriteLine($"\n\n\nResponse: {response}\n\n\n");
         }
@@ -206,20 +211,7 @@ public partial class StudentCoursePage : ContentPage
             Debug.WriteLine($"Error with course status change: {ex.Message}");
 
             // Also wrap DisplayAlert in MainThread check
-            MainThread.BeginInvokeOnMainThread(async () =>
-            {
-                try
-                {
-                    if (this.Handler != null)
-                    {
-                        await DisplayAlert("Error", "An error occurred while changing the course status.", "OK");
-                    }
-                }
-                catch (ObjectDisposedException)
-                {
-                    Debug.WriteLine("Could not show error alert - page disposed");
-                }
-            });
+            Toaster("An error occurred while updating the course status.");
         }
     }
 }
