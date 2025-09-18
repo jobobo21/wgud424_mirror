@@ -423,24 +423,15 @@ router.get('/term/:termId', authenticate, async (req, res) => {
  * PUT /student-assessments/:id/complete
  * Mark an assessment as completed (set endDate)
  */
-router.put('/:id/complete', authenticate, async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
     try {
         const { id } = req.params;
-        const { endDate = new Date() } = req.body;
 
         // Verify the assessment belongs to the authenticated user
         const studentAssessment = await db.StudentAssessment.findOne({
             where: {
                 student_assessmentId: parseInt(id)
-            },
-            include: [
-                {
-                    model: db.StudentCourse,
-                    as: 'StudentCourse',
-                    where: { userId: req.userId },
-                    attributes: ['id', 'userId']
-                }
-            ]
+            }
         });
 
         if (!studentAssessment) {
@@ -450,16 +441,8 @@ router.put('/:id/complete', authenticate, async (req, res) => {
             });
         }
 
-        if (studentAssessment.endDate) {
-            return res.status(400).json({
-                success: false,
-                message: 'Assessment is already completed'
-            });
-        }
 
-        await studentAssessment.update({
-            endDate: new Date(endDate)
-        });
+        await studentAssessment.update(req.body);
 
         res.status(200).json({
             success: true,
